@@ -1,0 +1,130 @@
+\documentclass[11pt]{article} % do not change this line
+\input{BigDataStyle.txt}      % do not change this line
+\usepackage{amsmath,amsfonts,amssymb,amsthm,latexsym,graphicx}
+
+\emergencystretch=5mm
+\tolerance=400
+\allowdisplaybreaks[4]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{problem}[theorem]{Problem}
+
+\theoremstyle{definition}
+\newtheorem*{remark}{Remark}
+
+\title{Aggregating Algorithm}
+\author{Andrew Robert Barraclough}
+
+\newcommand{\Programme}{Machine Learning}
+% Computational Finance students: uncomment the next line
+%\twodepartmentstrue
+
+\begin{document}
+\maketitle
+
+\declaration
+
+\begin{abstract}
+  Your abstract goes here.
+\end{abstract}
+
+\section*{Acknowledgements}
+I am grateful to my supervisor Dr. Yuri Kalnishkan for...
+
+\newpage
+
+\section{Introduction}
+\begin{quote}
+  The introduction should set the stage for the dissertation. It should provide background information on Online Prediction and the Aggregating Algorithm, highlihgt the importance of the study, and outline the research questions or hypotheses. Additionally, this section should briefly describe the structure of the dissertation.
+\end{quote}
+
+\newpage
+
+\section{On-line Prediction}
+\subsection{Concept \& Significance}
+\begin{quote}
+  Explain the fundamental concepts of on-line prediction and why it is significant in various fields such as finance, weather forecasting, and machine learning. Discuss its impact on real-time data analysis and decision-making.
+\end{quote}
+
+\subsection{Real-Time Decision-Making}
+\begin{quote}
+  Discuss how on-line prediction facilitates real-time decision-making processes. Provide examples of applications where immediate data processing and prediction are critical.
+\end{quote}
+
+\subsection{Challenges \& Opportunities}
+\begin{quote}
+  Analyse the main challenges associated with on-line prediction, such as data volatility, computational limitations, and algorithmic efficiency. Highlight potential opportunities for advancements in the field.
+\end{quote}
+
+\subsection{Role in Prediction with Expert Advice}
+\begin{quote}
+  Describe how on-line prediction integrates with expert advice to enhance decision-making accuracy. Discuss the synergy between real-time data processing and expert algorithms.
+\end{quote}
+
+An example of a reference:
+\cite{hastie/etal:2009}.
+
+\newpage
+
+\section{Prediction with Expert Advice}
+\subsection{Overview of Prediction with Expert Advice}
+\begin{quote}
+  Provide a thorough overview of the concept of using expert advice for predictions. Explain how this approach combines multiple algorithms to improve predictive performance.
+\end{quote}
+
+\subsection{Pool of Prediction Algorithms}
+\begin{quote}
+  Detail the variety of prediction algorithms that can be considered as 'experts' in this context. Discuss the criteria for selecting these algorithms and their respective strengths and weaknesses.
+\end{quote}
+
+\subsection{Quality of Predictions \& Loss Functions}
+\begin{quote}
+  Examine how the quality of predictions is measured. Discuss different loss functions used to evaluate predictive accuracy and their implications.
+\end{quote}
+
+\subsection{Scenarios of Using Expert Advice}
+\begin{quote}
+  Present different scenarios where prediction with expert advice is applied. Provide case studies or examples to illustrate its practical applications.
+\end{quote}
+
+\newpage
+
+\section{Aggregating Algorithm}
+\begin{quote}
+  Describe the concept of the aggregating algorithm, its purpose, and how it synthesizes predictions from multiple experts to improve overall accuracy.
+\end{quote}
+
+\subsection{Weak Aggregating Algorithm}
+\begin{quote}
+  Explain the weak aggregating algorithm, its methodology, and its advantages. Discuss how it differs from stronger aggregating methods and its specific use cases.
+\end{quote}
+
+\subsection{Fixed Share Algorithm}
+\begin{quote}
+  Discuss the fixed share algorithm, its mechanics, and how it balances the use of different experts over time. Explain its relevance and application in dynamic environments.
+\end{quote}
+
+\subsection{Switching Experts}
+\begin{quote}
+  Analyze the strategy of switching between experts based on performance. Discuss the criteria for switching and its impact on prediction accuracy.
+\end{quote}
+
+\subsection{Specialist Experts \& Sleeping Experts}
+\begin{quote}
+  Describe the role of specialist experts who focus on specific types of data or conditions. Discuss how their specialized knowledge enhances overall predictive performance.
+\end{quote}
+
+\subsection{Comparison with Model Selection}
+\begin{quote}
+  Compare the approach of prediction with expert advice to traditional model selection methods. Highlight the advantages and limitations of each approach.
+\end{quote}
+
+\newpage
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+\end{document}
