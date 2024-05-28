@@ -1,9 +1,26 @@
 \begin{thebibliography}{1}
 
-\bibitem{hastie/etal:2009}
-Trevor Hastie, Robert Tibshirani, and Jerome Friedman.
-\newblock {\em The Elements of Statistical Learning: Data Mining, Inference,
-  and Prediction}.
-\newblock Springer, New York, second edition, 2009.
+\bibitem{herbster/warmuth:1995}
+Mark Herbster and Manfred~K. Warmuth.
+\newblock Tracking the best expert.
+\newblock {\em Machine Learning}, 32:151--178, 1995.
+
+\bibitem{kalnishkan:2022}
+Yuri Kalnishkan.
+\newblock Prediction with expert advice for a finite number of experts: A
+  practical introduction.
+\newblock {\em Pattern Recognition}, 126:108557, 2022.
+
+\bibitem{kalnishkan/vyugin:2008}
+Yuri Kalnishkan and Michael~V. Vyugin.
+\newblock The weak aggregating algorithm and weak mixability.
+\newblock {\em Journal of Computer and System Sciences}, 74(8):1228--1244,
+  2008.
+\newblock Learning Theory 2005.
+
+\bibitem{vovk:2001}
+Vladimir Vovk.
+\newblock Competitive on-line statistics.
+\newblock {\em International Statistical Review}, 69, 2001.
 
 \end{thebibliography}
