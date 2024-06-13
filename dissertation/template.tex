@@ -1,6 +1,6 @@
 \documentclass[11pt]{article} % do not change this line
 \input{BigDataStyle.txt}      % do not change this line
-\usepackage{amsmath,amsfonts,amssymb,amsthm,latexsym,graphicx}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,latexsym,graphicx,algpseudocode,algorithm}
 
 \emergencystretch=5mm
 \tolerance=400
@@ -47,7 +47,38 @@ I would also like to express my gratitude to the group of friends who made this 
 \section{On-line Machine Learning}
 \subsection{Concept \& Significance}
 \begin{quote}
-  Explain the fundamental concepts of on-line prediction and why it is significant in various fields such as finance, weather forecasting, and machine learning. Discuss its impact on real-time data analysis and decision-making.
+  \textbf{Explain the fundamental concepts of on-line prediction and why it is significant in various fields such as finance, weather forecasting, and machine learning. Discuss its impact on real-time data analysis and decision-making.}
+\end{quote}
+
+The term "on-line machine learning" refers to a method of making real-time updates to models based on sequential data, which has significant impacts on fields such as finance, weather forecasting, and healthcare. In order to fully understand the concept, it is essential that we first have a good understanding of the fundamentals of Machine Learning and its applications in dynamic environments.
+
+As Chair of Carnegie Mellon University's Machine Learning Department, Tom Mitchell, puts it, Machine Learning is a subset of artificial intelligence that "is a natural outgrowth of the intersection of Computer Science and Statistics" \cite{mitchell:2006} that is concerned with developing algorithms and statistical models of the world that enable computers to perform tasks without the need for explicit commands, instead learning how to complete them purely from the data it is presented. Within this field, there exists many paradigms, each tailored to a specific problem type and dataset, including two that this report will focus on: "batch learning" and "on-line learning". 
+
+Unlike "batch learning", where the data that the algorithm is to learn from is readily available at the start of the training process, the order in which data is received by the model matters in "on-line learning" as it sequential. It is in this sequential nature of data that the significance of "on-line learning" lies; it allows for the continuous updating of models and predictions as new information arrives, without the need to completely retrain the model on the entire newly-updated training set. 
+
+
+\noindent\rule{\textwidth}{0.1pt}
+
+The key principles and mechanisms of on-line prediction include its real-time nature, where data is processed as it arrives, allowing for immediate predictions and updates. This capability is crucial for applications that require instant feedback and decisions. On-line prediction involves learning on the fly, a process where models are updated incrementally with each new data point. This is in contrast to traditional batch learning, where models are trained on a fixed dataset all at once and used for predictions without further updates until retrained with new data. Common algorithms used in on-line prediction, such as stochastic gradient descent, online versions of decision trees, and online support vector machines, are specifically designed to handle sequential data and update models incrementally. Evaluation of on-line prediction models typically employs metrics that can account for their adaptive nature, such as cumulative accuracy or regret.
+
+When comparing on-line learning with batch learning, the differences are clear. Batch learning involves training models on a fixed set of data all at once, with predictions made using this static model until it is retrained with new data. On-line learning, however, continuously updates the model with each new data point, making it more adaptable and suitable for environments where data is constantly changing.
+
+The advantages of on-line prediction are numerous. It offers adaptability, as models can quickly adjust to new information and changing patterns. It is efficient, eliminating the need for retraining models from scratch with new data. Moreover, it enables real-time decision-making, which is essential for applications requiring immediate responses, such as stock trading or fraud detection. However, on-line prediction also has its disadvantages. Implementing these systems can be technically challenging and resource-intensive, requiring significant computational power for continuous updating and processing. Additionally, without proper regularization, models may become overly sensitive to recent data points, leading to overfitting.
+
+Understanding these fundamental concepts highlights the critical role of on-line prediction in various fields and its profound impact on real-time data analysis and decision-making.
+
+\noindent\rule{\textwidth}{0.1pt}
+
+\begin{itemize}
+  \item Define Batch Machine Learning
+  \item Define On-line Machine Learning
+  \item Highlight Differences between Batch \& On-line
+\end{itemize}
+
+\begin{quote}
+  "A computer program is said to learn from experience E with respect to some class
+  of tasks T and performance measure P, if its performance at tasks in T, as 
+  measured by P, improves with experience E." - \textit{Mitchell, 1997}
 \end{quote}
 
 \subsection{Real-Time Decision-Making}

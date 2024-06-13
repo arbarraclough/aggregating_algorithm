@@ -1,18 +1,18 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{}%
-\contentsline {section}{\numberline {2}On-line Prediction}{3}{}%
+\contentsline {section}{\numberline {2}On-line Machine Learning}{3}{}%
 \contentsline {subsection}{\numberline {2.1}Concept \& Significance}{3}{}%
-\contentsline {subsection}{\numberline {2.2}Real-Time Decision-Making}{3}{}%
-\contentsline {subsection}{\numberline {2.3}Challenges \& Opportunities}{3}{}%
-\contentsline {subsection}{\numberline {2.4}Role in Prediction with Expert Advice}{3}{}%
-\contentsline {section}{\numberline {3}Prediction with Expert Advice}{4}{}%
-\contentsline {subsection}{\numberline {3.1}Overview of Prediction with Expert Advice}{4}{}%
-\contentsline {subsection}{\numberline {3.2}Pool of Prediction Algorithms}{4}{}%
-\contentsline {subsection}{\numberline {3.3}Quality of Predictions \& Loss Functions}{4}{}%
-\contentsline {subsection}{\numberline {3.4}Scenarios of Using Expert Advice}{4}{}%
-\contentsline {section}{\numberline {4}Aggregating Algorithm}{5}{}%
-\contentsline {subsection}{\numberline {4.1}Weak Aggregating Algorithm}{5}{}%
-\contentsline {subsection}{\numberline {4.2}Fixed Share Algorithm}{5}{}%
-\contentsline {subsection}{\numberline {4.3}Switching Experts}{5}{}%
-\contentsline {subsection}{\numberline {4.4}Specialist Experts \& Sleeping Experts}{5}{}%
-\contentsline {subsection}{\numberline {4.5}Comparison with Model Selection}{5}{}%
-\contentsline {section}{References}{6}{}%
+\contentsline {subsection}{\numberline {2.2}Real-Time Decision-Making}{4}{}%
+\contentsline {subsection}{\numberline {2.3}Challenges \& Opportunities}{5}{}%
+\contentsline {subsection}{\numberline {2.4}Role in Prediction with Expert Advice}{5}{}%
+\contentsline {section}{\numberline {3}Prediction with Expert Advice}{6}{}%
+\contentsline {subsection}{\numberline {3.1}Overview of Prediction with Expert Advice}{6}{}%
+\contentsline {subsection}{\numberline {3.2}Pool of Prediction Algorithms}{6}{}%
+\contentsline {subsection}{\numberline {3.3}Quality of Predictions \& Loss Functions}{6}{}%
+\contentsline {subsection}{\numberline {3.4}Scenarios of Using Expert Advice}{6}{}%
+\contentsline {section}{\numberline {4}Aggregating Algorithm}{7}{}%
+\contentsline {subsection}{\numberline {4.1}Weak Aggregating Algorithm}{7}{}%
+\contentsline {subsection}{\numberline {4.2}Fixed Share Algorithm}{7}{}%
+\contentsline {subsection}{\numberline {4.3}Switching Experts}{7}{}%
+\contentsline {subsection}{\numberline {4.4}Specialist Experts \& Sleeping Experts}{7}{}%
+\contentsline {subsection}{\numberline {4.5}Comparison with Model Selection}{8}{}%
+\contentsline {section}{References}{9}{}%

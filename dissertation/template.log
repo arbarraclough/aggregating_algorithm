@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.5.28)  28 MAY 2024 14:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.5.28)  13 JUN 2024 16:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -119,13 +119,49 @@ File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen148
 \Gin@req@width=\dimen149
+) (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+ (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count271
+\c@ALG@rem=\count272
+\c@ALG@nested=\count273
+\ALG@tlm=\skip55
+\ALG@thistlm=\skip56
+\c@ALG@Lnr=\count274
+\c@ALG@blocknr=\count275
+\c@ALG@storecount=\count276
+\c@ALG@tmpcounter=\count277
+\ALG@tmplength=\skip57
 )
-\c@theorem=\count271
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
+ (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count278
+\float@exts=\toks28
+\float@box=\box52
+\@float@everytoks=\toks29
+\@floatcapt=\box53
+)
+\@float@every@algorithm=\toks30
+\c@algorithm=\count279
+)
+\c@theorem=\count280
  (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count272
-\l__pdf_internal_box=\box52
-) (./template.aux)
+\l__color_backend_stack_int=\count281
+\l__pdf_internal_box=\box54
+) (./template.aux
+
+LaTeX Warning: Label `alg:cap' multiply defined.
+
+)
 \openout1 = `template.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
@@ -144,17 +180,17 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
 LaTeX Font Info:    ... okay on input line 26.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count273
+\scratchcounter=\count282
 \scratchdimen=\dimen150
-\scratchbox=\box53
-\nofMPsegments=\count274
-\nofMParguments=\count275
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count276
+\scratchbox=\box55
+\nofMPsegments=\count283
+\nofMParguments=\count284
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count285
 \MPscratchDim=\dimen151
-\MPnumerator=\count277
-\makeMPintoPDFobject=\count278
-\everyMPtoPDFconversion=\toks29
+\MPnumerator=\count286
+\makeMPintoPDFobject=\count287
+\everyMPtoPDFconversion=\toks32
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -187,20 +223,24 @@ pdfTeX warning: pdflatex (file pdftex.map): cannot open font map file
 \tf@toc=\write3
 \openout3 = `template.toc'.
 
- [2] [1] [2] [3] [4] [5] (./template.bbl) [6] (./template.aux) ) 
+ [2] [1] [2] [3] [4] [5] [6] [7] [8] (./template.bbl) [9] (./template.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2687 strings out of 480247
- 39621 string characters out of 5896106
- 323719 words of memory out of 5000000
- 20607 multiletter control sequences out of 15000+600000
- 478048 words of font info for 63 fonts, out of 8000000 for 9000
+ 3374 strings out of 480247
+ 50813 string characters out of 5896106
+ 340184 words of memory out of 5000000
+ 21274 multiletter control sequences out of 15000+600000
+ 478688 words of font info for 65 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 55i,6n,62p,441b,208s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmti10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.720pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr12.720pk> </usr/share/texlive/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr12.pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.864pk>
-Output written on template.pdf (10 pages, 126474 bytes).
+ 55i,7n,62p,1072b,273s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi6.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmsy10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmex10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmsy8.600pk> </usr/share/texlive/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr8.pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi8.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr9.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmti10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.720pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr12.720pk> </usr/share/texlive/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr12.pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.864pk>
+Output written on template.pdf (13 pages, 157341 bytes).
 PDF statistics:
- 355 PDF objects out of 1000 (max. 8388607)
- 56 compressed objects within 1 object stream
+ 482 PDF objects out of 1000 (max. 8388607)
+ 99 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
