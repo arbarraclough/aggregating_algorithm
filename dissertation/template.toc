@@ -4,15 +4,16 @@
 \contentsline {subsection}{\numberline {2.2}Real-Time Decision-Making}{4}{}%
 \contentsline {subsection}{\numberline {2.3}Challenges \& Opportunities}{5}{}%
 \contentsline {subsection}{\numberline {2.4}Role in Prediction with Expert Advice}{5}{}%
-\contentsline {section}{\numberline {3}Prediction with Expert Advice}{6}{}%
-\contentsline {subsection}{\numberline {3.1}Overview of Prediction with Expert Advice}{6}{}%
-\contentsline {subsection}{\numberline {3.2}Pool of Prediction Algorithms}{6}{}%
-\contentsline {subsection}{\numberline {3.3}Quality of Predictions \& Loss Functions}{6}{}%
-\contentsline {subsection}{\numberline {3.4}Scenarios of Using Expert Advice}{6}{}%
-\contentsline {section}{\numberline {4}Aggregating Algorithm}{7}{}%
-\contentsline {subsection}{\numberline {4.1}Weak Aggregating Algorithm}{7}{}%
-\contentsline {subsection}{\numberline {4.2}Fixed Share Algorithm}{7}{}%
-\contentsline {subsection}{\numberline {4.3}Switching Experts}{7}{}%
-\contentsline {subsection}{\numberline {4.4}Specialist Experts \& Sleeping Experts}{7}{}%
-\contentsline {subsection}{\numberline {4.5}Comparison with Model Selection}{8}{}%
-\contentsline {section}{References}{9}{}%
+\contentsline {section}{\numberline {3}On-line Prediction}{6}{}%
+\contentsline {subsection}{\numberline {3.1}Preliminaries}{6}{}%
+\contentsline {subsection}{\numberline {3.2}Games}{6}{}%
+\contentsline {subsection}{\numberline {3.3}Prediction with Expert Advice}{6}{}%
+\contentsline {subsection}{\numberline {3.4}Specialist Experts}{7}{}%
+\contentsline {subsubsection}{\numberline {3.4.1}Applications of Specialist Experts}{9}{}%
+\contentsline {section}{\numberline {4}Aggregating Algorithm}{10}{}%
+\contentsline {subsection}{\numberline {4.1}Weak Aggregating Algorithm}{10}{}%
+\contentsline {subsection}{\numberline {4.2}Fixed Share Algorithm}{10}{}%
+\contentsline {subsection}{\numberline {4.3}Switching Experts}{10}{}%
+\contentsline {subsection}{\numberline {4.4}Specialist Experts \& Sleeping Experts}{10}{}%
+\contentsline {subsection}{\numberline {4.5}Comparison with Model Selection}{11}{}%
+\contentsline {section}{References}{12}{}%

@@ -1,0 +1,57 @@
+\subsection{Specialist Experts}
+First introduced in the work of Freund et al.\ \cite{freund:1997}, `specialist experts' can be thought of as an extension to the traditional on-line prediction framework that allows `experts' to abstain from making predictions. 
+
+These experts are referred to as `specialists' because they can be thought of as only making predictions ``when the instance to be predicted falls within their area of expertise.'' In such cases where the expert is actively making a prediction, the expert is deemed to be `awake', and is `asleep' otherwise.
+\newline
+\rule{\textwidth}{0.1pt}
+\textbf{A prediction algorihtm may see that its internal confidence is low and decide to skip a turn in order to re-train. Alternatively, an algorithm may simply break down.}
+
+\textbf{A natural idea for handling sleeping experts is to assume that a sleep expert ``joins the crowd''. Imagine that the sleeping expert sides with the learner and outputs the learner's prediction for that turn.}
+
+\textbf{This modifies the Aggregating Algorithm, but that's to be discussed later!}
+\newline
+\rule{\textwidth}{0.1pt}
+
+In order to accommodate these `specialist experts', we must modify the on-line prediction framework slightly. Similarly to the traditional framework, on-line learning with specialist experts can be thought of as a game that is played between a prediction algorithm, hereafter referred to as the `learner', and an adversary, hereafter referred to as the `nature'. The game is played in discrete iterations $t = 1, \ldots, T$, consisting of the same five steps:
+\begin{enumerate}
+    \item The nature chooses a set of specialists that are `awake' at iteration $t$, $E_t \subseteq \{1, \ldots, N\}$.
+    \item For each `awake' specialist in the set chosen by the nature, $i \in E_t$, a prediction for that discrete iteration is output, $\hat y^t_i$.
+    \item The learner makes its own prediction based on the predictions of each awake specialist, $\hat y_t$.
+    \item The nature chooses an outcome $y_t$.
+    \item The learner suffers loss $\ell_L^t = L(\hat y_t, y_t)$.
+    \item The `awake' specialists suffer loss $\ell_i^t = L(\hat y^i_t, y_t)$ while specialists that are asleep suffer no loss.
+\end{enumerate}
+\begin{itemize}
+    \item We still assume that there are $N$ `experts', some of which may be `specialist', indexed from $\{1, \ldots, N\}$.
+    \item Predictions and Outcomes are real-valued numbers from a bounded range $[0, 1]$.
+    \item Loss: $L : [0,1] \times [0,1] \rightarrow [0, \infty)$ associates a non-negative loss to each (prediction, outcome) pair.
+\end{itemize}
+
+\noindent\rule{\textwidth}{0.1pt}
+\subsubsection*{To-Do}
+\begin{itemize}
+    \item How do we evaluate the performance of an algorithm?
+    \begin{itemize}
+        \item In order to give the algortihm a meaningful bound, we compare the difference between the total loss of the algorithm and the total loss of the experts.
+        \item The total loss of the insomniac algorithm is compared against the loss of the best expert, but this doesn't make sense in this scenario because not all the experts are awake all the time, and may not make predictions.
+        \item Prove that the algorithm doesn't suffer large losses regardless of the adversary's strategy.
+    \end{itemize}
+    \item How does this improve computational efficiency?
+    \begin{itemize}
+        \item Discuss Problem Decomposition.
+        \item Naive algorithms make use of extremely large sets of experts which can make the calculation of predictions computationally expensive and infeasible.
+        \item By allowing for specialist experts, only a select handful of those experts make a prediction at a given time which can significantly reduce the computational load required.
+    \end{itemize}
+    \item Discuss the applications of `Specialist Experts'.
+    \begin{itemize}
+        \item Markov Models
+        \begin{itemize}
+            \item Talk about your theory and what your implemented code is about!
+        \end{itemize}
+        \item Switching Experts
+    \end{itemize}
+\end{itemize}
+
+\noindent\rule{\textwidth}{0.1pt}
+
+\subsubsection{Applications of Specialist Experts}

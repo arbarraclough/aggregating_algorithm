@@ -33,7 +33,7 @@
 \end{abstract}
 
 \section*{Acknowledgements}
-While the contents of this report are on the basis of my own work, none of this would have been possible without the patience and mentorship of my supervisor Dr. Yuri Kalnishkan to whom I am extremely grateful. It was your advice, clear explanations, and expertise that made this project what it is now and something that I am incredibly proud of.
+While the contents of this report are on the basis of my own work, none of this would have been possible without the patience and mentorship of my supervisor Dr.\ Yuri Kalnishkan to whom I am extremely grateful. It was your advice, clear explanations, and expertise that made this project what it is now and something that I am incredibly proud of.
 I would also like to express my gratitude to the group of friends who made this academic year possible, namely Cougar Tasker, Einstein Ebereonwu, Hayden Amarr, Mohammadreza Yazdian, Niraj Jain, and Ray Mahbub, without whom I would have struggled to maintain my discipline and motivation.
 \newpage
 
@@ -50,11 +50,11 @@ I would also like to express my gratitude to the group of friends who made this 
   \textbf{Explain the fundamental concepts of on-line prediction and why it is significant in various fields such as finance, weather forecasting, and machine learning. Discuss its impact on real-time data analysis and decision-making.}
 \end{quote}
 
-The term "on-line machine learning" refers to a method of making real-time updates to models based on sequential data, which has significant impacts on fields such as finance, weather forecasting, and healthcare. In order to fully understand the concept, it is essential that we first have a good understanding of the fundamentals of Machine Learning and its applications in dynamic environments.
+The term ``on-line machine learning'' refers to a method of making real-time updates to models based on sequential data, which has significant impacts on fields such as finance, weather forecasting, and healthcare. In order to fully understand the concept, it is essential that we first have a good understanding of the fundamentals of Machine Learning and its applications in dynamic environments.
 
-As Chair of Carnegie Mellon University's Machine Learning Department, Tom Mitchell, puts it, Machine Learning is a subset of artificial intelligence that "is a natural outgrowth of the intersection of Computer Science and Statistics" \cite{mitchell:2006} that is concerned with developing algorithms and statistical models of the world that enable computers to perform tasks without the need for explicit commands, instead learning how to complete them purely from the data it is presented. Within this field, there exists many paradigms, each tailored to a specific problem type and dataset, including two that this report will focus on: "batch learning" and "on-line learning". 
+As Chair of Carnegie Mellon University's Machine Learning Department, Tom Mitchell, puts it, Machine Learning is a subset of artificial intelligence that ``is a natural outgrowth of the intersection of Computer Science and Statistics''\ \cite{mitchell:2006} that is concerned with developing algorithms and statistical models of the world that enable computers to perform tasks without the need for explicit commands, instead learning how to complete them purely from the data it is presented. Within this field, there exists many paradigms, each tailored to a specific problem type and dataset, including two that this report will focus on: ``batch learning'' and ``on-line learning''. 
 
-Unlike "batch learning", where the data that the algorithm is to learn from is readily available at the start of the training process, the order in which data is received by the model matters in "on-line learning" as it sequential. It is in this sequential nature of data that the significance of "on-line learning" lies; it allows for the continuous updating of models and predictions as new information arrives, without the need to completely retrain the model on the entire newly-updated training set. 
+Unlike ``batch learning'', where the data that the algorithm is to learn from is readily available at the start of the training process, the order in which data is received by the model matters in ``on-line learning'' as it sequential. It is in this sequential nature of data that the significance of ``on-line learning'' lies; it allows for the continuous updating of models and predictions as new information arrives, without the need to completely retrain the model on the entire newly-updated training set. 
 
 
 \noindent\rule{\textwidth}{0.1pt}
@@ -76,9 +76,9 @@ Understanding these fundamental concepts highlights the critical role of on-line
 \end{itemize}
 
 \begin{quote}
-  "A computer program is said to learn from experience E with respect to some class
+  ``A computer program is said to learn from experience E with respect to some class
   of tasks T and performance measure P, if its performance at tasks in T, as 
-  measured by P, improves with experience E." - \textit{Mitchell, 1997}
+  measured by P, improves with experience E.'' \textendash\ \textit{Mitchell, 1997}
 \end{quote}
 
 \subsection{Real-Time Decision-Making}
@@ -96,36 +96,16 @@ Understanding these fundamental concepts highlights the critical role of on-line
   Describe how on-line prediction integrates with expert advice to enhance decision-making accuracy. Discuss the synergy between real-time data processing and expert algorithms.
 \end{quote}
 
-An example of a reference:
-\cite{kalnishkan:2022}.
-\cite{kalnishkan/vyugin:2008}
-\cite{herbster/warmuth:1995}
-\cite{vovk:2001}
+An example of a reference:\newline\cite{kalnishkan:2022},\ \cite{kalnishkan/vyugin:2008},\ \cite{herbster/warmuth:1995},\ \cite{vovk:2001}
 
 \newpage
 
-\section{Prediction with Expert Advice}
-\subsection{Overview of Prediction with Expert Advice}
-\begin{quote}
-  Provide a thorough overview of the concept of using expert advice for predictions. Explain how this approach combines multiple algorithms to improve predictive performance.
-\end{quote}
+\section{On-line Prediction}
+\subsection{Preliminaries}
+\subsection{Games}
+\input{sections/prediction_with_expert_advice}
 
-\subsection{Pool of Prediction Algorithms}
-\begin{quote}
-  Detail the variety of prediction algorithms that can be considered as 'experts' in this context. Discuss the criteria for selecting these algorithms and their respective strengths and weaknesses.
-\end{quote}
-
-\subsection{Quality of Predictions \& Loss Functions}
-\begin{quote}
-  Examine how the quality of predictions is measured. Discuss different loss functions used to evaluate predictive accuracy and their implications.
-\end{quote}
-
-\subsection{Scenarios of Using Expert Advice}
-\begin{quote}
-  Present different scenarios where prediction with expert advice is applied. Provide case studies or examples to illustrate its practical applications.
-\end{quote}
-
-\newpage
+\include{sections/specialist_experts}
 
 \section{Aggregating Algorithm}
 \begin{quote}
@@ -135,14 +115,14 @@ An example of a reference:
 \begin{algorithm}
   \caption{Aggregating Algorithm}\label{alg:cap}
   \begin{algorithmic}[1]
-    \State initialise weights $w^i_0 = q_i, i = 1, 2, ..., N$
-    \State FOR $t = 1, 2, ...$
-    \State \hspace{\algorithmicindent} read experts' predictions $\gamma^i_t, i=1, 2, ..., N$
-    \State \hspace{\algorithmicindent} normalise the weights $p^i_{t-1} = w^i_{t-1} / \sum^N_{j=1} w^j_{t-1}$
-    \State \hspace{\algorithmicindent} output $\gamma_t \in \Gamma$ satisfying for all $\omega \in \Omega$ the inequality\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $\lambda(\gamma_t, \omega) \leq - \frac{C}{\eta} \ln \sum^N_{i=1}p^i_{t-1}e^{-\eta\lambda(\gamma^i_t, \omega)}$
-    \State \hspace{\algorithmicindent} observe the outcome $\omega_t$
-    \State \hspace{\algorithmicindent} update the experts' weights $w^i_t = w^i_{t-1} e^{-\eta \lambda(\gamma^i_t, \omega_t)}, i = 1, 2, ..., N$
-    \State END FOR
+    \State\ initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$
+    \State\ FOR $t = 1, 2, \ldots$
+    \State\ \hspace{\algorithmicindent} read experts' predictions $\gamma^i_t, i=1, 2, \ldots, N$
+    \State\ \hspace{\algorithmicindent} normalise the weights $p^i_{t-1} = w^i_{t-1} / \sum^N_{j=1} w^j_{t-1}$
+    \State\ \hspace{\algorithmicindent} output $\gamma_t \in \Gamma$ satisfying for all $\omega \in \Omega$ the inequality\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $\lambda(\gamma_t, \omega) \leq - \frac{C}{\eta} \ln \sum^N_{i=1}p^i_{t-1}e^{-\eta\lambda(\gamma^i_t, \omega)}$
+    \State\ \hspace{\algorithmicindent} observe the outcome $\omega_t$
+    \State\ \hspace{\algorithmicindent} update the experts' weights $w^i_t = w^i_{t-1} e^{-\eta \lambda(\gamma^i_t, \omega_t)}, i = 1, 2, \ldots, N$
+    \State\ END FOR
   \end{algorithmic}
 \end{algorithm}
 
@@ -167,17 +147,17 @@ An example of a reference:
 \end{quote}
 
 \begin{algorithm}
-  \caption{Aggregating Algorithm for Specialist Experts (AAS)}\label{alg:cap}
+  \caption{Aggregating Algorithm for Specialist Experts (AASE)}\label{AAS}
   \begin{algorithmic}[1]
-    \State initialise weights $w^i_0 = q_i, i = 1, 2, ..., N$
-    \State FOR $t = 1, 2, ...$
-    \State \hspace{\algorithmicindent} read the predictions, $\gamma^n_t$, of awake experts
-    \State \hspace{\algorithmicindent} normalise the weights of awake experts\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $p^i_{t-1} = w^i_{t-1} / \sum_{i:E_i\text{ is awake}} w^i_{t-1}$
-    \State \hspace{\algorithmicindent} solve the system $(\omega \in \Omega):$\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent}$\lambda(\gamma, \omega) \leq - \frac{C}{\eta} \ln \sum_{n:E_n\text{ is awake}}p^n_{t}e^{-\eta\lambda(\gamma^n_t, \omega)}$\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent}w.r.t. $\gamma$ and output a solution $\gamma_t$
-    \State \hspace{\algorithmicindent} observe the outcome $\omega_t$
-    \State \hspace{\algorithmicindent} update the awake experts' weights $w^n_t = w^n_{t-1}e^{-\eta\lambda(\gamma^n_t,\omega)}$
-    \State \hspace{\algorithmicindent} update the sleeping experts' weights $w^n_t = w^n_{t-1} e^{-\eta\lambda(\gamma_t, \omega)/C(\eta)}$
-    \State END FOR
+    \State\ initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$
+    \State\ FOR $t = 1, 2, \ldots$
+    \State\ \hspace{\algorithmicindent} read the predictions, $\gamma^n_t$, of awake experts
+    \State\ \hspace{\algorithmicindent} normalise the weights of awake experts\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $p^i_{t-1} = w^i_{t-1} / \sum_{i:E_i\text{ is awake}} w^i_{t-1}$
+    \State\ \hspace{\algorithmicindent} solve the system $(\omega \in \Omega)$:\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent}$\lambda(\gamma, \omega) \leq - \frac{C}{\eta} \ln \sum_{n:E_n\text{ is awake}}p^n_{t}e^{-\eta\lambda(\gamma^n_t, \omega)}$\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent}w.r.t. $\gamma$ and output a solution $\gamma_t$
+    \State\ \hspace{\algorithmicindent} observe the outcome $\omega_t$
+    \State\ \hspace{\algorithmicindent} update the awake experts' weights $w^n_t = w^n_{t-1}e^{-\eta\lambda(\gamma^n_t,\omega)}$
+    \State\ \hspace{\algorithmicindent} update the sleeping experts' weights $w^n_t = w^n_{t-1} e^{-\eta\lambda(\gamma_t, \omega)/C(\eta)}$
+    \State\ END FOR
   \end{algorithmic}
 \end{algorithm}
 
