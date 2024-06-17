@@ -1,0 +1,59 @@
+\section{Aggregating Algorithm \textit{(2,500)}}\label{section:Aggregating_Algorithm}
+\begin{quote}
+  Describe the concept of the aggregating algorithm, its purpose, and how it synthesizes predictions from multiple experts to improve overall accuracy.
+\end{quote}
+
+\begin{algorithm}
+  \caption{Aggregating Algorithm}\label{alg:cap}
+  \begin{algorithmic}[1]
+    \State\ initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$
+    \State\ FOR $t = 1, 2, \ldots$
+    \State\ \hspace{\algorithmicindent} read experts' predictions $\gamma^i_t, i=1, 2, \ldots, N$
+    \State\ \hspace{\algorithmicindent} normalise the weights $p^i_{t-1} = w^i_{t-1} / \sum^N_{j=1} w^j_{t-1}$
+    \State\ \hspace{\algorithmicindent} output $\gamma_t \in \Gamma$ satisfying for all $\omega \in \Omega$ the inequality\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $\lambda(\gamma_t, \omega) \leq - \frac{C}{\eta} \ln \sum^N_{i=1}p^i_{t-1}e^{-\eta\lambda(\gamma^i_t, \omega)}$
+    \State\ \hspace{\algorithmicindent} observe the outcome $\omega_t$
+    \State\ \hspace{\algorithmicindent} update the experts' weights $w^i_t = w^i_{t-1} e^{-\eta \lambda(\gamma^i_t, \omega_t)}, i = 1, 2, \ldots, N$
+    \State\ END FOR
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{Weak Aggregating Algorithm}
+\begin{quote}
+  Explain the weak aggregating algorithm, its methodology, and its advantages. Discuss how it differs from stronger aggregating methods and its specific use cases.
+\end{quote}
+
+\subsection{Fixed Share Algorithm}
+\begin{quote}
+  Discuss the fixed share algorithm, its mechanics, and how it balances the use of different experts over time. Explain its relevance and application in dynamic environments.
+\end{quote}
+
+\subsection{Switching Experts}
+\begin{quote}
+  Analyze the strategy of switching between experts based on performance. Discuss the criteria for switching and its impact on prediction accuracy.
+\end{quote}
+
+\subsection{Specialist Experts \& Sleeping Experts}
+\begin{quote}
+  Describe the role of specialist experts who focus on specific types of data or conditions. Discuss how their specialized knowledge enhances overall predictive performance.
+\end{quote}
+
+\begin{algorithm}
+  \caption{Aggregating Algorithm for Specialist Experts (AASE)}\label{AAS}
+  \begin{algorithmic}[1]
+    \State\ initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$
+    \State\ FOR $t = 1, 2, \ldots$
+    \State\ \hspace{\algorithmicindent} read the predictions, $\gamma^n_t$, of awake experts
+    \State\ \hspace{\algorithmicindent} normalise the weights of awake experts\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $p^i_{t-1} = w^i_{t-1} / \sum_{i:E_i\text{ is awake}} w^i_{t-1}$
+    \State\ \hspace{\algorithmicindent} solve the system $(\omega \in \Omega)$:\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent}$\lambda(\gamma, \omega) \leq - \frac{C}{\eta} \ln \sum_{n:E_n\text{ is awake}}p^n_{t}e^{-\eta\lambda(\gamma^n_t, \omega)}$\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent}w.r.t. $\gamma$ and output a solution $\gamma_t$
+    \State\ \hspace{\algorithmicindent} observe the outcome $\omega_t$
+    \State\ \hspace{\algorithmicindent} update the awake experts' weights $w^n_t = w^n_{t-1}e^{-\eta\lambda(\gamma^n_t,\omega)}$
+    \State\ \hspace{\algorithmicindent} update the sleeping experts' weights $w^n_t = w^n_{t-1} e^{-\eta\lambda(\gamma_t, \omega)/C(\eta)}$
+    \State\ END FOR
+  \end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Comparison with Model Selection}
+\begin{quote}
+  Compare the approach of prediction with expert advice to traditional model selection methods. Highlight the advantages and limitations of each approach.
+\end{quote}

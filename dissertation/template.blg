@@ -1,49 +1,46 @@
 This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: template.aux
-A level-1 auxiliary file: sections/specialist_experts.aux
 The style file: plain.bst
 Database file #1: bibliography.bib
-Warning--empty journal in mitchell:2006
-You've used 6 entries,
+You've used 1 entry,
             2118 wiz_defined-function locations,
-            536 strings with 4799 characters,
-and the built_in function-call counts, 1679 in all, are:
-= -- 162
-> -- 70
+            503 strings with 4209 characters,
+and the built_in function-call counts, 324 in all, are:
+= -- 27
+> -- 23
 < -- 0
-+ -- 30
-- -- 22
-* -- 110
-:= -- 303
-add.period$ -- 19
-call.type$ -- 6
-change.case$ -- 29
++ -- 9
+- -- 8
+* -- 25
+:= -- 66
+add.period$ -- 3
+call.type$ -- 1
+change.case$ -- 7
 chr.to.int$ -- 0
-cite$ -- 7
-duplicate$ -- 63
-empty$ -- 132
-format.name$ -- 22
-if$ -- 338
+cite$ -- 1
+duplicate$ -- 10
+empty$ -- 18
+format.name$ -- 8
+if$ -- 59
 int.to.chr$ -- 0
-int.to.str$ -- 6
-missing$ -- 6
-newline$ -- 34
-num.names$ -- 12
-pop$ -- 22
+int.to.str$ -- 1
+missing$ -- 1
+newline$ -- 8
+num.names$ -- 2
+pop$ -- 7
 preamble$ -- 1
-purify$ -- 23
+purify$ -- 6
 quote$ -- 0
-skip$ -- 45
+skip$ -- 7
 stack$ -- 0
-substring$ -- 98
-swap$ -- 5
+substring$ -- 5
+swap$ -- 1
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 24
-warning$ -- 1
-while$ -- 15
-width$ -- 7
-write$ -- 67
-(There was 1 warning)
+type$ -- 4
+warning$ -- 0
+while$ -- 2
+width$ -- 2
+write$ -- 12

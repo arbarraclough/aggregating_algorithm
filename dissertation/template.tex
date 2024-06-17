@@ -1,6 +1,6 @@
 \documentclass[11pt]{article} % do not change this line
 \input{BigDataStyle.txt}      % do not change this line
-\usepackage{amsmath,amsfonts,amssymb,amsthm,latexsym,graphicx,algpseudocode,algorithm}
+\usepackage{algorithm,algpseudocode,amsfonts,amssymb,amsthm,amsmath,graphicx,hyperref,latexsym}
 
 \emergencystretch=5mm
 \tolerance=400
@@ -37,136 +37,25 @@ While the contents of this report are on the basis of my own work, none of this 
 I would also like to express my gratitude to the group of friends who made this academic year possible, namely Cougar Tasker, Einstein Ebereonwu, Hayden Amarr, Mohammadreza Yazdian, Niraj Jain, and Ray Mahbub, without whom I would have struggled to maintain my discipline and motivation.
 \newpage
 
-\section{Introduction}
-\begin{quote}
-  The introduction should set the stage for the dissertation. It should provide background information on Online Prediction and the Aggregating Algorithm, highlihgt the importance of the study, and outline the research questions or hypotheses. Additionally, this section should briefly describe the structure of the dissertation.
-\end{quote}
-
+\input{sections/introduction.tex}
 \newpage
 
-\section{On-line Machine Learning}
-\subsection{Concept \& Significance}
-\begin{quote}
-  \textbf{Explain the fundamental concepts of on-line prediction and why it is significant in various fields such as finance, weather forecasting, and machine learning. Discuss its impact on real-time data analysis and decision-making.}
-\end{quote}
-
-The term ``on-line machine learning'' refers to a method of making real-time updates to models based on sequential data, which has significant impacts on fields such as finance, weather forecasting, and healthcare. In order to fully understand the concept, it is essential that we first have a good understanding of the fundamentals of Machine Learning and its applications in dynamic environments.
-
-As Chair of Carnegie Mellon University's Machine Learning Department, Tom Mitchell, puts it, Machine Learning is a subset of artificial intelligence that ``is a natural outgrowth of the intersection of Computer Science and Statistics''\ \cite{mitchell:2006} that is concerned with developing algorithms and statistical models of the world that enable computers to perform tasks without the need for explicit commands, instead learning how to complete them purely from the data it is presented. Within this field, there exists many paradigms, each tailored to a specific problem type and dataset, including two that this report will focus on: ``batch learning'' and ``on-line learning''. 
-
-Unlike ``batch learning'', where the data that the algorithm is to learn from is readily available at the start of the training process, the order in which data is received by the model matters in ``on-line learning'' as it sequential. It is in this sequential nature of data that the significance of ``on-line learning'' lies; it allows for the continuous updating of models and predictions as new information arrives, without the need to completely retrain the model on the entire newly-updated training set. 
-
-
-\noindent\rule{\textwidth}{0.1pt}
-
-The key principles and mechanisms of on-line prediction include its real-time nature, where data is processed as it arrives, allowing for immediate predictions and updates. This capability is crucial for applications that require instant feedback and decisions. On-line prediction involves learning on the fly, a process where models are updated incrementally with each new data point. This is in contrast to traditional batch learning, where models are trained on a fixed dataset all at once and used for predictions without further updates until retrained with new data. Common algorithms used in on-line prediction, such as stochastic gradient descent, online versions of decision trees, and online support vector machines, are specifically designed to handle sequential data and update models incrementally. Evaluation of on-line prediction models typically employs metrics that can account for their adaptive nature, such as cumulative accuracy or regret.
-
-When comparing on-line learning with batch learning, the differences are clear. Batch learning involves training models on a fixed set of data all at once, with predictions made using this static model until it is retrained with new data. On-line learning, however, continuously updates the model with each new data point, making it more adaptable and suitable for environments where data is constantly changing.
-
-The advantages of on-line prediction are numerous. It offers adaptability, as models can quickly adjust to new information and changing patterns. It is efficient, eliminating the need for retraining models from scratch with new data. Moreover, it enables real-time decision-making, which is essential for applications requiring immediate responses, such as stock trading or fraud detection. However, on-line prediction also has its disadvantages. Implementing these systems can be technically challenging and resource-intensive, requiring significant computational power for continuous updating and processing. Additionally, without proper regularization, models may become overly sensitive to recent data points, leading to overfitting.
-
-Understanding these fundamental concepts highlights the critical role of on-line prediction in various fields and its profound impact on real-time data analysis and decision-making.
-
-\noindent\rule{\textwidth}{0.1pt}
-
-\begin{itemize}
-  \item Define Batch Machine Learning
-  \item Define On-line Machine Learning
-  \item Highlight Differences between Batch \& On-line
-\end{itemize}
-
-\begin{quote}
-  ``A computer program is said to learn from experience E with respect to some class
-  of tasks T and performance measure P, if its performance at tasks in T, as 
-  measured by P, improves with experience E.'' \textendash\ \textit{Mitchell, 1997}
-\end{quote}
-
-\subsection{Real-Time Decision-Making}
-\begin{quote}
-  Discuss how on-line prediction facilitates real-time decision-making processes. Provide examples of applications where immediate data processing and prediction are critical.
-\end{quote}
-
-\subsection{Challenges \& Opportunities}
-\begin{quote}
-  Analyse the main challenges associated with on-line prediction, such as data volatility, computational limitations, and algorithmic efficiency. Highlight potential opportunities for advancements in the field.
-\end{quote}
-
-\subsection{Role in Prediction with Expert Advice}
-\begin{quote}
-  Describe how on-line prediction integrates with expert advice to enhance decision-making accuracy. Discuss the synergy between real-time data processing and expert algorithms.
-\end{quote}
-
-An example of a reference:\newline\cite{kalnishkan:2022},\ \cite{kalnishkan/vyugin:2008},\ \cite{herbster/warmuth:1995},\ \cite{vovk:2001}
-
+\input{sections/on-line_prediction}
 \newpage
 
-\section{On-line Prediction}
-\subsection{Preliminaries}
-\subsection{Games}
 \input{sections/prediction_with_expert_advice}
+\newpage
 
-\include{sections/specialist_experts}
+\input{sections/aggregating_algorithm}
+\newpage
 
-\section{Aggregating Algorithm}
-\begin{quote}
-  Describe the concept of the aggregating algorithm, its purpose, and how it synthesizes predictions from multiple experts to improve overall accuracy.
-\end{quote}
+\input{sections/specialist_experts}
+\newpage
 
-\begin{algorithm}
-  \caption{Aggregating Algorithm}\label{alg:cap}
-  \begin{algorithmic}[1]
-    \State\ initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$
-    \State\ FOR $t = 1, 2, \ldots$
-    \State\ \hspace{\algorithmicindent} read experts' predictions $\gamma^i_t, i=1, 2, \ldots, N$
-    \State\ \hspace{\algorithmicindent} normalise the weights $p^i_{t-1} = w^i_{t-1} / \sum^N_{j=1} w^j_{t-1}$
-    \State\ \hspace{\algorithmicindent} output $\gamma_t \in \Gamma$ satisfying for all $\omega \in \Omega$ the inequality\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $\lambda(\gamma_t, \omega) \leq - \frac{C}{\eta} \ln \sum^N_{i=1}p^i_{t-1}e^{-\eta\lambda(\gamma^i_t, \omega)}$
-    \State\ \hspace{\algorithmicindent} observe the outcome $\omega_t$
-    \State\ \hspace{\algorithmicindent} update the experts' weights $w^i_t = w^i_{t-1} e^{-\eta \lambda(\gamma^i_t, \omega_t)}, i = 1, 2, \ldots, N$
-    \State\ END FOR
-  \end{algorithmic}
-\end{algorithm}
+\input{sections/practical}
+\newpage
 
-\subsection{Weak Aggregating Algorithm}
-\begin{quote}
-  Explain the weak aggregating algorithm, its methodology, and its advantages. Discuss how it differs from stronger aggregating methods and its specific use cases.
-\end{quote}
-
-\subsection{Fixed Share Algorithm}
-\begin{quote}
-  Discuss the fixed share algorithm, its mechanics, and how it balances the use of different experts over time. Explain its relevance and application in dynamic environments.
-\end{quote}
-
-\subsection{Switching Experts}
-\begin{quote}
-  Analyze the strategy of switching between experts based on performance. Discuss the criteria for switching and its impact on prediction accuracy.
-\end{quote}
-
-\subsection{Specialist Experts \& Sleeping Experts}
-\begin{quote}
-  Describe the role of specialist experts who focus on specific types of data or conditions. Discuss how their specialized knowledge enhances overall predictive performance.
-\end{quote}
-
-\begin{algorithm}
-  \caption{Aggregating Algorithm for Specialist Experts (AASE)}\label{AAS}
-  \begin{algorithmic}[1]
-    \State\ initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$
-    \State\ FOR $t = 1, 2, \ldots$
-    \State\ \hspace{\algorithmicindent} read the predictions, $\gamma^n_t$, of awake experts
-    \State\ \hspace{\algorithmicindent} normalise the weights of awake experts\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $p^i_{t-1} = w^i_{t-1} / \sum_{i:E_i\text{ is awake}} w^i_{t-1}$
-    \State\ \hspace{\algorithmicindent} solve the system $(\omega \in \Omega)$:\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent}$\lambda(\gamma, \omega) \leq - \frac{C}{\eta} \ln \sum_{n:E_n\text{ is awake}}p^n_{t}e^{-\eta\lambda(\gamma^n_t, \omega)}$\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent}w.r.t. $\gamma$ and output a solution $\gamma_t$
-    \State\ \hspace{\algorithmicindent} observe the outcome $\omega_t$
-    \State\ \hspace{\algorithmicindent} update the awake experts' weights $w^n_t = w^n_{t-1}e^{-\eta\lambda(\gamma^n_t,\omega)}$
-    \State\ \hspace{\algorithmicindent} update the sleeping experts' weights $w^n_t = w^n_{t-1} e^{-\eta\lambda(\gamma_t, \omega)/C(\eta)}$
-    \State\ END FOR
-  \end{algorithmic}
-\end{algorithm}
-
-
-\subsection{Comparison with Model Selection}
-\begin{quote}
-  Compare the approach of prediction with expert advice to traditional model selection methods. Highlight the advantages and limitations of each approach.
-\end{quote}
-
+\input{sections/conclusion}
 \newpage
 
 \bibliographystyle{plain}
