@@ -67,7 +67,7 @@
   these have been acknowledged. 
   \begin{description}
   \item[Word Count:]
-  \item[Student Name: Andrew Robert Barraclough]
+  \item[Student Name: Andrew Barraclough]
   \item[Date of Submission: 29 August 2024]
   \item[Signature:]
   \end{description}
