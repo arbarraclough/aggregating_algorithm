@@ -1,1 +1,22 @@
 \section{Prediction with Expert Advice \textit{(1,250)}}\label{section:Prediciton_with_Expert_Advice}
+- Outcomes ($\omega_1, \omega_2, ...$) happen in sequence.
+- All outcomes come from an outcome space, $\omega \in \Omega$.
+- In the Simple Prediction Game, $\Omega = \{0, 1\}$, i.e. bits.
+
+- Before we see any outcomes, we make a prediction $\gamma_t$.
+- All predictions come from a predction space $\gamma \in \Gamma$.
+- In the Simple Prediction Game, $\Gamma = \{0, 1\}$, i.e. bits.
+
+
+\begin{algorithm}
+    \caption{Prediction with Expert Advice}\label{alg:cap}
+    \begin{algorithmic}[1]
+        \State FOR $t = 1, 2, ...$
+        \State \hspace{\algorithmicindent} the experts $E_1, ..., E_N$ output predictions $\gamma^1_t, ..., \gamma^N_t \in \Gamma$
+        \State \hspace{\algorithmicindent} the learner $L$ outputs $\gamma_t \in \Gamma$
+        \State \hspace{\algorithmicindent} the nature outputs $\omega_t \in \Omega$
+        \State \hspace{\algorithmicindent} the experts $E_1, ..., E_N$ suffer losses $\lambda(\gamma^1_t, \omega_t), ..., \lambda(\gamma^N_t, \omega_t)$
+        \State \hspace{\algorithmicindent} the learner $L$ suffers loss $\lambda(\gamma_t, \omega_t)$
+        \State END FOR
+    \end{algorithmic}
+\end{algorithm}

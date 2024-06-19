@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.6.13)  15 JUN 2024 17:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.5.28)  19 JUN 2024 08:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home/baz/aggregating_algorithm/dissertation/template.tex
-(/home/baz/aggregating_algorithm/dissertation/template.tex
+**/home/andrew/code/msc_machine_learning/cs5821_individual_project/dissertation/template.tex
+(/home/andrew/code/msc_machine_learning/cs5821_individual_project/dissertation/template.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-01-21> (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
@@ -263,7 +263,11 @@ LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count291
 \l__pdf_internal_box=\box54
-) (./template.aux)
+) (./template.aux
+
+LaTeX Warning: Label `alg:cap' multiply defined.
+
+)
 \openout1 = `template.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
@@ -362,25 +366,28 @@ l.38 \newpage
 <to be read again> 
                    \relax 
 l.28 
-      [2]) [3] (./sections/on-line_prediction.tex) [4] (./sections/prediction_with_expert_advice.tex) [5] (./sections/aggregating_algorithm.tex
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 7.
- [6]) [7] (./sections/specialist_experts.tex [8]) [9] [10] (./sections/practical.tex) [11] (./sections/conclusion.tex) [12] (./template.bbl) [13] (./template.aux)
+      [2]) [3] (./sections/on-line_prediction.tex) [4] (./sections/prediction_with_expert_advice.tex
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 12.
+) [5] (./sections/aggregating_algorithm.tex [6]) [7] (./sections/specialist_experts.tex [8]) [9] [10] (./sections/practical.tex) [11] (./sections/conclusion.tex) [12] (./template.bbl) [13] (./template.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `template.out' has not changed.
 (rerunfilecheck)             Checksum: 3B7686313D95AF9D884A72BD0DEE3959;3560.
  ) 
 Here is how much of TeX's memory you used:
- 10285 strings out of 480247
- 159619 string characters out of 5896106
- 446162 words of memory out of 5000000
+ 10286 strings out of 480247
+ 159729 string characters out of 5896106
+ 446201 words of memory out of 5000000
  28008 multiletter control sequences out of 15000+600000
  479406 words of font info for 67 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,7n,63p,1319b,394s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmti10.657pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi6.600pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmsy10.657pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmex10.657pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmsy8.600pk> </usr/share/texlive/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr8.pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi8.600pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi10.657pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr9.600pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.600pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbxti10.864pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbxti10.657pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx10.657pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr10.657pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.720pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr12.720pk> </usr/share/texlive/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr12.pk> </home/baz/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.864pk>
-Output written on template.pdf (17 pages, 175145 bytes).
+ 60i,7n,63p,1352b,394s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmti10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi6.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmex10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmsy8.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr9.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi8.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmsy10.657pk> </usr/share/texlive/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr8.pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbxti10.864pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbxti10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr10.657pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.720pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmr12.720pk> </usr/share/texlive/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr12.pk> </home/andrew/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmbx12.864pk>
+Output written on template.pdf (17 pages, 176625 bytes).
 PDF statistics:
- 680 PDF objects out of 1000 (max. 8388607)
- 257 compressed objects within 3 object streams
- 45 named destinations out of 1000 (max. 500000)
+ 682 PDF objects out of 1000 (max. 8388607)
+ 258 compressed objects within 3 object streams
+ 46 named destinations out of 1000 (max. 500000)
  158 words of extra memory for PDF output out of 10000 (max. 10000000)
 
