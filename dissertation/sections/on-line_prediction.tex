@@ -1,7 +1,4 @@
 \section{On-line Prediction \textit{(1,250)}}\label{section:On-line_Prediction}
-\subsection{Preliminaries}
-\subsection{Games}
-
 % \section{On-line Machine Learning}
 % \subsection{Concept \& Significance}
 % \begin{quote}
@@ -27,12 +24,6 @@
 
 % \noindent\rule{\textwidth}{0.1pt}
 
-% \begin{itemize}
-%   \item Define Batch Machine Learning
-%   \item Define On-line Machine Learning
-%   \item Highlight Differences between Batch \& On-line
-% \end{itemize}
-
 % \begin{quote}
 %   ``A computer program is said to learn from experience E with respect to some class
 %   of tasks T and performance measure P, if its performance at tasks in T, as 
@@ -54,6 +45,66 @@
 %   Describe how on-line prediction integrates with expert advice to enhance decision-making accuracy. Discuss the synergy between real-time data processing and expert algorithms.
 % \end{quote}
 
-% An example of a reference:\newline\cite{kalnishkan:2022},\ \cite{kalnishkan/vyugin:2008},\ \cite{herbster/warmuth:1995},\ \cite{vovk:2001}
+\subsection{Introduction (125)}
+Within the scope of Machine Learning, there is a particular class of algorithms which can be used to make accurate predictions about the future based on past sequential data. One of the most notable among these is the ``Strong'' Aggregating Algorithm proposed by Volodymyr Vovk~\cite{vovk:1990} which is a powerful algorithm designed for On-line Prediction, specifically catering to the framework of Prediction with Expert Advice. The ``strong'' adjective is used purposefully in this context to distinguish it from the ``Weak'' Aggregating Algorithm proposed by Yuri Kalnishkan and Michael Vyugin~\cite{kalnishkan/vyugin:2008}. Given that the basis of discussion within this dissertation is focussed around this subject matter, this chapter aims to lay a comprehensive foundation of the key concepts before delving into them further in the chapters to come.
 
-% \newpage
+\subsection{Preliminaries (54)}
+We begin by defining the On-line Prediction framework. On-line Prediction is a ``central problem in statistics and machine learning'' that is concerned with ``predicting future events based on past observations.''~\cite{cesa-bianchi:1997} It refers to a method in which a model makes predictions sequentially and updates its parameters in real-time as new data points become available.
+
+\subsubsection*{On-line Prediction and Batch Learning (145)}
+This marks the first distinction between on-line prediction and the traditional batch learning framework because on-line prediction requires approaches and algorithms that are significantly different. With batch learning, a whole training set of labelled examples $(x_i, y_i)$ is given to the learner at once in order to train a model. In contrast, on-line learning involves gradually feeding the learner information over time, requiring the model to continuously adapt to the new data it is given while requiring the learner to take actions on the basis of the information it already possesses instead of waiting for a complete picture. \cite{kalnishkan:2015} This forced adaptability ensures that the predictions outputted by the algorithm remain accurate based on the information that the model deems as relevant as it gains additional knowledge, making these models particularly valuable in applications that require immediate responses and fluidity such as financial market analysis and weather forecasting.
+
+\subsubsection*{On-line Prediction and Timeseries Analysis (167)}
+Another distinction that needs to be made is between on-line prediction and timeseries analysis as, while these are both ways of handling sequential data in machine learning and statistics, they are unique. On-line learning is based on processing data points sequentially and updating predictive models in real-time whereas timeseries analysis is based on modelling and forecasting data that is collected over successive time intervals. The prior approach does not impose any strict assumptions about the underlying data-generating process, even going so far as to not assume the existence of such a process~\cite{vovk:2001}, while the latter assumes a structured approach where observations are dependent on previous observations. These are typically modelled using stochastic processes such as \textit{autoregressive integrated moving average (ARIMA)} or \textit{state-space} models~\cite{box:2015}. The majority of the literature on On-line Prediction takes a similar stance that no assumptions can be made about the sequence of outcomes that are observed. Because of this, the analyses are done over the worst-case and may be better in reality~\cite{cesa-bianchi:1997}.
+
+\subsubsection*{Notation (275)}
+We can now introduce the commonly-used notation for On-line Prediction. 
+
+Consider the scenario where the elements of a sequence called \textbf{\textit{outcomes}}  $\omega_t$ occur sequentially in discrete time $\omega_1, \omega_2, \ldots$ which we assume are drawn from an \textbf{\textit{outcome space}} $\Omega$ that is known beforehand. 
+
+A learner is tasked with predicting these \textit{outcomes} one at a time by making \textbf{\textit{predictions}} $\gamma_t$ before they occur. Similarly, we assume that these \textit{predictions} are drawn from a known \textbf{\textit{prediction space}} $\Gamma$ which may or may not be the same as the \textit{outcome space} $\Omega$.
+
+Once the learner has made their prediction, the true outcome is then revealed and the quality of the learner's prediction is assessed by a \textbf{\textit{loss function}} $\lambda(\gamma_t, \omega_t)$. This function measures the discrepancy between the prediction and outcome or, more generally, quantifies the effect of when prediction $\gamma_t$ is confronted with the outcome $\omega_t$~\cite{adamskiy:2019} by mapping the input space $\Gamma \times \Omega$ to a subset real-number line $\mathbb{R}$, typically $[0, +\infty)$. In this scenario, $\gamma_t$ can be thought of as the action taken in a situation of uncertainty and, as the uncertainty is lifted, the learner faces reality $\omega_t$ and faces the consequences of their action $\lambda(\gamma_t, \omega_t) : \Gamma\times\Omega\rightarrow[0,+\infty)$~\cite{kalnishkan:2009}.
+
+
+\begin{protocol}[H]
+    \caption{On-line Prediction Framework}\label{on-line_prediction_framework}
+    \begin{algorithmic}[1]
+        \State{FOR $t = 1, 2, \ldots$}
+        \State{\hspace{\algorithmicindent} learner outputs $\gamma_t \in \Gamma$}
+        \State{\hspace{\algorithmicindent} nature announces $\omega_t \in \Omega$}
+        \State{\hspace{\algorithmicindent} learner suffers loss $\lambda(\gamma_t, \omega_t)$}
+        \State{END FOR}
+    \end{algorithmic}
+\end{protocol}
+
+Over multiple time steps $T$, the learner will suffer multiple losses which can be denoted as the cumulative loss up to time $T$. Their performance is measured by this cumulative loss, so a natural objective is to suffer as low a cumulative loss as it can.
+
+\begin{equation}
+    \text{Loss}_T(L) = \underset{t=1}{\overset{T}{\sum}}\lambda(\gamma_t, \omega_t)
+\end{equation}
+
+\subsubsection*{Games (200)}
+A ``Game'' $\mathcal{G}$  is the choice of triple $<\Gamma, \Omega, \lambda>$ describing a \textbf{\textit{prediction environment.}} In this dissertation, we will only look at four common games—for more examples, see~\cite{vovk:1998}. \textit{Binary Games} is a term used for any game where $\Gamma = \Omega = [0, 1]$. In such scenarios, there are two common loss functions to be considered.
+\begin{enumerate}
+    \item \textbf{Square (Brier's) Loss} — $\lambda_\text{SQ}(\gamma, \omega) = {(\gamma - \omega)}^2$,
+    \item \textbf{Absolute Loss} — $\lambda_\text{ABS}(\gamma, \omega) = {|\gamma - \omega |}^2$
+\end{enumerate}
+
+If we now consider the \textit{discrete binary game} where $\Gamma = [0, 1]$ and $\Omega = \{0, 1\}$, a logarithmic loss function can be used.
+\begin{enumerate}
+    \setcounter{enumi}{2}
+    \item \textbf{Logarithmic Loss} — $\lambda_\text{LOG}(\gamma, \omega)=\begin{cases}-\ln(1-\gamma)&\text{if }\omega=0,\\-\ln\gamma&\text{if }\omega=1\end{cases}$
+\end{enumerate}
+
+Finally, there is the \textit{simple prediction game} where $\Gamma = \Omega = \{0, 1\}$, and loss function
+\begin{enumerate}
+\setcounter{enumi}{3}
+    \item $\lambda(\gamma, \omega) = \begin{cases}0&\text{if }\omega=\gamma,\\1&\text{otherwise}\end{cases}$
+\end{enumerate}
+
+With such a game, the cumulative learner's loss $\text{Loss}_T(L)$ is equal to the number of mistakes made.
+
+In this report, we are primarily concerned with the \textbf{\textit{Discrete Binary Square Loss Game}}, i.e. $\Gamma = [0, 1], \Omega = \{0, 1\}, \lambda_\text{SQ}(\gamma, \omega) = {(\gamma - \omega)}^2$
+
+\subsection{Conclusion}

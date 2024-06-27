@@ -23,6 +23,16 @@
 % Computational Finance students: uncomment the next line
 %\twodepartmentstrue
 
+\newcounter{protocol}
+\makeatletter
+\newenvironment{protocol}[1][htb]{
+  \let\c@algorithm\c@protocol
+  \renewcommand{\ALG@name}{Protocol}
+  \begin{algorithm}[#1]
+  }{\end{algorithm}
+}
+\makeatother
+
 \begin{document}
 \maketitle
 
