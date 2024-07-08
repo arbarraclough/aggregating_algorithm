@@ -1,0 +1,136 @@
+\section{Literature Review}\label{section:Literature_Review}
+\subsection{Introduction}
+\textbf{Purpose:} Overview of the goals of the literature review.\newline
+\textbf{Scope:} Outline of the topics covered and their relevance to the dissertation.\newline
+\noindent\rule{\textwidth}{0.1pt}
+
+\newpage
+
+\subsection{Perceived Randomness}
+\subsubsection{Introduction to Perceived Randomness}
+\textbf{Definition:} Explanation of what perceived randomness is.\newline
+\textbf{Importance:} Discussion on why perceived randomness is significant in various fields.\newline
+\noindent\rule{\textwidth}{0.1pt}
+
+\subsubsection{Randomness in Binary Sequences}
+\textbf{Human vs. Algorithmic Generation}\newline
+\textbf{Human Perception:} How humans perceive randomness.\newline
+\textbf{Algorithmic Methods:} Comparison of human and algorithmic sequence generation.\newline
+\noindent\rule{\textwidth}{0.1pt}
+
+\noindent\textbf{Methods for Generating Sequences}\newline
+\textbf{Techniques:} Different methods for generating binary sequences.\newline
+\textbf{Comparative Analysis:} Evaluation of these methods in terms of perceived randomness.\newline
+\noindent\rule{\textwidth}{0.1pt}
+
+\newpage
+
+\subsection{Prediciton with Expert Advice}
+\subsubsection{Introduction to On-line Prediction}
+
+% \textbf{Concept:} Overview of on-line prediction in the context of perceived randomness.\newline
+% \textbf{Applications:} Various applications of on-line prediction techniques.\newline
+% \noindent\rule{\textwidth}{0.1pt}
+
+\noindent Within the areas of Machine Learning and Statistics, there lies the problem of accurately ``predicting future events based on past observations''~\cite{cesa-bianchi:1997}  known as \textit{on-line prediction}. This problem refers to methods where a model makes predictions sequentially and updates its parameters in real-time as new data points become available. There is a particular class of algorithm that is designed to tackle this, with one of the most notable being the ``Strong'' Aggregating Algorithm proposed by Volodymyr Vovk \cite{vovk:1990} which forms the basis of this study. The adjective ``Strong'' is emphasised with inverted commas to help distinguish the algorithm from the ``Weak'' Aggregating Algorithm proposed by Yuri Kalnishkan and Michael Vyugin \cite{kalnishkan/vyugin:2008} that will be touched upon but not explored in detail in this dissertation.
+
+Given that the foundations of this dissertation lie firmly in this subject area, this section aims to lay a comprehensive foundation, exploring the key concepts and frameworks that will set the stage for the discussions in Chapter \textbf{TODO}.
+
+\paragraph*{On-line Prediction, Batch Learning and Timeseries Analysis}
+Herein the first distinction between on-line prediction and the traditional batch learning framework. With batch learning, a whole training set of labelled examples $(x_i, y_i)$ is given to the learner at once in order to train a model. In contrast, on-line learning involves gradually feeding the learner information over time, requiring the model to continuously adapt to the new data it is given while requiring the learner to take actions on the basis of the information it already possesses instead of waiting for a complete picture.~\cite{kalnishkan:2015} This forced adaptability ensures that the predictions outputted by the algorithm remain accurate based on the information that the model deems as relevant as it gains additional knowledge, making these models particularly valuable in applications that require immediate responses and fluidity such as financial market analysis and weather forecasting.
+
+Another distinction that needs to be made is between on-line prediction and timeseries analysis as, while these are both ways of handling sequential data in machine learning and statistics, they are unique. On-line learning is based on processing data points sequentially and updating predictive models in real-time whereas timeseries analysis is based on modelling and forecasting data that is collected over successive time intervals. The prior approach does not impose any strict assumptions about the underlying data-generating process, even going so far as to not assume the existence of such a process~\cite{vovk:2001}, while the latter assumes a structured approach where observations are dependent on previous observations. These are typically modelled using stochastic processes such as \textit{autoregressive integrated moving average (ARIMA)} or \textit{state-space} models~\cite{box:2015}. The majority of the literature on On-line Prediction takes a similar stance that no assumptions can be made about the sequence of outcomes that are observed. Because of this, the analyses are done over the worst-case and may be better in reality~\cite{cesa-bianchi:1997}.
+
+\paragraph*{Notation}
+In on-line prediction, we consider a scenario where the elements of a sequence, known as \textit{\textbf{outcomes}}, $\omega_t$ occur at discrete times $\omega_1, \omega_2, \ldots$ which we assume to be drawn from a known \textit{\textbf{outcome space}} $\Omega$. In this problem, a learner is tasked with making \textit{\textbf{predictions}} $\gamma_t$ about these \textit{outcomes} one at a time before they occur. Similarly, we assume that the learner's predictions are drawn from a known \textit{\textbf{prediciton space}} $\Gamma$ which may or may not be the same as the \textit{outcome space} $\Omega$. 
+
+Once the learner has made their \textit{prediction}, the true \textit{outcome} is then revealed and the quality of the learner's prediction is assessed by a \textit{\textbf{loss function}} $\lambda(\gamma_t, \omega_t)$. This function measures the discrepancy between the \textit{prediction} and \textit{outcome} or, more generally, quantifies the effect of when the \textit{prediction} $\gamma_t$ is confronted with the \textit{outcome} $\omega_t$~\cite{adamskiy:2019} by mapping the input space $\Gamma \times \Omega$ to a subset of the real-number line $\mathbb{R}$, typically $[0, +\infty)$~\cite{kalnishkan:2009}.
+
+Across several time steps $T$, the learner will suffer multiple losses which can be referred to as their cumulative loss up to time $T$. Their performance is measured by this cumulative loss, so their natural objective is to suffer as low a cumulative loss as they can.
+
+\begin{protocol}[H]
+    \caption{On-line Prediction Framework}\label{on-line_prediction_framework}
+    \begin{algorithmic}[1]
+        \State{FOR $t = 1, 2, \ldots$}
+        \State{\hspace{\algorithmicindent} learner $L$ outputs $\gamma_t \in \Gamma$}
+        \State{\hspace{\algorithmicindent} nature outputs $\omega_t \in \Omega$}
+        \State{\hspace{\algorithmicindent} learner $L$ suffers loss $\lambda(\gamma_t, \omega_t)$}
+        \State{END FOR}
+    \end{algorithmic}
+\end{protocol}
+
+\paragraph{Games and Mixability}
+The combination of a \textit{prediction space}, \textit{outcome space}, and \textit{loss function} can be referred to with a triple $<\Gamma, \Omega, \lambda>$, known as a \textit{\textbf{Game}} $G$. \textit{TODO: Explain mixability and touch on (Kalnishkan \& Vyugin, 2008)}~\cite{kalnishkan/vyugin:2008} 
+
+\subsubsection{Prediction with Expert Advice}
+\textbf{Framework:} Description of the prediction with expert advice framework.\newline
+\textbf{Mechanisms:} Detailed explanation of how this framework operates.\newline
+\noindent\rule{\textwidth}{0.1pt}
+\begin{protocol}[H]
+    \caption{Prediction with Expert Advice Framework}\label{alg:cap}
+    \begin{algorithmic}[1]
+        \State{FOR $t = 1, 2, \ldots$}
+        \State{\hspace{\algorithmicindent} experts $E_1, \ldots, E_N$ output predictions}$\gamma^1_t, \ldots, \gamma^N_t \in \Gamma$
+        \State{\hspace{\algorithmicindent} learner $L$ outputs $\gamma_t \in \Gamma$}
+        \State{\hspace{\algorithmicindent} nature outputs $\omega_t \in \Omega$}
+        \State{\hspace{\algorithmicindent} experts $E_1, \ldots, E_N$ suffer losses $\lambda(\gamma^1_t, \omega_t), \ldots, \lambda(\gamma^N_t, \omega_t)$}
+        \State{\hspace{\algorithmicindent} learner $L$ suffers loss $\lambda(\gamma_t, \omega_t)$}
+        \State{END FOR}
+    \end{algorithmic}
+\end{protocol}
+
+
+\subsubsection{Aggregating Algorithm (AA)}
+\textbf{Algorithm Description:} Introduction to the Aggregating Algorithm.\newline
+\textbf{Functionality:} How the Aggregating Algorithm works in practice.\newline
+\noindent\rule{\textwidth}{0.1pt}
+\begin{algorithm}[H]
+    \caption{Aggregating Algorithm (AA)}\label{alg:cap}
+    \begin{algorithmic}[1]
+        \State{initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$}
+        \State{FOR $t = 1, 2, \ldots$}
+        \State{\hspace{\algorithmicindent} read the experts' predictions $\gamma^i_t, i=1, 2, \ldots, N$}
+        \State{\hspace{\algorithmicindent} normalise the experts' weights $p^i_{t-1} = w^i_{t-1} / \sum^N_{j=1} w^j_{t-1}$}
+        \State{\hspace{\algorithmicindent} output $\gamma_t \in \Gamma$ that satisfies the inequality for all $\omega \in \Omega$:\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $\lambda(\gamma_t, \omega) \leq - \frac{C}{\eta} \ln \sum^N_{i=1}p^i_{t-1}e^{-\eta\lambda(\gamma^i_t, \omega)}$}
+        \State{\hspace{\algorithmicindent} observe the outcome $\omega_t$}
+        \State{\hspace{\algorithmicindent} update the experts' weights $w^i_t = w^i_{t-1} e^{-\eta \lambda(\gamma^i_t, \omega_t)}, i = 1, 2, \ldots, N$}
+        \State{END FOR}
+      \end{algorithmic}
+\end{algorithm}
+
+\begin{equation}
+    \text{Loss}_T(L) \leq C \cdot \text{Loss}_T(\mathcal{E}_i) + \frac{C}{\eta}\ln\frac{1}{q_i} 
+\end{equation}
+
+\paragraph{Weak Aggregating Algorithm (WAA)}
+
+\paragraph{Fixed Share Algorithm}
+
+\subsubsection{Aggregating Algorithm for Specialist Experts (AASE)}
+\textbf{Specialisation:} Differences between general and specialist experts.\newline
+\textbf{Algorithm Adaptation:} How the Aggregating Algorithm is adapted for specialist experts.\newline
+\noindent\rule{\textwidth}{0.1pt}
+\begin{algorithm}[H]
+    \caption{Aggregating Algorithm for Specialist Experts (AASE)}\label{alg:cap}
+    \begin{algorithmic}[1]
+        \State{initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$}
+        \State{FOR $t = 1, 2, \ldots$}
+        \State{\hspace{\algorithmicindent} read the awake experts' predictions $\gamma^i_t, i=1, 2, \ldots, N$}
+        \State{\hspace{\algorithmicindent} normalise the awake experts' weights\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent}$p^i_{t-1} = w^i_{t-1} / \sum_{j:\mathcal{E}_j\text{ is awake}} w^j_{t-1}$}
+        \State{\hspace{\algorithmicindent} output $\gamma_t \in \Gamma$ that satisfies the inequality for all $\omega \in \Omega$:\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $\lambda(\gamma_t, \omega) \leq - \frac{C}{\eta} \ln \sum_{i:E_i\text{ is awake}}p^i_{t-1}e^{-\eta\lambda(\gamma^i_t, \omega)}$}
+        \State{\hspace{\algorithmicindent} observe the outcome $\omega_t$}
+        \State{\hspace{\algorithmicindent} update the awake experts' weights $w^i_t = w^i_{t-1} e^{-\eta\lambda(\gamma^i_t, \omega_t)}$}
+        \State{\hspace{\algorithmicindent} update the sleeping experts' weights $w^i_t = w^i_{t-1} e^{-\eta\lambda(\gamma_t, \omega_t)/ C(\eta)}$}
+        \State{END FOR}
+    \end{algorithmic}
+\end{algorithm}
+
+The learner following this algorithm achieves loss that satisfies:
+
+\begin{equation}
+    \overset{T}{\underset{\substack{t=1,2,\ldots,T:\\\mathcal{E}_i\text{ is awake}\\\text{on step }t}}{\sum}}\lambda(\gamma_t, \omega_t) \leq C \cdot \overset{T}{\underset{\substack{t=1,2,\ldots,T:\\\mathcal{E}_i\text{ is awake}\\\text{on step }t}}{\sum}} \lambda(\gamma^i_t, \omega_t) + \frac{C}{\eta}\ln\frac{1}{q_i} 
+\end{equation}
+
+\subsection{Conclusions}
+\textbf{Summary:} Recap of key points covered in the literature review.\newline
+\textbf{Implications:} Implications of the reviewed literature for the current study.\newline

@@ -1,6 +1,6 @@
 \documentclass[11pt]{article} % do not change this line
 \input{BigDataStyle.txt}      % do not change this line
-\usepackage{algorithm,algpseudocode,amsfonts,amssymb,amsthm,amsmath,graphicx,hyperref,latexsym}
+\usepackage{algorithm,algpseudocode,amsfonts,amssymb,amsthm,amsmath,graphicx,hyperref,latexsym,titlesec}
 
 \emergencystretch=5mm
 \tolerance=400
@@ -33,6 +33,17 @@
 }
 \makeatother
 
+\setcounter{secnumdepth}{4}
+\titleformat{\paragraph}
+{\normalfont\small\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\titleformat{\subparagraph}
+{\normalfont\footnotesize\itshape}{\theparagraph}{1em}{}
+\titlespacing*{\subparagraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
 \begin{document}
 \maketitle
 
@@ -48,6 +59,9 @@ I would also like to express my gratitude to the group of friends who made this 
 \newpage
 
 \input{sections/introduction.tex}
+\newpage
+
+\input{sections/literature_review.tex}
 \newpage
 
 \input{sections/on-line_prediction}
