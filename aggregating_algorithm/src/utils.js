@@ -105,10 +105,40 @@ export const aggregatingAlgorithm = (
     ];
   };
   
+class Expert {
+        constructor(prefix) {
+            this.prefix = prefix
+            this.numZeros = 0;
+            this.numOnes = 0;
+            this.awake = false;
+        }
+        
+        toString() {
+          return `Expert "${this.prefix}" - (${this.numZeros}, ${this.numOnes})`;
+        }
+
+        predict() {
+          if (!this.awake) {
+            return '-';
+          } else {
+            if (this.numZeros + this.numOnes === 0) {
+              return 0.0;
+            }
+            return (this.numOnes / (this.numZeros + this.numOnes)).toFixed(4);
+          }
+        }
+
+        reset() {
+          this.numZeros = 0;
+          this.numOnes = 0;
+          this.awake = false;
+        }
+    }
+
   export const generateExperts = (length) => {
     const generate = (prefix, length) => {
       if (length === 0) {
-        return [{ prefix }];
+        return [new Expert(prefix)];
       } else {
         return [
           ...generate(prefix + '0', length - 1),
@@ -116,17 +146,40 @@ export const aggregatingAlgorithm = (
         ];
       }
     };
-  
+
     if (length <= 0) {
       return [];
     } else {
-      let experts = [];
+      let experts = []
       for (let l = 1; l <= length; l++) {
         experts = experts.concat(generate("", l));
       }
       return experts;
     }
   };
+
+  // export const generateExperts = (length) => {
+  //   const generate = (prefix, length) => {
+  //     if (length === 0) {
+  //       return [{ prefix }];
+  //     } else {
+  //       return [
+  //         ...generate(prefix + '0', length - 1),
+  //         ...generate(prefix + '1', length - 1)
+  //       ];
+  //     }
+  //   };
+  
+  //   if (length <= 0) {
+  //     return [];
+  //   } else {
+  //     let experts = [];
+  //     for (let l = 1; l <= length; l++) {
+  //       experts = experts.concat(generate("", l));
+  //     }
+  //     return experts;
+  //   }
+  // };
   
   export const getAwakeExperts = (sequence, experts) => {
     return experts.map(expert => sequence.endsWith(expert.prefix));

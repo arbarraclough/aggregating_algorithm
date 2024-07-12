@@ -54,6 +54,7 @@
   display: flex;
   justify-content: center;
   align-items: stretch; /* Ensures columns stretch to equal height */
+  margin: 10px;
 }
 
 .column {
@@ -66,7 +67,14 @@
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-right: 10px;
+  /* margin-right: 10px; */
+  max-height: 50px;
+}
+
+.photo {
+  max-height: 50px;
+  display: flex;
+  justify-content: center;
 }
 
 .input-box {
@@ -75,11 +83,19 @@
   font-size: 16px;
   border: none; /* Remove default input border */
   outline: none; /* Remove default focus outline */
+  text-align: center;
 }
 
 .counter {
   justify-content: center;
   align-items: center;
+  max-width: 125px;
+  margin-left: 10px;
+}
+
+.reset {
+  max-width: 50px;
+  margin-left: 10px;
 }
 
 button {
