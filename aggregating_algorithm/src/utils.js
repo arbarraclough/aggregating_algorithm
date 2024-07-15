@@ -122,7 +122,7 @@ class Expert {
             return '-';
           } else {
             if (this.numZeros + this.numOnes === 0) {
-              return 0.0;
+              return 0.0.toFixed(4);
             }
             return (this.numOnes / (this.numZeros + this.numOnes)).toFixed(4);
           }
