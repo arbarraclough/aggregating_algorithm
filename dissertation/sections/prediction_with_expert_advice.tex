@@ -1,22 +1,119 @@
-\section{Prediction with Expert Advice \textit{(1,250)}}\label{section:Prediciton_with_Expert_Advice}
-- Outcomes ($\omega_1, \omega_2, ...$) happen in sequence.
-- All outcomes come from an outcome space, $\omega \in \Omega$.
-- In the Simple Prediction Game, $\Omega = \{0, 1\}$, i.e. bits.
+\subsection{Prediction with Expert Advice}
+\subsubsection{Introduction to On-line Prediction}
 
-- Before we see any outcomes, we make a prediction $\gamma_t$.
-- All predictions come from a predction space $\gamma \in \Gamma$.
-- In the Simple Prediction Game, $\Gamma = \{0, 1\}$, i.e. bits.
+\noindent Within the areas of Machine Learning and Statistics, there lies the problem of accurately ``predicting future events based on past observations''~\cite{cesa-bianchi:1997}  known as \textit{on-line prediction}. This problem refers to methods where a model makes predictions sequentially and updates its parameters in real-time as new data points become available. There is a particular class of algorithm that is designed to tackle this, with one of the most notable being the ``Strong'' Aggregating Algorithm proposed by Volodymyr Vovk~\cite{vovk:1990} which forms the basis of this study. The adjective ``Strong'' is emphasised with inverted commas to help distinguish the algorithm from the ``Weak'' Aggregating Algorithm proposed by Yuri Kalnishkan and Michael Vyugin~\cite{kalnishkan/vyugin:2008} that will be touched upon but not explored in detail in this dissertation.
 
+Given that the foundations of this dissertation lie firmly in this subject area, this section aims to lay a comprehensive foundation, exploring the key concepts and frameworks that will set the stage for the discussions in Chapter \textbf{TODO}.
 
-\begin{algorithm}
-    \caption{Prediction with Expert Advice}\label{alg:cap}
+\paragraph*{On-line Prediction, Batch Learning and Timeseries Analysis}
+Herein the first distinction between on-line prediction and the traditional batch learning framework. With batch learning, a whole training set of labelled examples $(x_i, y_i)$ is given to the learner at once in order to train a model. In contrast, on-line learning involves gradually feeding the learner information over time, requiring the model to continuously adapt to the new data it is given while requiring the learner to take actions on the basis of the information it already possesses instead of waiting for a complete picture.~\cite{kalnishkan:2015} This forced adaptability ensures that the predictions outputted by the algorithm remain accurate based on the information that the model deems as relevant as it gains additional knowledge, making these models particularly valuable in applications that require immediate responses and fluidity such as financial market analysis and weather forecasting.
+
+Another distinction that needs to be made is between on-line prediction and timeseries analysis as, while these are both ways of handling sequential data in machine learning and statistics, they are unique. On-line learning is based on processing data points sequentially and updating predictive models in real-time whereas timeseries analysis is based on modelling and forecasting data that is collected over successive time intervals. The prior approach does not impose any strict assumptions about the underlying data-generating process, even going so far as to not assume the existence of such a process~\cite{vovk:2001}, while the latter assumes a structured approach where observations are dependent on previous observations. These are typically modelled using stochastic processes such as \textit{autoregressive integrated moving average (ARIMA)} or \textit{state-space} models~\cite{box:2015}. The majority of the literature on On-line Prediction takes a similar stance that no assumptions can be made about the sequence of outcomes that are observed. Because of this, the analyses are done over the worst-case and may be better in reality~\cite{cesa-bianchi:1997}.
+
+\paragraph*{Notation}
+In on-line prediction, we consider a scenario where the elements of a sequence, known as \textit{\textbf{outcomes}}, $\omega_t$ occur at discrete times $\omega_1, \omega_2, \ldots$ which we assume to be drawn from a known \textit{\textbf{outcome space}} $\Omega$. In this problem, a learner is tasked with making \textit{\textbf{predictions}} $\gamma_t$ about these \textit{outcomes} one at a time before they occur. Similarly, we assume that the learner's predictions are drawn from a known \textit{\textbf{prediction space}} $\Gamma$ which may or may not be the same as the \textit{outcome space} $\Omega$.
+
+Once the learner has made their \textit{prediction}, the true \textit{outcome} is then revealed and the quality of the learner's prediction is assessed by a \textit{\textbf{loss function}} $\lambda(\gamma_t, \omega_t)$. This function measures the discrepancy between the \textit{prediction} and \textit{outcome} or, more generally, quantifies the effect of when the \textit{prediction} $\gamma_t$ is confronted with the \textit{outcome} $\omega_t$~\cite{adamskiy:2019} by mapping the input space $\Gamma \times \Omega$ to a subset of the real-number line $\mathbb{R}$, typically $[0, +\infty)$~\cite{kalnishkan:2009}.
+
+Across several time steps $T$, the learner will suffer multiple losses which can be referred to as their cumulative loss up to time $T$. Their performance is measured by this cumulative loss, so their natural objective is to suffer as low a cumulative loss as they can.
+
+\begin{protocol}[H]
+    \caption{On-line Prediction Framework}\label{on-line_prediction_framework}
     \begin{algorithmic}[1]
-        \State FOR $t = 1, 2, ...$
-        \State \hspace{\algorithmicindent} the experts $E_1, ..., E_N$ output predictions $\gamma^1_t, ..., \gamma^N_t \in \Gamma$
-        \State \hspace{\algorithmicindent} the learner $L$ outputs $\gamma_t \in \Gamma$
-        \State \hspace{\algorithmicindent} the nature outputs $\omega_t \in \Omega$
-        \State \hspace{\algorithmicindent} the experts $E_1, ..., E_N$ suffer losses $\lambda(\gamma^1_t, \omega_t), ..., \lambda(\gamma^N_t, \omega_t)$
-        \State \hspace{\algorithmicindent} the learner $L$ suffers loss $\lambda(\gamma_t, \omega_t)$
-        \State END FOR
+        \State{FOR $t = 1, 2, \ldots$}
+        \State{\hspace{\algorithmicindent} learner $L$ outputs $\gamma_t \in \Gamma$}
+        \State{\hspace{\algorithmicindent} nature outputs $\omega_t \in \Omega$}
+        \State{\hspace{\algorithmicindent} learner $L$ suffers loss $\lambda(\gamma_t, \omega_t)$}
+        \State{END FOR}
+    \end{algorithmic}
+\end{protocol}
+
+\paragraph{Games and Mixability}
+The combination of a \textit{prediction space}, \textit{outcome space}, and \textit{loss function} can be referred to with a triple $<\Gamma, \Omega, \lambda>$, known as a \textit{\textbf{Game}} $G$. \textit{TODO: Explain mixability and touch on (Kalnishkan \& Vyugin, 2008)}~\cite{kalnishkan/vyugin:2008}
+
+\subsubsection{Prediction with Expert Advice}
+\textbf{Framework:} Description of the prediction with expert advice framework.\newline
+\textbf{Mechanisms:} Detailed explanation of how this framework operates.\newline
+\noindent\rule{\textwidth}{0.1pt}
+\begin{protocol}[H]
+    \caption{Prediction with Expert Advice Framework}\label{alg:cap}
+    \begin{algorithmic}[1]
+        \State{FOR $t = 1, 2, \ldots$}
+        \State{\hspace{\algorithmicindent} experts $E_1, \ldots, E_N$ output predictions}$\gamma^1_t, \ldots, \gamma^N_t \in \Gamma$
+        \State{\hspace{\algorithmicindent} learner $L$ outputs $\gamma_t \in \Gamma$}
+        \State{\hspace{\algorithmicindent} nature outputs $\omega_t \in \Omega$}
+        \State{\hspace{\algorithmicindent} experts $E_1, \ldots, E_N$ suffer losses $\lambda(\gamma^1_t, \omega_t), \ldots, \lambda(\gamma^N_t, \omega_t)$}
+        \State{\hspace{\algorithmicindent} learner $L$ suffers loss $\lambda(\gamma_t, \omega_t)$}
+        \State{END FOR}
+    \end{algorithmic}
+\end{protocol}
+
+\subsubsection{Aggregating Algorithm (AA)}
+\textbf{Algorithm Description:} Introduction to the Aggregating Algorithm.\newline
+\textbf{Functionality:} How the Aggregating Algorithm works in practice.\newline
+\noindent\rule{\textwidth}{0.1pt}
+\begin{algorithm}[H]
+    \caption{Aggregating Algorithm (AA)}\label{alg:cap}
+    \begin{algorithmic}[1]
+        \State{initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$}
+        \State{FOR $t = 1, 2, \ldots$}
+        \State{\hspace{\algorithmicindent} read the experts' predictions $\gamma^i_t, i=1, 2, \ldots, N$}
+        \State{\hspace{\algorithmicindent} normalise the experts' weights $p^i_{t-1} = w^i_{t-1} / \sum^N_{j=1} w^j_{t-1}$}
+        \State{\hspace{\algorithmicindent} output $\gamma_t \in \Gamma$ that satisfies the inequality for all $\omega \in \Omega$:\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $\lambda(\gamma_t, \omega) \leq - \frac{C}{\eta} \ln \sum^N_{i=1}p^i_{t-1}e^{-\eta\lambda(\gamma^i_t, \omega)}$}
+        \State{\hspace{\algorithmicindent} observe the outcome $\omega_t$}
+        \State{\hspace{\algorithmicindent} update the experts' weights $w^i_t = w^i_{t-1} e^{-\eta \lambda(\gamma^i_t, \omega_t)}, i = 1, 2, \ldots, N$}
+        \State{END FOR}
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{equation}
+    \text{Loss}_T(L) \leq C \cdot \text{Loss}_T(\mathcal{E}_i) + \frac{C}{\eta}\ln\frac{1}{q_i}
+\end{equation}
+
+\subsubsection{Aggregating Algorithm for Specialist Experts (AASE)}
+\noindent Having introduced the Aggregating Algorithm in its base form, we can now discuss the modification that this paper's experiment will be centred around: the Aggregating Algorithm for Specialist Experts.
+
+The use of the term `specialist' was first introduced by the work of Avrim Blum~\cite{blum:1997} for the Winnow and Weighted-Majority algorithms, and can be thought of as a natural extension to traditional experts insofar as it enables these `specialists' to abstain from making a prediction ``when the current expert does not fall into their `specialty'\''. While the criteria for an expert to abstain from making a prediction is sufficient in our context, it can also be extended to allow for other scenarios like those suggested in~\cite{kalnishkan:2022}, namely if ``a prediction algorithm [sees] that its internal confidence is low and [decides] to skip a turn in order to re-train'' or if a prediction algorithm breaks down, as would be the case if a regression algorithm ``[has] its matrix very close to singular.''
+
+In order to accommodate these specialist experts, the Prediction with Expert Advice Framework given in (\ref{on-line_prediction_framework}) has to be modified as follows:
+\begin{protocol}[H]
+    \caption{Modified Prediction with Expert Advice Framework}\label{modified_prediction_with_expert_advice}
+    \begin{algorithmic}[1]
+        \State{FOR $t = 1, 2, \ldots$}
+        \State{\hspace{\algorithmicindent} nature chooses a subset of experts $\mathcal{E}_i \in \mathcal{E}$} that are awake
+        \State{\hspace{\algorithmicindent} awake experts $\mathcal{E}_1, \ldots, \mathcal{E}_N$ output predictions }$\gamma^1_t, \ldots, \gamma^N_t \in \Gamma$
+        \State{\hspace{\algorithmicindent} learner $L$ outputs $\gamma_t \in \Gamma$}
+        \State{\hspace{\algorithmicindent} nature outputs $\omega_t \in \Omega$}
+        \State{\hspace{\algorithmicindent} awake experts $\mathcal{E}_1, \ldots, \mathcal{E}_N \in \mathcal{E}_i$ suffer losses $\lambda(\gamma^1_t, \omega_t), \ldots, \lambda(\gamma^N_t, \omega_t)$}
+        \State{\hspace{\algorithmicindent} learner $L$ and sleeping experts $\mathcal{E}_j \notin \mathcal{E}_i$ suffers loss $\lambda(\gamma_t, \omega_t)$}
+        \State{END FOR}
+    \end{algorithmic}
+\end{protocol}
+
+As referenced above, another colloquial way of referring to `specialist experts' is `sleeping experts'; Freund postulated that ``a specialist is awake when it makes a prediction and that it is asleep otherwise'', going so far as to refer to the traditional on-line prediction framework as ``the insomniac framework since it is a special case in which all specialists are awake all the time.''~\cite{freund:1997} This colloquialism is useful when adapting the bounds of the base Aggregating Algorithm because a natural interpretation of what happens when an expert is sleeping is that it simply ``joins the crowd''~\cite{kalnishkan:2022}, meaning that it mimics the learner's prediction on the time steps that it is asleep because the learner's prediction is formed based on the weighted majority of experts' predictions. Given this definition, it can be seen that on some time steps $t$, the learner's prediction and the expert $\mathcal{E}_i$'s predictions are the same; $\gamma_t = \gamma_t^i$.
+Recall that, in the mixable case, the Aggregating Algorithm guarantees that the following inequality is satisfied:
+\begin{equation*}
+    \overset{T}{\underset{t=1}{\sum}}\lambda(\gamma_t, \omega_t) \leq \overset{T}{\underset{t=1}{\sum}}\lambda(\gamma_t^i, \omega_t) + \frac{1}{\eta} \ln \frac{1}{q_i}
+\end{equation*}
+
+Typically, the Aggregating Algorithm's performance is measured in terms of the learner's cumulative loss compared to the best expert's cumulative loss but given that, on certain time steps $t$, $gamma_t = \gamma_t^i$, it is clear that the corresponding terms in both sums cancel out and what is left are the sums over the time steps where the learner's and the expert's predictions are different, i.e.\ where expert $\mathcal{E}_i$ is awake. What follows from this is that, instead of wanting the learner's loss to be nearly as good as the best expert's loss over a period of time $T$, we judge the Aggregating Algorithm for Specialist Experts' performance based on the learner's loss compared to the best expert's $\mathcal{E}_i$ loss over the steps in which it was awake. A learner following the algorithm achieves a cumulative loss that satisfies the following inequality:
+\begin{equation}
+    \overset{T}{\underset{\substack{t=1,2,\ldots,T:\\\mathcal{E}_i\text{ is awake}\\\text{on step }t}}{\sum}}\lambda(\gamma_t, \omega_t) \leq C \cdot \overset{T}{\underset{\substack{t=1,2,\ldots,T:\\\mathcal{E}_i\text{ is awake}\\\text{on step }t}}{\sum}} \lambda(\gamma^i_t, \omega_t) + \frac{C}{\eta}\ln\frac{1}{q_i}
+\end{equation}
+
+As is the case for the traditional Aggregating Algorithm, we make no assumptions about the outcome-generating mechanism (including the existence of such a mechanism) and this bound holds for \textit{any} adversarial strategy, meaning that the adversary cannot inflict a large loss on the learner without inflicting a large loss on the specialists and ensuring that the performance will be good whenever there is a good mixture of specialists.
+
+\begin{algorithm}[H]
+    \caption{Aggregating Algorithm for Specialist Experts (AASE)}\label{AASE}
+    \begin{algorithmic}[1]
+        \State{initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$}
+        \State{FOR $t = 1, 2, \ldots$}
+        \State{\hspace{\algorithmicindent} read the awake experts' predictions $\gamma^i_t, i=1, 2, \ldots, N$}
+        \State{\hspace{\algorithmicindent} normalise the awake experts' weights\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent}$p^i_{t-1} = w^i_{t-1} / \sum_{j:\mathcal{E}_j\text{ is awake}} w^j_{t-1}$}
+        \State{\hspace{\algorithmicindent} output $\gamma_t \in \Gamma$ that satisfies the inequality for all $\omega \in \Omega$:\newline\hspace*{\algorithmicindent}\hspace{\algorithmicindent} $\lambda(\gamma_t, \omega) \leq - \frac{C}{\eta} \ln \sum_{i:E_i\text{ is awake}}p^i_{t-1}e^{-\eta\lambda(\gamma^i_t, \omega)}$}
+        \State{\hspace{\algorithmicindent} observe the outcome $\omega_t$}
+        \State{\hspace{\algorithmicindent} update the awake experts' weights $w^i_t = w^i_{t-1} e^{-\eta\lambda(\gamma^i_t, \omega_t)}$}
+        \State{\hspace{\algorithmicindent} update the sleeping experts' weights $w^i_t = w^i_{t-1} e^{-\eta\lambda(\gamma_t, \omega_t)/ C(\eta)}$}
+        \State{END FOR}
     \end{algorithmic}
 \end{algorithm}
