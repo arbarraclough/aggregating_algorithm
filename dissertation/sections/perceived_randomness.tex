@@ -1,28 +1,44 @@
 \subsection{Perceived Randomness}
-\subsubsection{Introduction to Perceived Randomness}
-\textbf{Definition:} Explanation of what perceived randomness is.\newline
-\textbf{Importance:} Discussion on why perceived randomness is significant in various fields.\newline
-\noindent\rule{\textwidth}{0.1pt}
-Perceived Randomness refers to the human tendency to asses sequences of events or data as random or non-random based on subjective criteria. This perception is often influenced by cognitive biases and heuristics, which can lead to misjudgements. Humans typically look for patterns or irregularities in sequences and may perceive a truly random sequence as non-random if it doesn't match their expectation of what randomness should look like.
+\subsubsection{Are Humans Good Randomisers?}
+The definition of the term ``random'' is a contentious area for debate. In essence, randomness is an unobservable characteristic of a generating process therefore the act of trying to define it is somewhat contradictory. In order to determine if a process or sequence is random, it has to be put through statistical tests for specific properties which are deemed to be ``random''. However, because these tests are statistical in nature, are the conclusions drawn objectively random or purely subjective?
 
-Binary sequences are sequences composed of two distinct symbols, $0$ and $1$. When evaluating the randomness of such sequences, people often expect certain characteristics, such as:
-\begin{itemize}
-    \item A roughly equal number of $0$s and $1$s.
-    \item No long runs of identical symbols.
-    \item A lack of obvious patterns or regularities.
-\end{itemize}
-However, truly random binary sequences can occasionally contain runs of identical symbols or other patterns that might appear non-random to an observer. People's perception of randomness in binary sequences is therefore influenced by these expectations and may not always align with actual randomness.\newline
-\noindent\rule{\textwidth}{0.1pt}
+Research into the human perception and generation of random sequences is a common topic within psychological papers, yet the contradictory nature of findings results in a less-than-satisfactory answer to the question of ``Are humans good randomisers?'' (much like when defining the term itself).
 
-\subsubsection{Randomness in Binary Sequences}
-\textbf{Human vs. Algorithmic Generation}\newline
-\textbf{Human Perception:} How humans perceive randomness.\newline
-\textbf{Algorithmic Methods:} Comparison of human and algorithmic sequence generation.\newline
-\noindent\rule{\textwidth}{0.1pt}
-When dealing with generated binary sequences, such as those produced by random number generators or algorithms, people apply the same subjective criteria to judge randomness. Even though these sequences are designed to be random, they may sometimes exhibit patterns or anomalies that seem non-random. This perception is shaped by the same cognitive biases that affect judgements of naturally occurring sequences. Evaluating the randomness of generated binary sequences often involves statistical tests and analysis to ensure they meet the mathematical criteria for randomness, which can differ from human perceptions.\newline
-\noindent\rule{\textwidth}{0.1pt}
+The origins of such a question can be traced back to an observation made by Hans Reichenbach in The Theory of Probability, 1949~\cite{reichenbach:1949}; he suggested that when asked to produce a series that seemed random to them, people untrained in the theory of probability would be unable to generate such a series and, instead, generate one that would contain patterns and biases, e.g.\ too many alternations than what was expected. This ultimately suggests that humans are not good randomisers which is the prevalent opinion to date. This behaviour is attributed to the fact that human-generated sequences often reflect the underlying psychological tendencies of subjects, rather than the unpredictability of true randomness.
 
-\noindent\textbf{Methods for Generating Sequences}\newline
-\textbf{Techniques:} Different methods for generating binary sequences.\newline
-\textbf{Comparative Analysis:} Evaluation of these methods in terms of perceived randomness.\newline
-\noindent\rule{\textwidth}{0.1pt}
+While Reichenbach assumes the stance that humans are not good randomisers, the alternative to this conclusion was put forward by the work of Bruce Ross~\cite{ross:1955}. Ross explores the processes involved in randomising binary sequences and analyses the methods that people used, as well as the typical mistakes that they made, when attempting to create random sequences. In his study, Ross got 60 subjects to stamp cards with either an `$\mathcal{O}$' or an `$\mathcal{X}$' and  place them singly in a $100$-item sequence in the middle of a table that they thought to be random, with item frequencies of either $50-50$, $60-40$, or $70-30$. These sequences were then scored against the expected properties of a random sequence and, based on the analysis conducted, resulting in the conclusion that ``the prevalent \textit{a priori} assumption that the human being is a systematically biased randomi[s]er was not borne out.''~\cite{ross:1955}
+
+\subsubsection{Judgement vs. Production of Random Binary Sequences}
+As alluded to by the question posed in the previous subsection, the human perception of randomness is a subjective, rather than objective, quality. Because of this subjectivity, two natural interpretations can follow—either that subjects have an incorrect idea of what randomness is and should look like, or that subjects intuitively know what true randomness should look like but some internal functional limitation prevents the judgement and production of such sequences~cite{wagenaar:1970}, being so powerful that subjects may choose to forego statistical analysis in favour of this intuitive ``gut feeling''~cite{bar-hillel:1991}. Since the main topic of this dissertation is Prediction with Expert Advice (to be introduced in the following subsection) for $\eta$-mixable games, the focus of this literature review will be on the judgement and production of random binary sequences. Both types of study make interesting observations about the internal mechanism responsible for the human perception of randomness, namely ``that [humans] see clumps or streaks in truly random series and expect more alternation, or shorter runs, than are there'' and ``[humans] produce series with higher than expected alternation rates''~\cite{bar-hillel:1991}.
+
+We will first explore judgement. In Willem Wagenaar's 1970 study titled ``Appreciation of conditional probabilities in binary sequences'', he examines people's comprehension of conditional probabilities, focusing on how people perceive and interpret the likelihood of certain events occurring given previous outcomes~\cite{wagenaar:1970}. Through conducting this experiment, this research reveals a significant gap in understanding and the systematic biases that affect our judgements of conditional probabilities.
+
+The study controlled the conditional probability of a $0$ after $0$ ($1$ after $1$) as the experimental variable, testing it in the range $0.2-0.8$ with $0.1$ increments, i.e. 7 values of conditional probability, for first-, second-, and third-orders of dependency. Participants were then shown 16 sets of 7 binary sequences (generated with one of these values of conditional probabilities) for each order of dependency and asked to select and record the sequence that looked the most random to them—explained as the sequence that looked the most likely to be produced when flipping a fair coin. For reference, in a truly random binary sequence, the conditional probability of $0$ after $0$ ($\text{Pr}(0|0)$) or $1$ after $1$ ($\text{Pr}(1|1)$) for the first order of dependency is $0.5$. However, Wagenaar identified that conditional probabilities close to $0.4$ were perceived as the most random across all orders of dependencies, affirming the position that humans aren't good randomisers and that there is some subjective concept of randomness. This study also highlights the bias in favour of `negative recency', more commonly known as the gambler's fallacy wherein gamblers will tend to bet on red after a run of blacks (and vice versa) on a roulette wheel, ultimately causing humans to favour series with slightly more alternations than is expected of true randomness. He postulates that this is likely to be because subjects ``cannot process such a mathematical quantity as `conditional probability'\ldots Rather, they will look at some other characteristics like, for instance, the run-structure of the sequence''~\cite{wagenaar:1970}.
+
+% \subsubsection{Introduction to Perceived Randomness}
+% \textbf{Definition:} Explanation of what perceived randomness is.\newline
+% \textbf{Importance:} Discussion on why perceived randomness is significant in various fields.\newline
+% \noindent\rule{\textwidth}{0.1pt}
+% Perceived Randomness refers to the human tendency to asses sequences of events or data as random or non-random based on subjective criteria. This perception is often influenced by cognitive biases and heuristics, which can lead to misjudgements. Humans typically look for patterns or irregularities in sequences and may perceive a truly random sequence as non-random if it doesn't match their expectation of what randomness should look like.
+
+% Binary sequences are sequences composed of two distinct symbols, $0$ and $1$. When evaluating the randomness of such sequences, people often expect certain characteristics, such as:
+% \begin{itemize}
+%     \item A roughly equal number of $0$s and $1$s.
+%     \item No long runs of identical symbols.
+%     \item A lack of obvious patterns or regularities.
+% \end{itemize}
+% However, truly random binary sequences can occasionally contain runs of identical symbols or other patterns that might appear non-random to an observer. People's perception of randomness in binary sequences is therefore influenced by these expectations and may not always align with actual randomness.\newline
+% \noindent\rule{\textwidth}{0.1pt}
+
+% \subsubsection{Randomness in Binary Sequences}
+% \textbf{Human vs. Algorithmic Generation}\newline
+% \textbf{Human Perception:} How humans perceive randomness.\newline
+% \textbf{Algorithmic Methods:} Comparison of human and algorithmic sequence generation.\newline
+% \noindent\rule{\textwidth}{0.1pt}
+% When dealing with generated binary sequences, such as those produced by random number generators or algorithms, people apply the same subjective criteria to judge randomness. Even though these sequences are designed to be random, they may sometimes exhibit patterns or anomalies that seem non-random. This perception is shaped by the same cognitive biases that affect judgements of naturally occurring sequences. Evaluating the randomness of generated binary sequences often involves statistical tests and analysis to ensure they meet the mathematical criteria for randomness, which can differ from human perceptions.\newline
+% \noindent\rule{\textwidth}{0.1pt}
+
+% \noindent\textbf{Methods for Generating Sequences}\newline
+% \textbf{Techniques:} Different methods for generating binary sequences.\newline
+% \textbf{Comparative Analysis:} Evaluation of these methods in terms of perceived randomness.\newline
+% \noindent\rule{\textwidth}{0.1pt}
