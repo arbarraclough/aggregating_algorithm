@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import { aggregatingAlgorithm, Expert, generateExperts, getAwakeExperts, getAwakeExpertsWithConstantlyAwakeExperts, castLearnerPredictions, castExpertsPredictions } from './utils';
+import { aggregatingAlgorithm, generateExperts } from './utils';
 
 const MAX_PREFIX_LENGTH = 3;
 
@@ -14,47 +14,50 @@ function App() {
     let [cumulativeLearnerLoss, setCumulativeLearnerLoss] = useState([]);
     let [cumulativeExpertsLosses, setCumulativeExpertsLosses] = useState([]);
     let [sequence, setSequence] = useState('');
+    let [sequences, setSequences] = useState([]);
     
     /** Generate Experts on Component Mount */
     useEffect(() => {
-        // const generatedExperts = generateExperts(MAX_PREFIX_LENGTH);
         let newExperts = generateExperts(MAX_PREFIX_LENGTH)
         setExperts(newExperts);
         const AGGREGATING_ALGORITHM_BOUND = -(1.0 / 2.0) * Math.log(generateExperts.length);
     }, [])
 
     const handleUserInput = (e) => {
-        const sequence = e.target.value;
-        // if (/^[01]*$/.test(sequence) && sequence.length <= MAX_SEQUENCE_LENGTH) {
+        let sequence = e.target.value;
+        // Check that the sequence is binary.
         if (/^[01]*$/.test(sequence)) {
             setSequence(sequence);
             setOmegas(omegas => [...omegas, sequence.slice(-1)]);
             updateExpert(sequence);
         }
 
+        if (sequence.length === 10) {
+            setSequences(sequences => [...sequences, sequence])
+            setSequence('');
+            e.target.value = '';
+            console.log(sequences)
+        }
+
         let expertsPredictions = [];
         for (let i = 0; i < experts.length; i++) {
             expertsPredictions.push(experts[i].predict());
         }
-        // console.log("-- Experts' Predictions --")
-        // console.log(expertsPredictions);
-
-        // console.log("-- Omegas -- ")
-        // console.log(omegas)
 
         let updatedGammas = [...gammas, expertsPredictions]
         setGammas(updatedGammas)
-        // console.log("-- Gammas --")
-        // console.log(gammas)
 
         let learnerPrediction = aggregatingAlgorithm(updatedGammas, omegas)
         setLearnerPrediction(learnerPrediction[1].slice(-1)[0].toFixed(4));
-        // console.log("-- Leaner's Prediction --")
-        // console.log(learnerPrediction[1].slice(-1)[0].toFixed(4))
+    };
+
+    const handleSequencesUpdate = () => {
+
     };
 
     const handleReset = () => {
         setSequence('');
+        setSequences([]);
         setLearnerPredictions([]);
         setGammas([]);
         setOmegas([]);
@@ -91,7 +94,8 @@ function App() {
     return (
         <>
         <div>
-            <h1 className='App-header'>Binary Sequence Input</h1>
+            <h1 className='App-header header'>Aggregating Algorithm for Specialist Experts (AASE)</h1>
+            <h2 className='header'>Binary Sequence Input</h2>
             <div className='columns'>
                 <div className='column'>
                     <input
@@ -109,10 +113,30 @@ function App() {
                     <button onClick={handleReset}><img className="photo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Refresh_font_awesome.svg/512px-Refresh_font_awesome.svg.png?20130126205514" alt="Reset!" /></button>
                 </div>
             </div>
-            <div>
-                <p style={{textAlign: 'center'}}><b>Learner's Prediction:</b> {learnerPrediction} ({Math.round(learnerPrediction)})</p>
+            <p style={{textAlign: 'center'}}><b>Learner's Prediction:</b> {learnerPrediction} ({Math.round(learnerPrediction)})</p>
+            <div className='sequences'>
+                <p><b>Predicted:</b></p>
+                <p><b>Actual:</b></p>
             </div>
+            <hr/>
+            <h2 className='header'>Previous Sequences & Predictions</h2>
+            <ul>
+                {[...sequences].reverse().map((sequence, index) => (
+                    <li key={index}>Sequence #{sequences.length - index}: {sequence}</li>
+                ))}
+            </ul>
+            <hr/>
+            <h2 className='header'>Aggregating Algorithm</h2>
+            <hr/>
+            <h2 className='header'>Experts' Predictions</h2>
             <div>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <h3>Show Experts' Predictions?</h3>
+                    <label class='switch'>
+                        <input type='checkbox' />
+                        <span class='slider round'></span>
+                    </label>
+                </div>
                 <table>
                     <thead>
                     <tr>
@@ -123,7 +147,7 @@ function App() {
                     </thead>
                     <tbody>
                         {experts.map((expert, index) => (
-                            <tr>
+                            <tr key={index}>
                                 <td>{expert.toString()}</td>
                                 <td>{expert.awake ? "Yes" : "No"}</td>
                                 <td>{expert.predict()}</td>
