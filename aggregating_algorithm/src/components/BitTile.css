@@ -1,0 +1,26 @@
+.bit-tile {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    margin: 2px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 15px;
+    background-color: #fff;
+  }
+
+.bit-tile-container {
+  display: flex;
+}
+
+
+.bit-tile:nth-child(odd) {
+  background-color: #e8e8e8;
+}
+
+.bit-tile:nth-child(even) {
+  background-color: #ffffff;
+}

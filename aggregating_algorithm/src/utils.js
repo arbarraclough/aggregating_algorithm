@@ -10,9 +10,11 @@ export const aggregatingAlgorithm = (
 
     const expertsPredictions = [];
     const learnerPredictions = [];
-    let expertsLosses = [new Array(N).fill(0)];
+    let expertsLosses = [];
+    // let expertsLosses = [new Array(N).fill(0)];
     const learnerLoss = new Array(T).fill(0);
-    let cumulativeExpertsLosses = [new Array(N).fill(0)];
+    let cumulativeExpertsLosses = [];
+    // let cumulativeExpertsLosses = [new Array(N).fill(0)];
     const cumulativeLearnerLoss = new Array(T + 1).fill(0);
     
     /** Step 1: Initialise weights, w^i_0 = q_i, i = 1, 2, ..., N */
@@ -97,24 +99,26 @@ export const aggregatingAlgorithm = (
       weights = weights.map(w => w / weightSum);
     }
   
-    return [
-      expertsPredictions,
-      learnerPredictions,
-      cumulativeExpertsLosses,
-      cumulativeLearnerLoss
-    ];
+    return {
+      outcomes: omegas,
+      expertsPredictions: expertsPredictions,
+      learnerPredictions: learnerPredictions,
+      cumulativeExpertsLosses: cumulativeExpertsLosses,
+      cumulativeLearnerLoss: cumulativeLearnerLoss
+    };
   };
   
 class Expert {
         constructor(prefix) {
             this.prefix = prefix
+            this.weight = 1.000
             this.numZeros = 0;
             this.numOnes = 0;
             this.awake = false;
         }
         
         toString() {
-          return `Expert "${this.prefix}" - (${this.numZeros}, ${this.numOnes})`;
+          return `Expert "${this.prefix}"`;
         }
 
         predict() {
@@ -122,9 +126,9 @@ class Expert {
             return '-';
           } else {
             if (this.numZeros + this.numOnes === 0) {
-              return 0.0.toFixed(4);
+              return Math.random().toFixed(3);
             }
-            return (this.numOnes / (this.numZeros + this.numOnes)).toFixed(4);
+            return (this.numOnes / (this.numZeros + this.numOnes)).toFixed(3);
           }
         }
 
@@ -156,53 +160,5 @@ class Expert {
       }
       return experts;
     }
-  };
-
-  // export const generateExperts = (length) => {
-  //   const generate = (prefix, length) => {
-  //     if (length === 0) {
-  //       return [{ prefix }];
-  //     } else {
-  //       return [
-  //         ...generate(prefix + '0', length - 1),
-  //         ...generate(prefix + '1', length - 1)
-  //       ];
-  //     }
-  //   };
-  
-  //   if (length <= 0) {
-  //     return [];
-  //   } else {
-  //     let experts = [];
-  //     for (let l = 1; l <= length; l++) {
-  //       experts = experts.concat(generate("", l));
-  //     }
-  //     return experts;
-  //   }
-  // };
-  
-  export const getAwakeExperts = (sequence, experts) => {
-    return experts.map(expert => sequence.endsWith(expert.prefix));
-  };
-  
-  export const getAwakeExpertsWithConstantlyAwakeExperts = (sequence, experts) => {
-    return experts.map(expert =>
-      sequence.endsWith(expert.prefix) ||
-      expert.prefix === 'Zero' ||
-      expert.prefix === 'One'
-    );
-  };
-  
-  export const castLearnerPredictions = (predictions) => {
-    return predictions.map(prediction => Math.round(prediction)).join('');
-  };
-  
-  export const castExpertsPredictions = (predictions) => {
-    return predictions[0].map((_, expertIndex) => {
-      return predictions.map(prediction => {
-        const p = prediction[expertIndex];
-        return isNaN(p) ? '-' : Math.round(p).toString();
-      }).join('');
-    });
   };
   
