@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/aggregating_algorithm/static/css/main.271929c7.css",
+    "main.js": "/aggregating_algorithm/static/js/main.0241116b.js",
+    "index.html": "/aggregating_algorithm/index.html",
+    "main.271929c7.css.map": "/aggregating_algorithm/static/css/main.271929c7.css.map",
+    "main.0241116b.js.map": "/aggregating_algorithm/static/js/main.0241116b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.271929c7.css",
+    "static/js/main.0241116b.js"
+  ]
+}
