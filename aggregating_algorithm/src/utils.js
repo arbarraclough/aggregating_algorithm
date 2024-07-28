@@ -6,16 +6,20 @@ export const aggregatingAlgorithm = (
     weights = null
   ) => {
     const N = gammas[0].length;
-    const T = gammas.length;
+    const T = gammas.length - 1;
+    
+    if (T === 0) {
+      return {
+        learnerPredictions: [parseFloat(gammas[0].find(item => item !== '-'))],
+      }
+    }
 
     const expertsPredictions = [];
     const learnerPredictions = [];
     let expertsLosses = [];
-    // let expertsLosses = [new Array(N).fill(0)];
     const learnerLoss = new Array(T).fill(0);
     let cumulativeExpertsLosses = [];
-    // let cumulativeExpertsLosses = [new Array(N).fill(0)];
-    const cumulativeLearnerLoss = new Array(T + 1).fill(0);
+    const cumulativeLearnerLoss = new Array(T).fill(0);
     
     /** Step 1: Initialise weights, w^i_0 = q_i, i = 1, 2, ..., N */
     if (!weights) {
@@ -69,7 +73,7 @@ export const aggregatingAlgorithm = (
       learnerPredictions.push(gamma_t);
       
       /** Step 6: Observe the outcome \omega_t */
-      const omega_t = omegas[t];
+      const omega_t = omegas[t + 1];
       
       /** Calculate the awake experts' losses */
       const awakeLosses = gammas_t.map(g => Math.pow(omega_t - g, 2));
@@ -111,10 +115,11 @@ export const aggregatingAlgorithm = (
 class Expert {
         constructor(prefix) {
             this.prefix = prefix
-            this.weight = 1.000
             this.numZeros = 0;
             this.numOnes = 0;
             this.awake = false;
+            this.previousPrediction = '-';
+            this.currentPrediction = '-';
         }
         
         toString() {
@@ -125,10 +130,15 @@ class Expert {
           if (!this.awake) {
             return '-';
           } else {
+            let prediction;
             if (this.numZeros + this.numOnes === 0) {
-              return Math.random().toFixed(3);
+              prediction = Math.random().toFixed(3);
+            } else {
+              prediction = (this.numOnes / (this.numZeros + this.numOnes)).toFixed(3);
             }
-            return (this.numOnes / (this.numZeros + this.numOnes)).toFixed(3);
+            this.previousPrediction = this.currentPrediction;
+            this.currentPrediction = prediction
+            return prediction;
           }
         }
 
@@ -136,6 +146,8 @@ class Expert {
           this.numZeros = 0;
           this.numOnes = 0;
           this.awake = false;
+          this.previousPrediction = '-';
+          this.currentPrediction = '-';
         }
     }
 
