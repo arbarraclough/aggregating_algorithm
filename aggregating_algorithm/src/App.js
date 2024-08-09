@@ -107,6 +107,8 @@ function App() {
     });
     const predictedSequenceRef = useRef(null);
     const actualSequenceRef = useRef(null);
+    let correctBits = 0;
+    let incorrectBits = 0;
     
     useEffect(() => {
         let newExperts = generateExperts(MAX_PREFIX_LENGTH);
@@ -321,7 +323,22 @@ function App() {
                             </tbody>
                         </table>
                     </div>
-                    
+
+                    <div className='predictions'>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td className='predictions-label'><b>Correct Predictions:</b></td>
+                                    <td className='predictions-value'>{correctBits}</td>
+                                </tr>
+                                <tr>
+                                    <td className='predictions-label'><b>Incorrect Predictions:</b></td>
+                                    <td className='predictions-value'>{incorrectBits}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                     <div className='sequences'>
                         <table>
                             <tbody>
