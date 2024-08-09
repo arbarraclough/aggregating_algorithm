@@ -57,6 +57,7 @@ function App() {
     const [sequences, setSequences] = useState([]);
     const [predictedSequence, setPredictedSequence] = useState(['-']);
     const [predictedSequences, setPredictedSequences] = useState([]);
+    const [sequenceLosses, setSequenceLosses] = useState([]);
     const [finalResults, setFinalResults] = useState({});
     const [data, setData] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(true);
@@ -107,9 +108,12 @@ function App() {
     });
     const predictedSequenceRef = useRef(null);
     const actualSequenceRef = useRef(null);
+    const correctBits = predictedSequence.slice(1)
+        .filter((bit, index) => bit === parseInt(sequence[index+1])).length;
+    const incorrectBits = predictedSequence.length < 3 ? 0 : predictedSequence.length - correctBits - 2;
     
     useEffect(() => {
-        let newExperts = generateExperts(MAX_PREFIX_LENGTH);
+        const newExperts = generateExperts(MAX_PREFIX_LENGTH);
         setExperts(newExperts);
         setAggregatingAlgorithmBound(-(1.0 / 2.0) * Math.log(newExperts.length));
     }, [])
@@ -196,9 +200,15 @@ function App() {
             setGammas(updatedGammas);
             const results = aggregatingAlgorithm(updatedGammas, updatedOmegas.slice(1));
             
-            if (sequences.length === MAX_SEQUENCES_COUNT - 1 && sequence.length % 10 === 0) {
-                setFinalResults(results);
-                experts.map(expert => expert.awake = true);
+            if (sequence.length % 10 === 0) {
+                const loss = results.cumulativeLearnerLoss.slice(-11, -1);
+                const sequenceLoss = loss[9] !== undefined ? (loss[9] - loss[0]) : (loss[8] - loss[0])
+                setSequenceLosses(sequenceLosses => [...sequenceLosses, sequenceLoss])
+
+                if (sequences.length === MAX_SEQUENCES_COUNT - 1) {
+                    setFinalResults(results);
+                    experts.map(expert => expert.awake = true);
+                }
             }
             
             const rawPrediction = results.learnerPredictions.slice(-1)[0].toFixed(3);
@@ -321,8 +331,22 @@ function App() {
                             </tbody>
                         </table>
                     </div>
-                    
+
                     <div className='sequences'>
+                        <div className='predictions'>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td className='predictions-label'><b>Correct Bits:</b></td>
+                                        <td className='predictions-value'><BitTile key='incorrect-bits' bit={correctBits}/></td>
+                                    </tr>
+                                    <tr>
+                                        <td className='predictions-label'><b>Incorrect Bits:</b></td>
+                                        <td className='predictions-value'><BitTile key='incorrect-bits' bit={incorrectBits}/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <table>
                             <tbody>
                                 <tr>
@@ -368,27 +392,40 @@ function App() {
                         {showPastSequences && <div className='scrollable'>
                             <table>
                                 <tbody>
-                                    {sequences.map((_, index) => (
-                                        <React.Fragment key={index}>
-                                            <tr>
-                                                <td rowSpan='2'><b>Sequence #{sequences.length - index}</b></td>
-                                                <td><b>Predicted:</b></td>
-                                                <td>
-                                                    {predictedSequences[sequences.length - index - 1].map((bit, idx) => (
-                                                        <BitTile key={`predicted-${index}-${idx}`} bit={bit === null ? '-': bit} />
-                                                    ))}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Actual:</b></td>
-                                                <td>
-                                                    {sequences[sequences.length - index - 1].split('').map((bit, index) =>(
-                                                        <BitTile key={`actual-${index}`} bit={bit} />
-                                                    ))}
-                                                </td>
-                                            </tr>
-                                        </React.Fragment>
-                                    ))}
+                                    {sequences.map((_, index) => {
+                                        const sequenceIndex = sequences.length - index - 1;
+                                        const predictedSequence = predictedSequences[sequenceIndex]
+                                        const actualSequence = sequences[sequenceIndex].split('');
+
+                                        const correctBits = predictedSequence.filter((bit, idx) => bit === parseInt(actualSequence[idx])).length;
+                                        const incorrectBits = predictedSequence.length - correctBits - (sequenceIndex === 0 ? 1 : 0)
+
+                                        return (
+                                            <React.Fragment key={index}>
+                                                <tr>
+                                                    <td rowSpan='2'><b>Sequence #{sequences.length - index}</b><br/>Total Loss: {sequenceLosses[sequences.length - index - 1].toFixed(3)}</td>
+                                                    <td><b>Predicted:</b></td>
+                                                    <td>
+                                                        {predictedSequences[sequences.length - index - 1].map((bit, idx) => (
+                                                            <BitTile key={`predicted-${index}-${idx}`} bit={bit === null ? '-': bit} />
+                                                        ))}
+                                                    </td>
+                                                    <td><b>Correct Bits:</b></td>
+                                                    <td><BitTile bit={correctBits}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Actual:</b></td>
+                                                    <td>
+                                                        {sequences[sequences.length - index - 1].split('').map((bit, index) =>(
+                                                            <BitTile key={`actual-${index}`} bit={bit} />
+                                                        ))}
+                                                    </td>
+                                                    <td><b>Incorrect Bits:</b></td>
+                                                    <td><BitTile bit={incorrectBits}/></td>
+                                                </tr>
+                                            </React.Fragment>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>}
@@ -466,37 +503,50 @@ function App() {
                     Download
                 </button>
                 <div className='email-instructions'>
-                    <p><i>Please download the results and email the file to <a href="mailto:Andrew.Barraclough.2018@live.rhul.ac.uk">Andrew.Barraclough.2018@live.rhul.ac.uk</a>.</i></p>
+                    <p><b><i>Please download the results and email the file to <a href="mailto:Andrew.Barraclough.2018@live.rhul.ac.uk">Andrew.Barraclough.2018@live.rhul.ac.uk</a>.</i></b></p>
                 </div>
                 <hr/>
                 <div className='past-sequences'>
                     <h2 className='heading'>Past Sequences</h2>
                     <div className='scrollable'>
-                        <table>
-                            <tbody>
-                                {sequences.map((_, index) => (
-                                    <React.Fragment key={index}>
-                                        <tr>
-                                            <td rowSpan='2'><b>Sequence #{sequences.length - index}</b></td>
-                                            <td><b>Predicted:</b></td>
-                                            <td>
-                                                {predictedSequences[sequences.length - index - 1].map((bit, idx) => (
-                                                    <BitTile key={`predicted-${index}-${idx}`} bit={bit === null ? '-': bit} />
-                                                ))}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Actual:</b></td>
-                                            <td>
-                                                {sequences[sequences.length - index - 1].split('').map((bit, index) =>(
-                                                    <BitTile key={`actual-${index}`} bit={bit} />
-                                                ))}
-                                            </td>
-                                        </tr>
-                                    </React.Fragment>
-                                ))}
-                            </tbody>
-                        </table>
+                    <table>
+                                <tbody>
+                                    {sequences.map((_, index) => {
+                                        const sequenceIndex = sequences.length - index - 1;
+                                        const predictedSequence = predictedSequences[sequenceIndex]
+                                        const actualSequence = sequences[sequenceIndex].split('');
+
+                                        const correctBits = predictedSequence.filter((bit, idx) => bit === parseInt(actualSequence[idx])).length;
+                                        const incorrectBits = predictedSequence.length - correctBits - (sequenceIndex === 0 ? 1 : 0)
+
+                                        return (
+                                            <React.Fragment key={index}>
+                                                <tr>
+                                                    <td rowSpan='2'><b>Sequence #{sequences.length - index}</b><br/>Total Loss: {sequenceLosses[sequences.length - index - 1].toFixed(3)}</td>
+                                                    <td><b>Predicted:</b></td>
+                                                    <td>
+                                                        {predictedSequences[sequences.length - index - 1].map((bit, idx) => (
+                                                            <BitTile key={`predicted-${index}-${idx}`} bit={bit === null ? '-': bit} />
+                                                        ))}
+                                                    </td>
+                                                    <td><b>Correct Bits:</b></td>
+                                                    <td><BitTile bit={correctBits}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Actual:</b></td>
+                                                    <td>
+                                                        {sequences[sequences.length - index - 1].split('').map((bit, index) =>(
+                                                            <BitTile key={`actual-${index}`} bit={bit} />
+                                                        ))}
+                                                    </td>
+                                                    <td><b>Incorrect Bits:</b></td>
+                                                    <td><BitTile bit={incorrectBits}/></td>
+                                                </tr>
+                                            </React.Fragment>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
                     </div>
                 </div>
             </div>

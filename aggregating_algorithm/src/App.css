@@ -113,8 +113,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 15px;
-  padding-bottom: 15px;
+  padding: 15px 0px;
 }
 
 .learner-prediction table {
@@ -267,8 +266,7 @@
   width: 75%;
   overflow-x: auto;
   margin: auto;
-  padding: 30px;
-  padding-bottom: 30px;
+  padding: 15px 1px;
   max-width: 75%;
   flex-direction: row-reverse;
 }
@@ -344,6 +342,47 @@
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.predictions {
+  display: flex;
+  height: 100px;
+  width: 30%;
+  height: 100%;
+  flex-direction: row-reverse;
+  margin-left: 25px;
+}
+
+.predictions table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 15px;
+  overflow: scroll;
+  box-shadow: 0 0 0 1px black;
+  table-layout: fixed;
+}
+
+.predictions table td:last-child {
+  border-left: 1px solid black;
+}
+
+.predictions table tbody tr:first-child td {
+  border-bottom: 1px solid black;
+}
+
+.predictions-label {
+  width: 50%;
+  text-align: left;
+}
+
+.predictions-value {
+  width: 50%;
+}
+
+.predictions table td {
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .switch {
