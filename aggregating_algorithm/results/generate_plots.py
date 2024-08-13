@@ -12,9 +12,10 @@ for length in range(1, 5):
 
 DIRECTORY = 'data'
 
-FILES = []
-for file in os.listdir(DIRECTORY):
-    FILES.append(file)
+FILES = [file for file in os.listdir(DIRECTORY)]
+COMBINED_NUMBER_OF_HEADS = {i: 0 for i in range(11)}
+COMBINED_NUMBER_OF_RUNS = {i: 0 for i in range(1, 11)}
+combined_length = 0
 
 for file in FILES:
     with open(f"{DIRECTORY}/{file}", "r") as f:
@@ -44,10 +45,12 @@ for file in FILES:
     NUMBER_OF_HEADS = {i: 0 for i in range(11)}
     NUMBER_OF_RUNS = {i: 0 for i in range(1, 11)}
     SEQUENCES = data["sequences"]
+    combined_length += len(SEQUENCES)
 
     for sequence in SEQUENCES:
         heads = sequence.count("1")
         NUMBER_OF_HEADS[heads] += 1
+        COMBINED_NUMBER_OF_HEADS[heads] += 1
         runs = 1
         last_bit = sequence[0]
 
@@ -57,7 +60,9 @@ for file in FILES:
             last_bit = bit
         
         NUMBER_OF_RUNS[runs] += 1
+        COMBINED_NUMBER_OF_RUNS[runs] += 1
 
+    # Number of Heads for Individual Results
     BINS = np.arange(0, 11)
     TOTAL_SEQUENCES = len(SEQUENCES)
     ACTUAL_DISTRIBUTION = [(NUMBER_OF_HEADS[i] / TOTAL_SEQUENCES) * 100 for i in range(11)]
@@ -87,6 +92,7 @@ for file in FILES:
     plt.legend()
     plt.savefig(f"{os.path.splitext(file)[0]}_number_of_heads.jpg", format="jpg")
 
+    # Number of Runs for Individual Files
     BINS = np.arange(1, 11)
     TOTAL_SEQUENCES = len(SEQUENCES)
     ACTUAL_DISTRIBUTION = [(NUMBER_OF_RUNS[i] / TOTAL_SEQUENCES) * 100 for i in BINS]
@@ -116,3 +122,62 @@ for file in FILES:
     plt.legend()
     plt.savefig(f"{os.path.splitext(file)[0]}_number_of_runs.jpg", format="jpg")
 
+# Number of Heads for Combined Results
+BINS = np.arange(0, 11)
+TOTAL_SEQUENCES = combined_length
+ACTUAL_DISTRIBUTION = [(COMBINED_NUMBER_OF_HEADS[i] / TOTAL_SEQUENCES) * 100 for i in range(11)]
+THEORETICAL_DISTRIBUTION = binom.pmf(BINS, 10, 0.5) * 100
+plt.figure(figsize=(10, 10))
+plt.bar(
+    BINS + 0.2,
+    THEORETICAL_DISTRIBUTION,
+    width=0.4,
+    label="Theoretical",
+    color="#C6C6C6",
+    edgecolor="black",
+    alpha=0.75,
+)
+plt.bar(
+    BINS - 0.2,
+    ACTUAL_DISTRIBUTION,
+    width=0.4,
+    label="Actual",
+    color="#929292",
+    edgecolor="black",
+    alpha=0.75,
+)
+plt.xlabel("Number of Heads $(n)$")
+plt.ylabel("Percentage of Sequences")
+plt.grid(axis='y')
+plt.legend()
+plt.savefig(f"combined_number_of_heads.jpg", format="jpg")
+
+# Number of Runs for Combined Results
+BINS = np.arange(1, 11)
+TOTAL_SEQUENCES = combined_length
+ACTUAL_DISTRIBUTION = [(COMBINED_NUMBER_OF_RUNS[i] / TOTAL_SEQUENCES) * 100 for i in BINS]
+THEORETICAL_DISTRIBUTION = binom.pmf(BINS - 1, 9, 0.5) * 100
+plt.figure(figsize=(10, 10))
+plt.bar(
+    BINS + 0.2,
+    THEORETICAL_DISTRIBUTION,
+    width=0.4,
+    label="Theoretical",
+    color="#C6C6C6",
+    edgecolor="black",
+    alpha=0.75,
+)
+plt.bar(
+    BINS - 0.2,
+    ACTUAL_DISTRIBUTION,
+    width=0.4,
+    label="Actual",
+    color="#929292",
+    edgecolor="black",
+    alpha=0.75,
+)
+plt.xlabel("Number of Runs $(r)$")
+plt.ylabel("Percentage of Sequences")
+plt.grid(axis='y')
+plt.legend()
+plt.savefig(f"combined_number_of_runs.jpg", format="jpg")
