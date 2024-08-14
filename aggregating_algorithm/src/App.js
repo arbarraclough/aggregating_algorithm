@@ -279,7 +279,7 @@ function App() {
             <p className='heading'><b><u>Instructions:</u></b></p>
             <ul className='instructions'>
                 <li>Type each of your 10-item sequences in the input box provided.</li>
-                <li>They will appear as one, long sequence since this is how the prediciton algorithm works, but will be separated into 10-item sequences on-screen when applicable.</li>
+                <li>They will appear as one, long sequence since this is how the prediction algorithm works, but will be separated into 10-item sequences on-screen when applicable.</li>
                 <li>Work at your own pace, but try to avoid any predictable patterns and ensure your sequences are as random as possible.</li>
                 <li>Backspace is disabled, so consider your input carefully before pressing each key.</li>
                 <li>The application will attempt to predict your next input based on your previous inputs.</li>
@@ -568,7 +568,7 @@ function App() {
             <p><b><u>Instructions:</u></b></p>
             <ul>
                 <li>Type each of your 10-item sequences in the input box provided.</li>
-                <li>They will appear as one, long sequence since this is how the prediciton algorithm works, but will be separated into 10-item sequences on-screen when applicable.</li>
+                <li>They will appear as one, long sequence since this is how the prediction algorithm works, but will be separated into 10-item sequences on-screen when applicable.</li>
                 <li>Work at your own pace, but try to avoid any predictable patterns and ensure your sequences are as random as possible.</li>
                 <li>Backspace is disabled, so consider your input carefully before pressing each key.</li>
                 <li>The application will attempt to predict your next input based on your previous inputs.</li>
