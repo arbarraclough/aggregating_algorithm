@@ -1,21 +1,10 @@
-\subsection{Prediction with Expert Advice}
+\subsection{Prediction with Expert Advice}\label{section:prediction_with_expert_advice}
+While understanding Perceived Randomness highlights the limitations of human intuition in recognising and generating random sequences, these insights naturally extend to the domain of prediction, particularly in scenarios where decisions must be made with some level of uncertainty. Just as individuals struggle to perceive randomness accurately, the issue may extend to how they generate ``random'' sequences, accidentally creating predictable patterns that may emerge as a result of subconscious biases they are unaware of. This is where the concept of Prediction with Expert Advice becomes relevant. The following sections will explore the mechanics of On-line Prediction and Prediction with Expert Advice, then introduce two methods used to combine the advice from a pool of Experts in order to improve prediction accuracy.
+
 \subsubsection{Introduction to On-line Prediction}
+Within the areas of Machine Learning and Statistics, there lies the problem of accurately ``predicting future events based on past observations''~\cite{cesa-bianchi:1997}  known as \textit{On-line Prediction}\textemdash{}the framework for which is displayed below. This problem refers to methods where a model makes predictions sequentially and updates its parameters in real-time as new data points become available. There is a particular class of algorithm that is designed to tackle this, with one of the most notable being the ``Strong'' Aggregating Algorithm proposed by Volodymyr Vovk~\cite{vovk:1990} which forms the basis of this study. The adjective ``Strong'' is emphasised with inverted commas to help distinguish the algorithm from the ``Weak'' Aggregating Algorithm proposed by Yuri Kalnishkan and Michael Vyugin~\cite{kalnishkan/vyugin:2008} that will be touched upon but not explored in detail in this dissertation.
 
-\noindent Within the areas of Machine Learning and Statistics, there lies the problem of accurately ``predicting future events based on past observations''~\cite{cesa-bianchi:1997}  known as \textit{on-line prediction}. This problem refers to methods where a model makes predictions sequentially and updates its parameters in real-time as new data points become available. There is a particular class of algorithm that is designed to tackle this, with one of the most notable being the ``Strong'' Aggregating Algorithm proposed by Volodymyr Vovk~\cite{vovk:1990} which forms the basis of this study. The adjective ``Strong'' is emphasised with inverted commas to help distinguish the algorithm from the ``Weak'' Aggregating Algorithm proposed by Yuri Kalnishkan and Michael Vyugin~\cite{kalnishkan/vyugin:2008} that will be touched upon but not explored in detail in this dissertation.
-
-Given that the foundations of this dissertation lie firmly in this subject area, this section aims to lay a comprehensive foundation, exploring the key concepts and frameworks that will set the stage for the discussions in Chapter \textbf{TODO}.
-
-\paragraph*{On-line Prediction, Batch Learning and Timeseries Analysis}
-Herein the first distinction between on-line prediction and the traditional batch learning framework. With batch learning, a whole training set of labelled examples $(x_i, y_i)$ is given to the learner at once in order to train a model. In contrast, on-line learning involves gradually feeding the learner information over time, requiring the model to continuously adapt to the new data it is given while requiring the learner to take actions on the basis of the information it already possesses instead of waiting for a complete picture.~\cite{kalnishkan:2015} This forced adaptability ensures that the predictions outputted by the algorithm remain accurate based on the information that the model deems as relevant as it gains additional knowledge, making these models particularly valuable in applications that require immediate responses and fluidity such as financial market analysis and weather forecasting.
-
-Another distinction that needs to be made is between on-line prediction and timeseries analysis as, while these are both ways of handling sequential data in machine learning and statistics, they are unique. On-line learning is based on processing data points sequentially and updating predictive models in real-time whereas timeseries analysis is based on modelling and forecasting data that is collected over successive time intervals. The prior approach does not impose any strict assumptions about the underlying data-generating process, even going so far as to not assume the existence of such a process~\cite{vovk:2001}, while the latter assumes a structured approach where observations are dependent on previous observations. These are typically modelled using stochastic processes such as \textit{autoregressive integrated moving average (ARIMA)} or \textit{state-space} models~\cite{box:2015}. The majority of the literature on On-line Prediction takes a similar stance that no assumptions can be made about the sequence of outcomes that are observed. Because of this, the analyses are done over the worst-case and may be better in reality~\cite{cesa-bianchi:1997}.
-
-\paragraph*{Notation}
-In on-line prediction, we consider a scenario where the elements of a sequence, known as \textit{\textbf{outcomes}}, $\omega_t$ occur at discrete times $\omega_1, \omega_2, \ldots$ which we assume to be drawn from a known \textit{\textbf{outcome space}} $\Omega$. In this problem, a learner is tasked with making \textit{\textbf{predictions}} $\gamma_t$ about these \textit{outcomes} one at a time before they occur. Similarly, we assume that the learner's predictions are drawn from a known \textit{\textbf{prediction space}} $\Gamma$ which may or may not be the same as the \textit{outcome space} $\Omega$.
-
-Once the learner has made their \textit{prediction}, the true \textit{outcome} is then revealed and the quality of the learner's prediction is assessed by a \textit{\textbf{loss function}} $\lambda(\gamma_t, \omega_t)$. This function measures the discrepancy between the \textit{prediction} and \textit{outcome} or, more generally, quantifies the effect of when the \textit{prediction} $\gamma_t$ is confronted with the \textit{outcome} $\omega_t$~\cite{adamskiy:2019} by mapping the input space $\Gamma \times \Omega$ to a subset of the real-number line $\mathbb{R}$, typically $[0, +\infty)$~\cite{kalnishkan:2009}.
-
-Across several time steps $T$, the learner will suffer multiple losses which can be referred to as their cumulative loss up to time $T$. Their performance is measured by this cumulative loss, so their natural objective is to suffer as low a cumulative loss as they can.
+Given that the foundations of this dissertation lie firmly in this subject area, this section aims to lay a comprehensive foundation, exploring the key concepts and frameworks that will set the stage for the discussions in Chapter~\ref{section:analysis_of_perceived_randomness}.
 
 \begin{protocol}[H]
     \caption{On-line Prediction Framework}\label{on-line_prediction_framework}
@@ -28,15 +17,43 @@ Across several time steps $T$, the learner will suffer multiple losses which can
     \end{algorithmic}
 \end{protocol}
 
+\paragraph{On-line Prediction, Batch Learning and Timeseries Analysis}
+To effectively explain On-line Prediction, we must also compare and contrast it with some alternative frameworks used in Machine Learning: Batch Learning and Timeseries Analysis.
+
+First, we will make a distinction between the On-line Prediction and traditional Batch Learning frameworks. With Batch Learning, a whole training set of labelled examples $(x_i, y_i)$ is given to the learner at once in order to train a model. In contrast, On-line Learning involves gradually feeding the learner information over time, requiring the model to continuously adapt to the new data it is given while requiring the learner to take actions on the basis of the information it already possesses instead of waiting for a complete picture.~\cite{kalnishkan:2015} This forced adaptability ensures that the predictions outputted by the algorithm remain accurate based on the information that the model deems as relevant as it gains additional knowledge, making these models particularly valuable in applications that require immediate responses and fluidity such as financial market analysis and weather forecasting.
+
+The second distinction that needs to be made is between On-line Prediction and Timeseries Analysis as, while these are both ways of handling sequential data in machine learning and statistics, they are unique. On-line learning is based on processing data points sequentially and updating predictive models in real-time whereas Timeseries Analysis is based on modelling and forecasting data that is collected over successive time intervals. The prior approach does not impose any strict assumptions about the underlying data-generating process, even going so far as to not assume the existence of such a process~\cite{vovk:2001}, while the latter assumes a structured approach where observations are dependent on previous observations. These are typically modelled using stochastic processes such as \textit{autoregressive integrated moving average (ARIMA)} or \textit{state-space} models~\cite{box:2015}. The majority of the literature on On-line Prediction takes a similar stance that no assumptions can be made about the sequence of outcomes that are observed. Because of this, the analyses are done over the worst-case and may be better in reality~\cite{cesa-bianchi:1997}.
+
+\paragraph{Notation}
+Having now clearly defined what On-line Prediction is not, we can now explore the notation of Protocol~\ref{on-line_prediction_framework} represents. Consider a scenario where the elements of a sequence, known as \textit{\textbf{outcomes}}, $\omega_t$ occur at discrete times $\omega_1, \omega_2, \ldots$ which we assume to be drawn from a known \textit{\textbf{outcome space}} $\Omega$. In this problem, a learner is tasked with making \textit{\textbf{predictions}} $\gamma_t$ about these \textit{outcomes} one at a time before they occur. Similarly, we assume that the learner's predictions are drawn from a known \textit{\textbf{prediction space}} $\Gamma$ which may or may not be the same as the \textit{outcome space} $\Omega$.
+
+Once the learner has made their \textit{prediction}, the true \textit{outcome} is then revealed and the quality of the learner's prediction is assessed by a \textit{\textbf{loss function}} $\lambda(\gamma_t, \omega_t)$. This function measures the discrepancy between the \textit{prediction} and \textit{outcome} or, more generally, quantifies the effect of when the \textit{prediction} $\gamma_t$ is confronted with the \textit{outcome} $\omega_t$~\cite{adamskiy:2019} by mapping the input space $\Gamma \times \Omega$ to a subset of the real-number line $\mathbb{R}$, typically $[0, +\infty)$~\cite{kalnishkan:2009}.
+
+Across several time steps $T$, the learner will suffer multiple losses which can be referred to as their cumulative loss up to time $T$. Their performance is measured by this cumulative loss, so their natural objective is to suffer as low a cumulative loss as they can.
+
 \paragraph{Games and Mixability}
-The combination of a \textit{prediction space}, \textit{outcome space}, and \textit{loss function} can be referred to with a triple $<\Gamma, \Omega, \lambda>$, known as a \textit{\textbf{Game}} $G$. \textit{TODO: Explain mixability and touch on (Kalnishkan \& Vyugin, 2008)}~\cite{kalnishkan/vyugin:2008}
+With the necessary notation established, we can now delve into the concepts of \textbf{\textit{games}} and \textbf{\textit{mixability}}, which introduce a strategic perspective to On-line Prediction. Formally, a \textit{game} $\mathcal{G}$ refers to the combination of a \textit{prediction space}, \textit{outcome space}, and \textit{loss function} denoted with the triple $<\Gamma, \Omega, \lambda>$. 
+
+The reason for it being referred to as a game is because it encapsulates the interactive and adversarial nature of the problem, closely resembling the framework of a repeated game in Game Theory. Given our setup, the learner performs sequential decision-making and must output a prediction from $\Gamma$ without knowing the outcome from $\Omega$ in advance. This highlights the adversarial nature of the problem because of the conflicting goals between the Learner and Nature; the Learner's goal is to minimise their cumulative loss over time, while Nature's goal is to inflict the as much cumulative loss to the Learner as possible over time, similar to how players in a game must develop strategies to optimise their performance based on the information available to them and the actions of the other player(s). These objectives are often measured in terms of ``regret'' which measures the difference between the Learner's prediction and Nature's outcome in hindsight.
+
+Following this, \textit{mixability} refers to a property of the loss function which allows for the efficient aggregation of probabilistic predictions in order to minimise the cumulative loss over time.
+
+More precisely, a loss function $\lambda : \Gamma \times \Omega \rightarrow \mathbb{R}$ is \textit{mixable} if there exists a constant $\eta > 0$ such that, for any set of probabilistic predictons $\{\gamma_i\}^N_{i=1}$ over the outcomes in $\Omega$, there exists an aggregated or ``mixed'' prediction $\gamma \in \Gamma$ that satisfies the following inequality:
+
+\begin{equation}
+    \forall\omega \in \Omega \Rightarrow \lambda(\gamma, \omega) \leq -\frac{1}{\eta}\log(\overset{N}{\underset{i=1}{\sum}} \omega_i e^{-\eta\lambda(\gamma_i, \omega)})
+\end{equation}
+
+The significance of mixability in On-line Prediction is that it allows the Learner to combine predictions from multiple sources, which is critical for Prediction with Expert Advice as it ensures that the aggregated prediction incurs a loss that is close to the best possible weighted combination of the individual predictions, meaning that mixable prediciton strategies can compete with, or outperform, any fixed prediction strategy in hindsight.
 
 \subsubsection{Prediction with Expert Advice}
+Now that the principles of On-line Prediction have been established, the next step is to explore how these prediction techniques can be improved by incorporating the advice obtained from a pool of experts. By utilising the insights and predictions gained by having access to multiple experts, we can improve the accuracy and reliability of our prediction model, particularly in complex scenarios where expertise can play a crucial role.
+
 \textbf{Framework:} Description of the prediction with expert advice framework.\newline
 \textbf{Mechanisms:} Detailed explanation of how this framework operates.\newline
 \noindent\rule{\textwidth}{0.1pt}
 \begin{protocol}[H]
-    \caption{Prediction with Expert Advice Framework}\label{alg:cap}
+    \caption{Prediction with Expert Advice Framework}\label{prediction_with_expert_advice_framework}
     \begin{algorithmic}[1]
         \State{FOR $t = 1, 2, \ldots$}
         \State{\hspace{\algorithmicindent} experts $E_1, \ldots, E_N$ output predictions}$\gamma^1_t, \ldots, \gamma^N_t \in \Gamma$
@@ -49,11 +66,13 @@ The combination of a \textit{prediction space}, \textit{outcome space}, and \tex
 \end{protocol}
 
 \subsubsection{Aggregating Algorithm (AA)}
+Having now established the value of expert advice when attempting to make predictions, we must now explore how to effectively integrate it into our predictive models. The Aggregating Algorithm is one of the key algorithms that addresses this challenge, providing a way to combine various expert opinions into a single, actionable prediction that is informed via weighting.
+
 \textbf{Algorithm Description:} Introduction to the Aggregating Algorithm.\newline
 \textbf{Functionality:} How the Aggregating Algorithm works in practice.\newline
 \noindent\rule{\textwidth}{0.1pt}
 \begin{algorithm}[H]
-    \caption{Aggregating Algorithm (AA)}\label{alg:cap}
+    \caption{Aggregating Algorithm (AA)}\label{aggregationg_algorithm}
     \begin{algorithmic}[1]
         \State{initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$}
         \State{FOR $t = 1, 2, \ldots$}
@@ -71,9 +90,9 @@ The combination of a \textit{prediction space}, \textit{outcome space}, and \tex
 \end{equation}
 
 \subsubsection{Aggregating Algorithm for Specialist Experts (AASE)}
-\noindent Having introduced the Aggregating Algorithm in its base form, we can now discuss the modification that this paper's experiment will be centred around: the Aggregating Algorithm for Specialist Experts.
+While the Aggregating Algorithm provides a robust framework for incorporating expert advice, there are certain scenarios that require a more nuanced approach. This is where the Aggregating Algorithm for Specialist Expert comes into play, which will be the approach that this study's experiment is centred.
 
-The use of the term `specialist' was first introduced by the work of Avrim Blum~\cite{blum:1997} for the Winnow and Weighted-Majority algorithms, and can be thought of as a natural extension to traditional experts insofar as it enables these `specialists' to abstain from making a prediction ``when the current expert does not fall into their `specialty'\''. While the criteria for an expert to abstain from making a prediction is sufficient in our context, it can also be extended to allow for other scenarios like those suggested in~\cite{kalnishkan:2022}, namely if ``a prediction algorithm [sees] that its internal confidence is low and [decides] to skip a turn in order to re-train'' or if a prediction algorithm breaks down, as would be the case if a regression algorithm ``[has] its matrix very close to singular.''
+The use of the term `specialist' was first introduced by the work of Avrim Blum~\cite{blum:1997} for the Winnow and Weighted-Majority algorithms, and can be thought of as a natural extension to traditional experts insofar as it enables these `specialists' to abstain from making a prediction ``when the current expert does not fall into their `[speciality]'\''. While the criteria for an expert to abstain from making a prediction is sufficient in our context, it can also be extended to allow for other scenarios like those suggested in~\cite{kalnishkan:2022}, namely if ``a prediction algorithm [sees] that its internal confidence is low and [decides] to skip a turn in order to re-train'' or if a prediction algorithm breaks down, as would be the case if a regression algorithm ``[has] its matrix very close to singular.''
 
 In order to accommodate these specialist experts, the Prediction with Expert Advice Framework given in (\ref{on-line_prediction_framework}) has to be modified as follows:
 \begin{protocol}[H]
@@ -90,7 +109,7 @@ In order to accommodate these specialist experts, the Prediction with Expert Adv
     \end{algorithmic}
 \end{protocol}
 
-As referenced above, another colloquial way of referring to `specialist experts' is `sleeping experts'; Freund postulated that ``a specialist is awake when it makes a prediction and that it is asleep otherwise'', going so far as to refer to the traditional on-line prediction framework as ``the insomniac framework since it is a special case in which all specialists are awake all the time.''~\cite{freund:1997} This colloquialism is useful when adapting the bounds of the base Aggregating Algorithm because a natural interpretation of what happens when an expert is sleeping is that it simply ``joins the crowd''~\cite{kalnishkan:2022}, meaning that it mimics the learner's prediction on the time steps that it is asleep because the learner's prediction is formed based on the weighted majority of experts' predictions. Given this definition, it can be seen that on some time steps $t$, the learner's prediction and the expert $\mathcal{E}_i$'s predictions are the same; $\gamma_t = \gamma_t^i$.
+As referenced above, another colloquial way of referring to `specialist experts' is `sleeping experts'; Freund postulated that ``a specialist is awake when it makes a prediction and that it is asleep otherwise'', going so far as to refer to the traditional On-line Prediction framework as ``the insomniac framework since it is a special case in which all specialists are awake all the time.''~\cite{freund:1997} This colloquialism is useful when adapting the bounds of the base Aggregating Algorithm because a natural interpretation of what happens when an expert is sleeping is that it simply ``joins the crowd''~\cite{kalnishkan:2022}, meaning that it mimics the learner's prediction on the time steps that it is asleep because the learner's prediction is formed based on the weighted majority of experts' predictions. Given this definition, it can be seen that on some time steps $t$, the learner's prediction and the expert $\mathcal{E}_i$'s predictions are the same; $\gamma_t = \gamma_t^i$.
 Recall that, in the mixable case, the Aggregating Algorithm guarantees that the following inequality is satisfied:
 \begin{equation*}
     \overset{T}{\underset{t=1}{\sum}}\lambda(\gamma_t, \omega_t) \leq \overset{T}{\underset{t=1}{\sum}}\lambda(\gamma_t^i, \omega_t) + \frac{1}{\eta} \ln \frac{1}{q_i}
