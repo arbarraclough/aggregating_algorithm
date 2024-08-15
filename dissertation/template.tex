@@ -26,7 +26,7 @@
 \newcounter{protocol}
 \makeatletter
 \newenvironment{protocol}[1][htb]{
-  \let\c@algorithm\c@protocol
+  \let\c@algorithm\c@protocol{}
   \renewcommand{\ALG@name}{Protocol}
   \begin{algorithm}[#1]
   }{\end{algorithm}
@@ -47,7 +47,7 @@
 \begin{document}
 \maketitle
 
-\declaration
+\declaration{}
 
 \begin{abstract}
   Your abstract goes here.
