@@ -15,6 +15,7 @@ DIRECTORY = "data"
 FILES = [file for file in os.listdir(DIRECTORY)]
 COMBINED_NUMBER_OF_HEADS = {i: 0 for i in range(11)}
 COMBINED_NUMBER_OF_RUNS = {i: 0 for i in range(1, 11)}
+COMBINED_LENGTH_OF_RUNS = {i: 0 for i in range(1, 11)}
 combined_length = 0
 
 for file in FILES:
@@ -45,10 +46,21 @@ for file in FILES:
 
     NUMBER_OF_HEADS = {i: 0 for i in range(11)}
     NUMBER_OF_RUNS = {i: 0 for i in range(1, 11)}
+    LENGTH_OF_RUNS = {i: 0 for i in range(1, 11)}
     SEQUENCES = data["sequences"]
     combined_length += len(SEQUENCES)
-
     for sequence in SEQUENCES:
+        current_run_length = 1
+        for i in range(1, len(sequence)):
+            if sequence[i] == sequence[i - 1]:
+                current_run_length += 1
+            else:
+                LENGTH_OF_RUNS[current_run_length] += 1
+                COMBINED_LENGTH_OF_RUNS[current_run_length] += 1
+                current_run_length = 1
+        LENGTH_OF_RUNS[current_run_length] += 1
+        COMBINED_LENGTH_OF_RUNS[current_run_length] += 1
+
         heads = sequence.count("1")
         NUMBER_OF_HEADS[heads] += 1
         COMBINED_NUMBER_OF_HEADS[heads] += 1
@@ -191,4 +203,42 @@ plt.ylabel("Percentage of Sequences")
 plt.grid(axis="y")
 plt.legend()
 plt.savefig(f"combined_number_of_runs.jpg", format="jpg")
+plt.close()
+
+# Run Length for Combined Results
+BINS = np.arange(1, 11)
+TOTAL_RUNS = sum(COMBINED_LENGTH_OF_RUNS.values())
+THEORETICAL_DISTRIBUTION = []
+for r in range(1, 11):
+    if r < 10:
+        probability = 0.5**r * 100
+    else:
+        probability = 0.5 ** (r - 1) * 100
+    THEORETICAL_DISTRIBUTION.append(probability)
+
+ACTUAL_DISTRIBUTION = [(COMBINED_LENGTH_OF_RUNS[i] / TOTAL_RUNS) * 100 for i in BINS]
+plt.figure(figsize=(10, 10))
+plt.bar(
+    BINS + 0.2,
+    THEORETICAL_DISTRIBUTION,
+    width=0.4,
+    label="Theoretical",
+    color="#C6C6C6",
+    edgecolor="black",
+    alpha=0.75,
+)
+plt.bar(
+    BINS - 0.2,
+    ACTUAL_DISTRIBUTION,
+    width=0.4,
+    label="Actual",
+    color="#929292",
+    edgecolor="black",
+    alpha=0.75,
+)
+plt.xlabel("Length of Runs $(r)$")
+plt.ylabel("Percentage of Sequences")
+plt.grid(axis="y")
+plt.legend()
+plt.savefig(f"combined_length_of_runs.jpg", format="jpg")
 plt.close()
