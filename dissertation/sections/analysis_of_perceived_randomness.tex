@@ -4,3 +4,36 @@
 \textbf{Results:} Detailed presentation of findings.\newline
 \textbf{Discussion:} Interpretation of results in the context of perceived randomness.\newline
 \textbf{Comparison with Literature:} How the findings align or differ from existing research.\newline
+
+As discussed throughout the paper, a human's perception of randomness often deviates significantly from true mathematical randomness due to their inherent cognitive biases. This chapter delves into the findings from the experiment conducted, aiming to uncover patterns in how individuals judge and interpret random sequences.
+
+\begin{itemize}
+    \item Histograms of Aggregated Results
+    \item Chi-Square Goodness of Fit Test
+    \item Loss Line Charts
+    \item Differences in Human- and AI-Generated Sequences
+\end{itemize}
+
+\subsection{Chi-Square Goodness of Fit Tests}
+
+\subsubsection{Distribution of the Number of Heads}
+
+\subsubsection{Distribution of the Number of Runs}
+
+\subsubsection{Distribution of Run Lengths}
+
+\subsection{Regret Analysis}
+
+As previously discussed, the Learner uses the predictions of various Experts in order to form its own prediction of the next bit that will be entered by the subject (acting as Nature in this context). The subject's task is to input bits in a way that is random, and thereby unpredictable to the Learner.
+
+In the line chart, when the line is above the x-axis, it means that the difference between the individual expert's loss and the learner's is positive. This means that the expert is performing worse than the learner's method of aggregating predictions.
+
+When the difference is negative, it indicates that the learner is performing worse than the expert, implying that the expert's predictions were close to the actual bits entered by the subject.
+
+If a plot frequently shows the learner's loss being less than that of the experts, it suggests the learner is effectively combining the experts' predicitons and could imply that the subject's bit sequence has some underlying patterns or predictability that the learner is able to exploit, despite the subject's attempt to be random.
+
+Conversely, if the line is frequently above the x-axis, it could indicate that the learner is not effectively aggregating the experts' predicitons, possibly because the subject's sequence is truly random and highly unpredictable. This could suggest that the subject's notion of randomness is strong, and that the learner struggles to predict the next bit accurately.
+
+If the subject's input is truly random, no expert nor the learner should consistently outperform random guessing. The plot might show a mix of positive and negative values, with no clear trend. This randomness would make it difficult for the learner to maintain a consistent advantage.
+
+If the subject's input is only perceived as random, then the learner might perform better over time by effectively leveraging the experts. A plot with the learner frequently outperforming the experts suggests that the subject's sequence is not truly random and that the learner is able to exploit subtle patterns.
