@@ -4,6 +4,24 @@ import numpy as np
 import os
 from scipy.stats import binom
 
+def count_runs(sequence):
+    if not sequence:
+        return []
+    
+    run_lengths = []
+    current_run_length = 1
+    
+    for i in range(1, len(sequence)):
+        if sequence[i] == sequence[i - 1]:
+            current_run_length += 1
+        else:
+            run_lengths.append(current_run_length)
+            current_run_length = 1
+    
+    run_lengths.append(current_run_length)
+    
+    return run_lengths
+
 PREFIXES = []
 for length in range(1, 5):
     for i in range(2**length):
@@ -29,7 +47,7 @@ for file in FILES:
     NUM_EXPERTS = len(CUMULATIVE_EXPERTS_LOSSES[0])
     AGGREGATING_ALGORITHM_BOUND = -(1.0 / 2.0) * np.log(NUM_EXPERTS)
 
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(5, 5))
     for i in range(len(CUMULATIVE_EXPERTS_LOSSES[0])):
         plt.plot(
             np.arange(T),
@@ -39,8 +57,8 @@ for file in FILES:
     plt.axhline(y=0, color="black", linestyle="-")
     plt.axhline(y=AGGREGATING_ALGORITHM_BOUND, color="black", linestyle="--")
     plt.title("Differences of Cumulative Losses vs. Time")
-    plt.xlabel("Time Step")
-    plt.ylabel("Loss")
+    plt.xlabel("Time Step", fontsize=15)
+    plt.ylabel("Loss", fontsize=15)
     plt.savefig(f"{os.path.splitext(file)[0]}_differences.jpg", format="jpg")
     plt.close()
 
@@ -50,16 +68,10 @@ for file in FILES:
     SEQUENCES = data["sequences"]
     combined_length += len(SEQUENCES)
     for sequence in SEQUENCES:
-        current_run_length = 1
-        for i in range(1, len(sequence)):
-            if sequence[i] == sequence[i - 1]:
-                current_run_length += 1
-            else:
-                LENGTH_OF_RUNS[current_run_length] += 1
-                COMBINED_LENGTH_OF_RUNS[current_run_length] += 1
-                current_run_length = 1
-        LENGTH_OF_RUNS[current_run_length] += 1
-        COMBINED_LENGTH_OF_RUNS[current_run_length] += 1
+        run_lengths = count_runs(sequence)
+        for length in run_lengths:
+            LENGTH_OF_RUNS[length] += 1
+            COMBINED_LENGTH_OF_RUNS[length] += 1
 
         heads = sequence.count("1")
         NUMBER_OF_HEADS[heads] += 1
@@ -82,7 +94,7 @@ for file in FILES:
         (NUMBER_OF_HEADS[i] / TOTAL_SEQUENCES) * 100 for i in range(11)
     ]
     THEORETICAL_DISTRIBUTION = binom.pmf(BINS, 10, 0.5) * 100
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(5, 5))
     plt.bar(
         BINS + 0.2,
         THEORETICAL_DISTRIBUTION,
@@ -101,10 +113,10 @@ for file in FILES:
         edgecolor="black",
         alpha=0.75,
     )
-    plt.xlabel("Number of Heads $(n)$")
-    plt.ylabel("Percentage of Sequences")
+    plt.xlabel("Number of Heads $(n)$", fontsize=15)
+    plt.ylabel("Percentage of Sequences", fontsize=15)
     plt.grid(axis="y")
-    plt.legend()
+    plt.legend(fontsize=15)
     plt.savefig(f"{os.path.splitext(file)[0]}_number_of_heads.jpg", format="jpg")
     plt.close()
 
@@ -113,7 +125,7 @@ for file in FILES:
     TOTAL_SEQUENCES = len(SEQUENCES)
     ACTUAL_DISTRIBUTION = [(NUMBER_OF_RUNS[i] / TOTAL_SEQUENCES) * 100 for i in BINS]
     THEORETICAL_DISTRIBUTION = binom.pmf(BINS - 1, 9, 0.5) * 100
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(5, 5))
     plt.bar(
         BINS + 0.2,
         THEORETICAL_DISTRIBUTION,
@@ -132,10 +144,10 @@ for file in FILES:
         edgecolor="black",
         alpha=0.75,
     )
-    plt.xlabel("Number of Runs $(r)$")
-    plt.ylabel("Percentage of Sequences")
+    plt.xlabel("Number of Runs $(r)$", fontsize=15)
+    plt.ylabel("Percentage of Sequences", fontsize=15)
     plt.grid(axis="y")
-    plt.legend()
+    plt.legend(fontsize=15)
     plt.savefig(f"{os.path.splitext(file)[0]}_number_of_runs.jpg", format="jpg")
     plt.close()
 
@@ -146,7 +158,7 @@ ACTUAL_DISTRIBUTION = [
     (COMBINED_NUMBER_OF_HEADS[i] / TOTAL_SEQUENCES) * 100 for i in range(11)
 ]
 THEORETICAL_DISTRIBUTION = binom.pmf(BINS, 10, 0.5) * 100
-plt.figure(figsize=(10, 10))
+plt.figure(figsize=(10, 5))
 plt.bar(
     BINS + 0.2,
     THEORETICAL_DISTRIBUTION,
@@ -165,10 +177,11 @@ plt.bar(
     edgecolor="black",
     alpha=0.75,
 )
-plt.xlabel("Number of Heads $(n)$")
-plt.ylabel("Percentage of Sequences")
+plt.xticks(np.arange(0, 11, 1))
+plt.xlabel("Number of Heads $(n)$", fontsize=15)
+plt.ylabel("Percentage of Sequences", fontsize=15)
 plt.grid(axis="y")
-plt.legend()
+plt.legend(fontsize=15)
 plt.savefig(f"combined_number_of_heads.jpg", format="jpg")
 plt.close()
 
@@ -179,7 +192,7 @@ ACTUAL_DISTRIBUTION = [
     (COMBINED_NUMBER_OF_RUNS[i] / TOTAL_SEQUENCES) * 100 for i in BINS
 ]
 THEORETICAL_DISTRIBUTION = binom.pmf(BINS - 1, 9, 0.5) * 100
-plt.figure(figsize=(10, 10))
+plt.figure(figsize=(10, 5))
 plt.bar(
     BINS + 0.2,
     THEORETICAL_DISTRIBUTION,
@@ -198,26 +211,31 @@ plt.bar(
     edgecolor="black",
     alpha=0.75,
 )
-plt.xlabel("Number of Runs $(r)$")
-plt.ylabel("Percentage of Sequences")
+plt.xticks(np.arange(1, 11, 1))
+plt.xlabel("Number of Runs $(r)$", fontsize=15)
+plt.ylabel("Percentage of Sequences", fontsize=15)
 plt.grid(axis="y")
-plt.legend()
+plt.legend(fontsize=15)
 plt.savefig(f"combined_number_of_runs.jpg", format="jpg")
 plt.close()
 
 # Run Length for Combined Results
 BINS = np.arange(1, 11)
-TOTAL_RUNS = sum(COMBINED_LENGTH_OF_RUNS.values())
-THEORETICAL_DISTRIBUTION = []
-for r in range(1, 11):
-    if r < 10:
-        probability = 0.5**r * 100
-    else:
-        probability = 0.5 ** (r - 1) * 100
-    THEORETICAL_DISTRIBUTION.append(probability)
-
-ACTUAL_DISTRIBUTION = [(COMBINED_LENGTH_OF_RUNS[i] / TOTAL_RUNS) * 100 for i in BINS]
-plt.figure(figsize=(10, 10))
+THEORETICAL_LENGTH_OF_RUNS = {
+    1: 3072,
+    2: 1408,
+    3: 640,
+    4: 288,
+    5: 128,
+    6: 56,
+    7: 24,
+    8: 10,
+    9: 4,
+    10: 2
+}
+THEORETICAL_DISTRIBUTION = [(THEORETICAL_LENGTH_OF_RUNS[i] / sum(THEORETICAL_LENGTH_OF_RUNS.values())) * 100 for i in BINS]
+ACTUAL_DISTRIBUTION = [(COMBINED_LENGTH_OF_RUNS[i] / sum(COMBINED_LENGTH_OF_RUNS.values())) * 100 for i in BINS]
+plt.figure(figsize=(10, 5))
 plt.bar(
     BINS + 0.2,
     THEORETICAL_DISTRIBUTION,
@@ -236,9 +254,10 @@ plt.bar(
     edgecolor="black",
     alpha=0.75,
 )
-plt.xlabel("Length of Runs $(r)$")
-plt.ylabel("Percentage of Sequences")
+plt.xticks(np.arange(1, 11, 1))
+plt.xlabel("Length of Runs $(m)$", fontsize=15)
+plt.ylabel("Percentage of Runs", fontsize=15)
 plt.grid(axis="y")
-plt.legend()
+plt.legend(fontsize=15)
 plt.savefig(f"combined_length_of_runs.jpg", format="jpg")
 plt.close()
