@@ -48,7 +48,9 @@ for file in FILES:
     AGGREGATING_ALGORITHM_BOUND = -(1.0 / 2.0) * np.log(NUM_EXPERTS)
 
     plt.figure(figsize=(5, 5))
+    print(file)
     for i in range(len(CUMULATIVE_EXPERTS_LOSSES[0])):
+        print(f"Expert {PREFIXES[i]} - Learner: {CUMULATIVE_EXPERTS_LOSSES[:, i][-1] - CUMULATIVE_LEARNER_LOSS[-1]}")
         plt.plot(
             np.arange(T),
             CUMULATIVE_EXPERTS_LOSSES[:, i] - CUMULATIVE_LEARNER_LOSS,

@@ -33,7 +33,7 @@ Having now clearly defined what On-line Prediction is and is not, we can delve i
 
 Consider a scenario where the elements of a sequence, known as \textbf{\textit{outcomes}} $\omega_t$, occur at discrete time steps $t \in T$ $\omega_1, \omega_2, \ldots, \omega_T$ which we assume to be drawn from a known \textbf{\textit{outcome space}} $\Omega$. In this scenario, the Learner is tasked with making \textbf{\textit{predictions}} $\gamma_t$ about these outcomes before they occur. Similarly to the outcomes themselves, we assume that the Learner's predictions are drawn from a known \textbf{\textit{prediction space}} $\Gamma$ which may or may not be the same as the outcome space $\Omega$.
 
-Once the Learner has made their prediction, the true outcome is revealed and the quality of the Learner's prediction is measured by \textbf{\textit{loss function}} $\lambda(\gamma_t, \omega_t)$. In essence, this function measures the discrepancy between the prediction and the outcome—known as ``regret'', meaning it quantifies the effect of when the prediction $\gamma_t$ is confronted with the outcome $\omega_t$ in hindsight. It does this by mapping the input space $\Gamma \times \Omega$ to a subset of the real-number like $mathbb{R}$, typically $[0, +\infty)$~\cite{kalnishkan:2009}.
+Once the Learner has made their prediction, the true outcome is revealed and the quality of the Learner's prediction is measured by \textbf{\textit{loss function}} $\lambda(\gamma_t, \omega_t)$. In essence, this function measures the discrepancy between the prediction and the outcome—known as ``regret'', meaning it quantifies the effect of when the prediction $\gamma_t$ is confronted with the outcome $\omega_t$ in hindsight. It does this by mapping the input space $\Gamma \times \Omega$ to a subset of the real-number like $\mathbb{R}$, typically $[0, +\infty)$~\cite{kalnishkan:2009}.
 
 \begin{equation}
     \lambda(\gamma_t, \omega_t): \Gamma \times \Omega \rightarrow [0, +\infty)
@@ -42,7 +42,7 @@ Once the Learner has made their prediction, the true outcome is revealed and the
 Across multiple time steps $T$, the Learner will suffer multiple individual losses which can be referred to collectively as the cumulative loss up until time $T$ defined below. The Learner's performance is effectively measured by this cumulative loss, so their natural objective is to try to suffer as low a cumulative loss ass possible.
 
 \begin{equation}
-    \text{Loss}_L(T) = \underset{t=1}{\overset{T}{\sum}} \lambda(\gamma_t, \omega_t)
+    \text{Loss}_T(L) = \underset{t=1}{\overset{T}{\sum}} \lambda(\gamma_t, \omega_t)
 \end{equation}
 
 \paragraph{Games}\label{paragraph:games}
@@ -51,8 +51,6 @@ With the necessary notation established, we can now delve into the related conce
 Formally, a Game $G$ is denoted with the triple $\langle \Gamma, \Omega, \lambda \rangle$ which refers to a specific prediction space, outcome space and loss function. Informally, it makes sense to refer to this triple as a game because it encapsulates the interactive, yet adversarial, nature of the problem due to conflicting goals of the Learner and Nature which closely resembles the \textbf{\textit{Repeated Game}} framework discussed in Game Theory~\cite{mertens:1990}.
 
 For our purposes, the Learner must perform sequential decision-making and must output a prediction $\gamma$ taken from $\Gamma$ without knowing the true outcome $\omega$ from $\Omega$ in advance which highlights the imbalance in the game and the potential for adversarial games to be played. Given that the Learner's goal is to minimise their cumulative loss, it is natural to assume that Nature's goal is to select outcomes $\omega$s that try to inflict as much cumulative loss on the Learner over time as possible which is similar to how two players in an adversarial game, such as chess, must develop strategies to optimise their performance based on the information available to them and the the actions they have seen from the other player(s).
-
-\textbf{<TODO: INCLUDE EXAMPLES OF GAMES>}
 
 \subsubsection{Prediction with Expert Advice}\label{subsubsection:prediction_with_expert_advice}
 With the foundations of On-line Prediction established, we can now focus on a more nuanced approach to prediction: Prediction with Expert Advice. The approach builds on the existing framework presented in Protocol~\ref{on-line_prediction_framework} by introducing a critical element in the form of the aggregation of multiple Experts' opinions with the central idea being that, by harnessing the insights and predictions from a pool of Experts, the Learner can make more informed and accurate predictions, particularly in complex scenarios with high levels of uncertainty and/or incomplete information.
@@ -77,17 +75,19 @@ The theoretical basis for this framework lies in the theory that no single Exper
 In non-adversarial scenarios, it is safe to assume that the Experts' goal is to minimise the individual cumulative losses over time much like the Learner, however, we cannot safely assume that every Expert in the pool will behave in such a manner. Because of this, we must develop a framework to essentially treat each Expert in the pool as a black box, meaning that the Learner has no knowledge of the internal prediction mechanisms of each Expert nor what each individual Expert's goal is, to guarantee that the cumulative loss suffered by the Learner is almost as good as the cumulative loss suffered by the best Expert.
 
 \begin{equation}
-    \forall n, \forall T: \text{Loss}_L(T) \lesssim \text{Loss}_{E_n}(T)
+    \forall n, \forall T: \text{Loss}_T(L) \lesssim \text{Loss}_T(E_n)
 \end{equation}
 
 \paragraph{Mixability}\label{paragaph:mixability}
 Before we continue to delve into potential solutions for the problem of Prediction with Expert Advice, it is vital that we introduce another vital concept known as \textbf{\textit{mixability}} which refers to a property of the loss function that allows for efficient aggregation of probabilistic predictions.
 
-More precisely, a loss function $\lambda(\gamma_t, \omega_t): \Gamma \times \Omega \rightarrow [0, +\infty)$ is called mixable if there exists a constant $\eta > 0$ such that there exists an aggregated (``mixed'') prediction $\gamma \in \Gamma$ that satisfies the following inequality for any set of probabilistic predictions $\{\gamma^i\}^N_{i=1}$ over the outcomes in $\Omega$:
+More precisely, a loss function $\lambda(\gamma_t, \omega_t): \Gamma \times \Omega \rightarrow [0, +\infty)$ is called mixable if there exists a constant $\eta > 0$ such that there exists an aggregated (``mixed'') prediction $\gamma \in \Gamma$ that satisfies the following inequality for any set of probabilistic predictions $\{\gamma^i\}^N_{i=1}$ over the outcomes in $\Omega$:~\cite{kalnishkan:2022}
 
 \begin{equation}
-    \lambda(\gamma_t, \omega_t) \leq - \frac{1}{\eta}\underset{n=1}{\overset{N}{\sum}} p^n e^{-\eta\lambda(\gamma^n_t, \omega_t)}
+    \lambda(\gamma_t, \omega_t) \leq - \frac{1}{\eta}\underset{n=1}{\overset{N}{\sum}} p^n_{t-1} e^{-\eta\lambda(\gamma^n_t, \omega_t)}
 \end{equation}
+
+where $p^n_{t=1} = \frac{1}{N}e^{-\eta \text{Loss}_{\mathcal{E}_i}(t-1)}/{\sum^N_{n=1}\frac{1}{N}e^{-\eta\text{Loss}_{\mathcal{E}_i}(t-1)}}$\newline
 
 The significance of this is that it allows the Learner to effectively combine the predictions from multiple sources, ensuring that the aggregated predictions suffer a loss that is close, if not equal, to the best possible weighted combination of individual predictions. Ultimately, this means that mixable prediction strategies can compete with, or outperform, any fixed prediction strategy with hindsight.
 
@@ -145,7 +145,7 @@ With this notation, it can be seen how the Halving Algorithm is actually a speci
 The upper bound for a Weighted Majority Algorithm is as follows:
 
 \begin{equation}
-    \text{Loss}_L(T) \leq \frac{\ln (\frac{1}{\beta})}{\ln (\frac{2}{1 + \beta})} \text{Loss}_{E_n}(T) + \frac{\ln(N)}{\ln(\frac{2}{1+\beta})}
+    \text{Loss}_L(T) \leq \frac{\ln (\frac{1}{\beta})}{\ln (\frac{2}{1 + \beta})} \text{Loss}_{\mathcal{E}_i}(T) + \frac{\ln(N)}{\ln(\frac{2}{1+\beta})}
 \end{equation}
 
 The proof for this bound is more complicated than the proof for the Halving Algorithm and, thus, will not be discussed in this paper but can be found at~\cite{littlestone:1994}.
@@ -153,15 +153,30 @@ The proof for this bound is more complicated than the proof for the Halving Algo
 In the next subsection, we will explore the Aggregating Algorithm, the final method of merging Experts' predictions and a concrete implementation of the Prediction with Expert Advice that formalises how a Learner's predictions are made as accurate as possible.
 
 \subsubsection{Aggregating Algorithm (AA)}\label{subsubsection:aggregating_algorithm}
-Having now established the value of Expert advice when attempting to make predictions, we must now explore how to effectively integrate it into our predictive models. The Aggregating Algorithm is one of the key algorithms that addresses this challenge, providing a way to combine various Expert opinions into a single, actionable prediction that is informed via weighting.
+Having now established the value of Expert advice when attempting to make predictions, we must now explore how to effectively integrate it into our predictive models. The Aggregating Algorithm is one of the key algorithms that addresses this challenge, providing a way to combine various Expert opinions into a single, actionable prediction that is informed via weighting~\cite{vovk:1990}.
 
-Much like the Weighted Majority Algorithm discussed previously, the Aggregating Algorithm works by maintaining a set of weights for each Expert, representing the Learner's confidence in the accuracy of their predictions. As predictions are made over time, these weights are adjusted based on the loss associated with each expert's predictions with Experts that output predictions closer to the actual outcomes being rewarded with higher weights and Experts that perform poorly being punished with their weights reduced.
+Much like the Weighted Majority Algorithm discussed previously, the Aggregating Algorithm works by maintaining a set of weights for each Expert, representing the Learner's confidence in the accuracy of their predictions. As predictions are made over time, these weights are adjusted based on the loss associated with each Expert's predictions with Experts that output predictions closer to the actual outcomes being rewarded with higher weights and Experts that perform poorly being punished with their weights reduced. The Aggregating Algorithm uses also a learning rate ($\eta$) to control how severely an expert is punished for an incorrect prediction however, unlike the Weighted Majority Algorithm, the weights are normalised at each time step. This normalisation step ensures that, on each time step, the Learner's prediction is a probabilistic aggregation of the Experts', rather than a weighted majority vote. To maintain the mixability condition discussed in~\ref{paragaph:mixability}, a \textbf{\textit{mixability constant}}, $C(\eta)$, is introduced that is associated with the learning rate $\eta$. This constant determines how effectively the Experts' predictions can be combined for some $\eta > 0$, specifically in the inequality that bounds the Learner's loss.
 
-\noindent\rule{\textwidth}{0.1pt}
+As this study is concerned with the \textit{discrete binary game} which has been proven to be mixable in~\cite{vovk:2001},~\cite{kalnishkan/vyugin:2008}, and~\cite{kalnishkan:2022}, we can take $C(\eta) = 1$ such that:
 
-\textbf{Algorithm Description:} Introduction to the Aggregating Algorithm.\newline
-\textbf{Functionality:} How the Aggregating Algorithm works in practice.\newline
-\noindent\rule{\textwidth}{0.1pt}
+\begin{equation}
+    \lambda(\gamma,\omega) \leq -\frac{1}{\eta}\ln\underset{n=1}{\overset{N}{\sum}}p^ne^{-\eta\lambda(\gamma^n, \omega)}
+\end{equation}
+
+and
+
+\begin{equation}
+    e^{-\eta\text{Loss}_L(T)} \geq \underset{n=1}{\overset{N}{\sum}}\frac{1}{N}e^{-\eta\text{Loss}_{\mathcal{E}_i}(T)}
+\end{equation}
+
+\noindent Finally, by dropping all-but-one term and taking the logarithm, we get: 
+
+\begin{equation}
+    \text{Loss}_L(T) \leq \text{Loss}_{\mathcal{E}_i}(T) + \frac{1}{\eta}\ln\frac{1}{q_i}
+\end{equation}
+
+where $q_i$ is an arbitrary weight set when initialising the experts.
+
 \begin{algorithm}[ht]
     \caption{Aggregating Algorithm (AA)}\label{algorithm:aggregationg_algorithm}
     \begin{algorithmic}[1]
@@ -175,10 +190,6 @@ Much like the Weighted Majority Algorithm discussed previously, the Aggregating 
         \State{END FOR}
     \end{algorithmic}
 \end{algorithm}
-
-\begin{equation}
-    \text{Loss}_T(L) \leq C \cdot \text{Loss}_T(\mathcal{E}_i) + \frac{C}{\eta}\ln\frac{1}{q_i}
-\end{equation}
 
 \subsubsection{Aggregating Algorithm for Specialist Experts (AASE)}\label{subsubsection:aggregating_algorithm_for_specialist_experts}
 While the Aggregating Algorithm provides a robust framework for incorporating Expert advice, there are certain scenarios that require a more nuanced approach. This is where the Aggregating Algorithm for Specialist Expert comes into play, which will be the approach that this study's experiment is centred.
@@ -203,17 +214,9 @@ In order to accommodate these Specialist Experts, the Prediction with Expert Adv
 As referenced above, another colloquial way of referring to `Specialist Experts' is `sleeping Experts'; Freund postulated that ``a Specialist is awake when it makes a prediction and that it is asleep otherwise'', going so far as to refer to the traditional On-line Prediction framework as ``the insomniac framework since it is a special case in which all Specialists are awake all the time.''~\cite{freund:1997} This colloquialism is useful when adapting the bounds of the base Aggregating Algorithm because a natural interpretation of what happens when an Expert is sleeping is that it simply ``joins the crowd''~\cite{kalnishkan:2022}, meaning that it mimics the learner's prediction on the time steps that it is asleep because the learner's prediction is formed based on the weighted majority of Experts' predictions. Given this definition, it can be seen that on some time steps $t$, the learner's prediction and the Expert $\mathcal{E}_i$'s predictions are the same; $\gamma_t = \gamma_t^i$.
 Recall that, in the mixable case, the Aggregating Algorithm guarantees that the following inequality is satisfied:
 
-\begin{equation*}
-    \overset{T}{\underset{t=1}{\sum}}\lambda(\gamma_t, \omega_t) \leq \overset{T}{\underset{t=1}{\sum}}\lambda(\gamma_t^i, \omega_t) + \frac{1}{\eta} \ln \frac{1}{q_i}
-\end{equation*}
-
-Typically, the Aggregating Algorithm's performance is measured in terms of the learner's cumulative loss compared to the best Expert's cumulative loss but given that, on certain time steps $t$, $gamma_t = \gamma_t^i$, it is clear that the corresponding terms in both sums cancel out and what is left are the sums over the time steps where the learner's and the Expert's predictions are different, i.e.\ where Expert $\mathcal{E}_i$ is awake. What follows from this is that, instead of wanting the learner's loss to be nearly as good as the best Expert's loss over a period of time $T$, we judge the Aggregating Algorithm for Specialist Experts' performance based on the learner's loss compared to the best Expert's $\mathcal{E}_i$ loss over the steps in which it was awake. A learner following the algorithm achieves a cumulative loss that satisfies the following inequality:
-
 \begin{equation}
-    \overset{T}{\underset{\substack{t=1,2,\ldots,T:\\\mathcal{E}_i\text{ is awake}\\\text{on step }t}}{\sum}}\lambda(\gamma_t, \omega_t) \leq C \cdot \overset{T}{\underset{\substack{t=1,2,\ldots,T:\\\mathcal{E}_i\text{ is awake}\\\text{on step }t}}{\sum}} \lambda(\gamma^i_t, \omega_t) + \frac{C}{\eta}\ln\frac{1}{q_i}
+    \overset{T}{\underset{t=1}{\sum}}\lambda(\gamma_t, \omega_t) \leq \overset{T}{\underset{t=1}{\sum}}\lambda(\gamma_t^i, \omega_t) + \frac{1}{\eta} \ln \frac{1}{q_i}
 \end{equation}
-
-As is the case for the traditional Aggregating Algorithm, we make no assumptions about the outcome-generating mechanism (including the existence of such a mechanism) and this bound holds for \textit{any} adversarial strategy, meaning that the adversary cannot inflict a large loss on the learner without inflicting a large loss on the Specialists and ensuring that the performance will be good whenever there is a good mixture of Specialists.
 
 \begin{algorithm}[ht]
     \caption{Aggregating Algorithm for Specialist Experts (AASE)}\label{algorithm:aggregating_algorithm_for_specialist_experts}
@@ -229,3 +232,11 @@ As is the case for the traditional Aggregating Algorithm, we make no assumptions
         \State{END FOR}
     \end{algorithmic}
 \end{algorithm}
+
+Typically, the Aggregating Algorithm's performance is measured in terms of the learner's cumulative loss compared to the best Expert's cumulative loss but given that, on certain time steps $t$, $gamma_t = \gamma_t^i$, it is clear that the corresponding terms in both sums cancel out and what is left are the sums over the time steps where the learner's and the Expert's predictions are different, i.e.\ where Expert $\mathcal{E}_i$ is awake. What follows from this is that, instead of wanting the learner's loss to be nearly as good as the best Expert's loss over a period of time $T$, we judge the AASE's performance based on the learner's loss compared to the best Expert's $\mathcal{E}_i$ loss over the steps in which it was awake. A learner following the algorithm achieves a cumulative loss that satisfies the following inequality:
+
+\begin{equation}
+    \overset{T}{\underset{\substack{t=1,2,\ldots,T:\\\mathcal{E}_i\text{ is awake}\\\text{on step }t}}{\sum}}\lambda(\gamma_t, \omega_t) \leq \overset{T}{\underset{\substack{t=1,2,\ldots,T:\\\mathcal{E}_i\text{ is awake}\\\text{on step }t}}{\sum}} \lambda(\gamma^i_t, \omega_t) + \frac{1}{\eta}\ln\frac{1}{q_i}
+\end{equation}
+
+As is the case for the traditional Aggregating Algorithm, we make no assumptions about the outcome-generating mechanism (including the existence of such a mechanism) and this bound holds for \textit{any} adversarial strategy, meaning that the adversary cannot inflict a large loss on the learner without inflicting a large loss on the Specialists and ensuring that the performance will be good whenever there is a good mixture of Specialists.

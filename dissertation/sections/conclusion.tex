@@ -1,5 +1,43 @@
-\section{Conclusions \textit{(1,500)}}\label{section:conclusions}
-\textbf{Summary of Findings:} Recap of the main findings of the study.\newline
-\textbf{Contributions:} Discussion on the contributions of the study to the field.\newline
-\textbf{Limitations:} Identification of any limitations encountered during the research.\newline
-\textbf{Future Work:} Suggestions for future research based on the findings and limitations of this study.\newline
+\section{Conclusion}\label{section:conclusion}
+\subsection{Summary of Findings}\label{subsection:summary_of_findings}
+The study aimed to assess the human capacity to generate random sequences using the Aggregating Algorithm for Specialist Experts (AASE), offering a novel insight into the well-documented difficulty humans have in producing truly random sequences due to cognitive biases and patterns.
+
+The chi-square tests, as detailed in Section~\ref{subsection:chi-square_goodness-of-fit}, consistently rejected the null hypothesis, indicating significant deviations from objective randomness in human-generated sequences, consistent with previous reserach~\cite{nickerson:2009}. The AASE analysis further confirmed the presence of predictable patterns in the individual data, with timeseries plots showing consistent trends below the x-axis, demonstrating systematic patterns rather than randomness with specific prefixes.
+
+However, when the sequences from multiple participants were aggregated, the sequences displayed qualitative similarities to true randomness. While individual sequences did not mimick true randomness, the combined output tended towards what was expected of a random process, suggesting that group outputs might offset individual biases.
+
+Overall, these results align with cognitive psychology research, reinforcing the idea that humans struggle to produce truly random outputs for a variety of reasons, including cognitive and motor biases. This study adds to the body of research illustrating that human-generated sequences are often more predictable than expected, despite a conscious effort to avoid patterns.
+
+\subsection{Limitations}\label{subsection:limitations}
+While this study's findings are significant, certain limitations must be acknowledged and addressed in future research.
+
+The first limitation relates to computational power; The AASE implementation was restricted to analysing prefixes up to length 4 as a compromise between computational efficiency and predictive performance. However, considering longer prefixes \textendash{} extending to the limits of short-term memory \textendash{} could uncover more intricate and nuanced patterns in human-generated sequences.
+
+A second limitation is the small sample size of the study. With only seven participants, individual data heavily influenced the overall results, potentially limiting the study's generalisability.
+
+Future research should aim to explore longer prefixes, as well as recruit a larger, more diverse sample to minimise the effects of individual biases in the aggregated results, and to offer a broader evaluation of human randomisation behaviour.
+
+
+
+\subsection{How to Use the Project}\label{subsection:how_to_use_the_project}
+As mentioned in Subsection~\ref{subsection:procedure}, the main web application is hosted online on GitHub Pages at the following URL.
+\begin{center}
+    \url{https://arbarraclough.github.io/aggregating_algorithm/}
+\end{center}
+
+To use the project, navigate to the website and follow the instructions provided on-screen to conduct the experiment. Once the experiment has concluded, the JSON will be available to download, either to send to\newline\href{mailto:Andrew.Barraclough.2018@live.rhul.ac.uk}{Andrew.Barraclough.2018@live.rhul.ac.uk}, or to store within the directory, \verb|./aggregating_algorithm/results/data|.
+
+Once the JSON file has been moved, one can run the Python script for generating the plots shown in this report by executing the following command from the directory \verb|./aggregating_algorithm/results/|:
+
+\begin{center}
+    \verb|python3 generate_plots.py|
+\end{center}
+
+\subsection{Self-Assessment}\label{subsection:self-assessment}
+This dissertation has been an incredible journey, and I am incredibly proud of the result. Not only has it deepened my understanding of the Aggregating Algorithm, it also taught me how to manage a personal project. Upon reflection, I can confidently say that the project was a success, both in  achieving the objectives outlined in Chapter~\ref{section:introduction} and in preparing for my career.
+
+This is not to say that the project was not without its challenges. While I was familiar with Python, developing a web application with React.js was a new experience and required more time to learn that I had originally anticipated. This unforeseen challenge caused delays in my project's timeline that could have been avoided with more cautious planning.
+
+Despite this, this experience has significantly boosted my confidence as a future Machine Learning Engineer. I have learned the value of setting realistic deadlines, effectively using online resources, and staying current with research\textemdash{}all skills that will be invaluable in the future.
+
+Looking ahead, I plan to explore the \textbf{Mixture of Experts (MoE)} ensemble machine learning technique as it is conceptually similar to Prediction with Expert Advice, with applications in neural networks that specialise in different aspects of data.
