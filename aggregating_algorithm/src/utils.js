@@ -29,7 +29,7 @@ export const aggregatingAlgorithm = (
     /** Step 2: Repeat for t \in T... */
     for (let t = 0; t < T; t++) {
       /** Step 3: Read the experts' predictions \gamma^n_t of awake experts */
-      let gammas_t = gammas[t];
+      let gammas_t = gammas[t+1];
       expertsPredictions.push(gammas_t);
 
       /** Maintain a list of awake experts */
