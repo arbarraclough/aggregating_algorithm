@@ -15,9 +15,10 @@ for i, file in enumerate(FILES):
     with open(f"{DIRECTORY}/{file}", "r") as f:
         data = json.load(f)
 
-    OUTCOMES = [int(item) for sublist in data["sequences"] for item in sublist]
+    OUTCOMES = [int(item) for sublist in data["sequences"] for item in sublist][1:]
     RAW_LEARNER_PREDICTIONS = data["learnerPredictions"]
-    CASTED_LEARNER_PREDICTIONS = [round(prediction) for prediction in RAW_LEARNER_PREDICTIONS]
+    CASTED_LEARNER_PREDICTIONS = [round(prediction) for prediction in RAW_LEARNER_PREDICTIONS][:-1]
+    CASTED_LEARNER_PREDICTIONS.insert(0, 0)
 
     COMPARISON = [outcome == prediction for outcome, prediction in zip(OUTCOMES, CASTED_LEARNER_PREDICTIONS)]
 
