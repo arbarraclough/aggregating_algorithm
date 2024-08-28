@@ -1,12 +1,8 @@
 \subsection{Prediction with Expert Advice}\label{subsection:prediction_with_expert_advice}
-While understanding Perceived Randomness highlights the limitations of human intuition in recognising and generating random sequences, these insights naturally extend to the domain of prediction, particularly in scenarios where decisions must be made with some level of uncertainty. Just as individuals struggle to perceive randomness accurately, the issue may extend to how they generate ``random'' sequences, accidentally creating predictable patterns that may emerge as a result of subconscious biases they are unaware of. This is where the concept of Prediction with Expert Advice becomes relevant. The following sections will explore the mechanics of On-line Prediction and Prediction with Expert Advice, then introduce two methods used to combine the advice from a pool of Experts to improve prediction accuracy.
+Having explored Perceived Randomness, which underlines the limitations of human intuition in regards to both recognising and generating random sequences, we can now extend the insights gained to the domain of prediction, particularly in scenarios where decisions must be made with some level of uncertainty. Given that the literature suggests that individuals struggle to produce random sequences, this could manifest in the form of predictable patterns that occur as a result of subconscious biases that the individuals themselves may be unaware of. To test this hypothesis, this study will make use of Prediction with Expert Advice to attempt to pre-empt what a subject is about to generate, prior to them pressing a key.
 
 \subsubsection{Introduction to On-line Prediction}\label{subsubsection:introduction_to_on-line_prediction}
-Within the areas of Machine Learning and Statistics, there lies the problem of accurately ``predicting future events based on past observations''~\cite{cesa-bianchi:1997} known as On-line Prediction\textemdash{}the framework for which is displayed below. This problem refers to methods where a model makes predictions sequentially and updates its parameters in real time as new data points become available.
-
-There is a particular class of algorithms that are designed to tackle this, with one of the most notable being the ``Strong'' Aggregating Algorithm proposed by Volodymyr Vovk~\cite{vovk:1990} which forms the basis of this study. The adjective ``Strong'' is emphasised with speech marks to help distinguish it from the ``Weak'' Aggregating Algorithm proposed by Yuri Kalnishkan and Michael Vyugin~\cite{kalnishkan/vyugin:2008} which will not be explored in detail in this paper.
-
-Given that the foundations of this study lie firmly within On-line Prediction, this section aims to lay a comprehensive foundation, exploring the key concepts and frameworks that will set the stage for the discussions in Chapter~\ref{section:analysis_of_perceived_randomness}.
+Within the areas of Machine Learning and Statistics, there lies the problem of accurately ``predicting future events based on past observations''~\cite{cesa-bianchi:1997} known as On-line Prediction. The problem involves methods in which a model makes predictions sequentially, updating its parameters in real time as new data becomes available, as shown in Protocol~\ref{on-line_prediction_framework}.
 
 \begin{protocol}[H]
     \caption{On-line Prediction Framework}\label{on-line_prediction_framework}
@@ -19,41 +15,38 @@ Given that the foundations of this study lie firmly within On-line Prediction, t
     \end{algorithmic}
 \end{protocol}
 
+There is a particular class of algorithm that is designed to solve this problem, with one of the most notable\textemdash{}forming the basis of this study\textemdash{}being the ``Strong'' Aggregating Algorithm proposed by Volodymyr Vovk~\cite{vovk:1990}. ``Strong'' is emphasised with speech marks to assist in distinguishing it from the ``Weak'' Aggregating Algorithm proposed by Yuri Kalnishkan and Michael Vyugin~\cite{kalnishkan/vyugin:2008} that will not be explore in detailed in this study.
+
+Given that this study will primarily be investigating the domain of On-line Prediction, this subsection aims to lay a comprehensive foundation, explaining the key concepts and frameworks, to conduct an effective analysis in Chapter~\ref{section:analysis_of_perceived_randomness}.
+
 \paragraph{On-line Prediction, Batch Learning and Timeseries Analysis}\label{paragraph:on-line_prediction_batch_learning_and_timeseries_analysis}
-To effectively explain On-line Prediction, we must first compare and contrast it with some alternative frameworks used in Machine Learning: Batch Learning and Timeseries Analysis.
+To begin, let us compare and contrast On-line Prediction with alternative frameworks commonly used in Machine Learning: Batch Learning and Timeseries Analysis.
 
-First, we will explore the distinction between the On-line Prediction and Batch Learning frameworks. With Batch Learning, a whole training set of labelled examples $(x_i, y_i)$ is given to the Learner at once and used to train a model. In contrast, On-line Prediction involves gradually feeding the Learner information over time, requiring any models made to continuously adapt to the new data it is given whilst also requiring the Learner to take actions based on the incomplete information it currently possesses rather than waiting for the complete picture~\cite{kalnishkan:2015}. This forced adaptability ensures that the predictions outputted by an On-line Prediction algorithm remain accurate to the information that the model deems as relevant as it continues to gain additional information. This fact makes these models particularly valuable in applications that require immediate responses and flexibility in predictions, such as financial market analysis and weather forecasting.
+We will first examine the distinction between the On-line Prediction and Batch Learning frameworks. With Batch Learning, a whole training set of labelled examples of the form $(x_i, y_i)$ is given to the Learner at once and used to train a model. In contrast, On-line Prediction involves gradually feeding the Learner information over time, requiring any models made to continuously adapt to the new data that it is given, whilst also requiring the Learner to take actions based on the (possibly incomplete) information it currently possesses rather than waiting for a complete picture~\cite{kalnishkan:2015}. This forced adaptability ensures that the predictions outputted by an On-line Prediction model remain accurate to the information that the model deems to be relevant and stores as it continues to gain additional information. Because of this, these models are particularly valuable in applications that require immediate responses and flexibility in predictions, such as with financial market analysis, and weather forecasting.
 
-The second distinction we will explore is between On-line Prediction and Timeseries Analysis since, while they are both ways of handling sequential data, they are unique. On-line Prediction is based on processing data points sequentially and updating a predictive model in real time whereas Timeseries Analysis is based on modelling and forecasting data that is collected over successive time intervals. The prior approach does not impose any strict assumptions about the underlying data-generating process, even going so far as to not assume the existence of such a process~\cite{vovk:2001}, while the latter assumes a structured approach in which the current observation is dependent on the previous observations. This assumption leads to the data-generating processes being modelled with stochastic processes, such as \textit{autoregressive integrated moving average (ARIMA)} or \textit{state-space models}~\cite{box:2015}.
+Secondly, we will explore the distinction between On-line Prediction and Timeseries Analysis since, while both are ways of handling sequential data, they are unique. On-line Prediction is based on processing data points sequentially, updating a predictive model in real time while doing so whereas Timeseries Analysis is based on modelling and forecasting data that is collected over successive time intervals. The prior approach does not impose any strict assumptions about the underlying data-generating process, even going so far as to not assume the existence of such a process~\cite{vovk:2001}, while the latter assumes a strictly structured approach in which the current observation is dependent on the previous observation(s). This assumption leads to the data-generating processes being modelled with stochastic models, such as \textit{autoregressive integrated moving average (ARIMA)} or \textit{state-space models}~\cite{box:2015}.
 
-The majority of literature on On-line Prediction takes a similar stance that no assumptions can be made about the sequence of outcomes that are observed and, because of this, the analyses are done over the worst-case scenario and may, in fact, be better in reality~\cite{cesa-bianchi:1997}.
+Contrastingly, the majority of On-line Prediction literature takes a similar stance that no assumptions can be made about the sequence of outcomes observed, therefore the analyses are done according to the worst-case scenario as a result and may, in fact, be better in reality~\cite{cesa-bianchi:1997}.
 
 \paragraph{Notation}\label{paragraph:notation}
-Having now clearly defined what On-line Prediction is and is not, we can delve into the notation Protocol~\ref{on-line_prediction_framework} presents.
+Having defined the On-line Prediction Framework and compared it to the alternative frameworks of Batch Learning and Timeseries Analysis, we can now formalise the notation presented in Protocol~\ref{on-line_prediction_framework}.
 
-Consider a scenario where the elements of a sequence, known as \textbf{\textit{outcomes}} $\omega_t$, occur at discrete time steps $t \in T$ $\omega_1, \omega_2, \ldots, \omega_T$ which we assume to be drawn from a known \textbf{\textit{outcome space}} $\Omega$. In this scenario, the Learner is tasked with making \textbf{\textit{predictions}} $\gamma_t$ about these outcomes before they occur. Similarly to the outcomes themselves, we assume that the Learner's predictions are drawn from a known \textbf{\textit{prediction space}} $\Gamma$ which may or may not be the same as the outcome space $\Omega$.
+Consider a scenario where the elements of a sequence, known as \textbf{\textit{outcomes}} $\omega_t$ occur at discrete time steps $t \in T$, denoted $\omega_1, \omega_2, \ldots, \omega_T$. We assume that these outcomes are drawn from a known \textbf{\textit{outcome space}} $\Omega$.  In this scenario, the Learner is tasked with making \textbf{\textit{predictions}} $\gamma_t$ about the outcomes prior to their occurrence and, similarly to the outcomes, we assume that the predictions are drawn from a known \textbf{\textit{prediction space}} $\Gamma$ that may or may not be the same as $\Omega$.
 
-Once the Learner has made their prediction, the true outcome is revealed and the quality of the Learner's prediction is measured by \textbf{\textit{loss function}} $\lambda(\gamma_t, \omega_t)$. In essence, this function measures the discrepancy between the prediction and the outcome\textemdash{}known as ``regret'', meaning it quantifies the effect of when the prediction $\gamma_t$ is confronted with the outcome $\omega_t$ in hindsight. It does this by mapping the input space $\Gamma \times \Omega$ to a subset of the real number like $\mathbb{R}$, typically $[0, +\infty)$~\cite{kalnishkan:2009}.
+After the Learner has made their prediction for the next outcome in the sequence, the true outcome is revealed, and the quality of the Learner's prediction is measured by a loss function, denoted $\lambda(\gamma_t, \omega_t)$. This function measures the discrepancy between the prediction and the outcome that is known as ``\textbf{\textit{regret}}'', quantifying the effect of the prediction $\gamma_t$ being confronted with the outcome $\omega_t$ in hindsight by mapping the input space $\Gamma \times \Omega$ to a subset of the real number line $\mathbb{R}$, typically $[0, +\infty)$~\cite{kalnishkan:2009}.
 
 \begin{equation}
     \lambda(\gamma_t, \omega_t): \Gamma \times \Omega \rightarrow [0, +\infty)
 \end{equation}
 
-Across multiple time steps $T$, the Learner will suffer multiple individual losses which can be referred to collectively as the cumulative loss up until time $T$, defined below. The Learner's performance is effectively measured by this cumulative loss, so their natural objective is to try to suffer as low a cumulative loss as possible.
+Over multiple time steps, the Learner will suffer multiple Losses which is often referred to collectively as the Cumulative Loss up until time $T$, as shown in Equation~\ref{algorithm:loss_function}. The Learner's performance is effectively measured by this Cumulative Loss, so their natural objective is to try to minimise this value.
 
-\begin{equation}
+\begin{equation}\label{algorithm:loss_function}
     \text{Loss}_T(L) = \underset{t=1}{\overset{T}{\sum}} \lambda(\gamma_t, \omega_t)
 \end{equation}
 
-\paragraph{Games}\label{paragraph:games}
-With the necessary notation established, we can now delve into the related concept of a \textbf{\textit{Game}} which introduces a strategic perspective to On-line Prediction.
-
-Formally, a Game $G$ is denoted with the triple $\langle \Gamma, \Omega, \lambda \rangle$ which refers to a specific prediction space, outcome space and loss function. Informally, it makes sense to refer to this triple as a game because it encapsulates the interactive, yet adversarial, nature of the problem due to conflicting goals of the Learner and Nature which closely resembles the \textbf{\textit{Repeated Game}} framework discussed in Game Theory~\cite{mertens:1990}.
-
-For our purposes, the Learner must perform sequential decision-making and must output a prediction $\gamma$ taken from $\Gamma$ without knowing the true outcome $\omega$ from $\Omega$ in advance which highlights the imbalance in the game and the potential for adversarial games to be played. Given that the Learner's goal is to minimise their cumulative loss, it is natural to assume that Nature's goal is to select outcomes $\omega$s that try to inflict as much cumulative loss on the Learner over time as possible which is similar to how two players in an adversarial game, such as chess, must develop strategies to optimise their performance based on the information available to them and the actions they have seen from the other player(s).
-
-\subsubsection{Prediction with Expert Advice}\label{subsubsection:prediction_with_expert_advice}
-With the foundations of On-line Prediction established, we can now focus on a more nuanced approach to prediction: Prediction with Expert Advice. The approach builds on the existing framework presented in Protocol~\ref{on-line_prediction_framework} by introducing a critical element in the form of the aggregation of multiple Experts' opinions with the central idea being that, by harnessing the insights and predictions from a pool of Experts, the Learner can make more informed and accurate predictions, particularly in complex scenarios with high levels of uncertainty and/or incomplete information.
+\subsubsection{Introduction to Prediction with Expert Advice}\label{subsubsection:introduction_to_predicion_with_expert_advice}
+Having established the On-line Prediction Framework and its notation, we can investigate a more nuanced approach to prediction: Prediction with Expert Advice. This approach extends the framework presented in Protocol~\ref{on-line_prediction_framework} by introducing a technique for leveraging multiple prediction algorithms, known as ``Experts'', to make more informed and accurate predictions.
 
 \begin{protocol}[H]
     \caption{Prediction with Expert Advice Framework}\label{protocol:prediction_with_expert_advice}
@@ -68,66 +61,72 @@ With the foundations of On-line Prediction established, we can now focus on a mo
     \end{algorithmic}
 \end{protocol}
 
-As shown in Protocol~\ref{protocol:prediction_with_expert_advice}, a Learner in the Prediction with Expert Advice Framework has access to a pool of Experts, denoted $\mathcal{E}_1, \ldots, \mathcal{E}_N$, to help inform their predictions. At each time step $t$, each of the Experts provides the Learner with a prediction $\gamma^1_t, \ldots, \gamma^N_t$ which the Learner must combine to form a single prediction $\gamma_t$.
+The theoretical foundation for this framework lies in the theory that no single Expert, no matter how knowledgeable, can consistently outperform a well-constructed aggregate of predictions from multiple Experts.
 
-The theoretical basis for this framework lies in the theory that no single Expert, no matter how knowledgeable, can consistently outperform a well-constructed aggregate of advice from multiple Experts. While the Learner's objective in this scenario is still to minimise the amount of cumulative loss they suffer over time, how they achieve this is influenced by both the accuracy of each Expert and how well each Expert's predictions are incorporated into their aggregated prediction.
+Imagine a scenario where a ``Learner'' now has access a pool of $N$ Experts, denoted $\mathcal{E}_1, \ldots, \mathcal{E}_N$, that each make a prediction for the outcome of a sequence at time step $t \in T$, denoted $\gamma^1_t, \ldots, \gamma^N_t$, as shown in Protocol~\ref{protocol:prediction_with_expert_advice}. On each time step, each Expert suffers Loss, $\text{Loss}_{\mathcal{E}_n}(t) = \lambda(\gamma^n_t, \omega_t)$. Now, suppose that each Expert's predictions are made available to the Learner prior to them making their own, denoted $\gamma_t$. A natural objective for the Learner would then be to construct a \textit{merging strategy} that effectively combines the Experts' predictions to minimise their Cumulative Loss, $\text{Loss}_L(T) = \underset{t=1}{\overset{T}{\sum}}\lambda(\gamma_t, \omega_t)$, if good Experts are present.
 
-In non-adversarial scenarios, it is safe to assume that the Experts' goal is to minimise the individual cumulative losses over time much like the Learner, however, we cannot safely assume that every Expert in the pool will behave in such a manner. Because of this, we must develop a framework to essentially treat each Expert in the pool as a black box, meaning that the Learner has no knowledge of the internal prediction mechanisms of each Expert nor what each Expert's goal is, to guarantee that the cumulative loss suffered by the Learner is almost as good as the cumulative loss suffered by the best Expert.
+In a non-adversarial scenario, we can assume that each Expert's goal is also to minimise their Cumulative Loss similar to the Learner, however, practically, we cannot safely assume that each Expert in the pool will behave in this manner. Because of this, we must develop a framework that treats each Expert as a black box, meaning that the Learner has no knowledge of the internal prediction mechanism of each Expert nor what their goal is, to guarantee that the Cumulative Loss suffered by the Learner is almost as good as the cumulative loss suffered by the best expert.
 
 \begin{equation}
     \forall n, \forall T: \text{Loss}_T(L) \lesssim \text{Loss}_T(E_n)
 \end{equation}
 
-\paragraph{Mixability}\label{paragaph:mixability}
-Before we continue to delve into potential solutions for the problem of Prediction with Expert Advice, we must introduce introduce another vital concept known as \textbf{\textit{mixability}} which refers to a property of the loss function that allows for efficient aggregation of probabilistic predictions.
+% \paragraph{Games}\label{paragraph:games}
+% With the necessary notation established, we can now delve into the related concept of a \textbf{\textit{Game}} which introduces a strategic perspective to On-line Prediction.
 
-More precisely, a loss function $\lambda(\gamma_t, \omega_t): \Gamma \times \Omega \rightarrow [0, +\infty)$ is called mixable if there exists a constant $\eta > 0$ such that there exists an aggregated (``mixed'') prediction $\gamma \in \Gamma$ that satisfies the following inequality for any set of probabilistic predictions $\{\gamma^i\}^N_{i=1}$ over the outcomes in $\Omega$:~\cite{kalnishkan:2022}
+% Formally, a Game $G$ is denoted with the triple $\langle \Gamma, \Omega, \lambda \rangle$ which refers to a specific prediction space, outcome space and loss function. Informally, it makes sense to refer to this triple as a game because it encapsulates the interactive, yet adversarial, nature of the problem due to conflicting goals of the Learner and Nature which closely resembles the \textbf{\textit{Repeated Game}} framework discussed in Game Theory~\cite{mertens:1990}.
 
-\begin{equation}
-    \lambda(\gamma_t, \omega_t) \leq - \frac{1}{\eta}\underset{n=1}{\overset{N}{\sum}} p^n_{t-1} e^{-\eta\lambda(\gamma^n_t, \omega_t)}
-\end{equation}
-
-where $p^n_{t=1} = \frac{1}{N}e^{-\eta \text{Loss}_{\mathcal{E}_i}(t-1)}/{\sum^N_{n=1}\frac{1}{N}e^{-\eta\text{Loss}_{\mathcal{E}_i}(t-1)}}$\newline
-
-The significance of this is that it allows the Learner to effectively combine the predictions from multiple sources, ensuring that the aggregated predictions suffer a loss that is close, if not equal, to the best possible weighted combination of individual predictions. Ultimately, this means that mixable prediction strategies can compete with, or outperform, any fixed prediction strategy with hindsight.
-
-With that mentioned, we can now discuss the mathematical methods that can be used to combine the predictions from multiple Experts, namely the Halving, Weighted Majority, and ultimately Aggregating Algorithms. Each of these algorithms aims to leverage the strength of each Expert's predictions to make the Learner's own more accurate while also minimising the impact of inaccurate predictions by hedging so that, if adversarial experts are present, the Learner wouldn't suffer a large cumulative loss due to poor reliability.
+% For our purposes, the Learner must perform sequential decision-making and must output a prediction $\gamma$ taken from $\Gamma$ without knowing the true outcome $\omega$ from $\Omega$ in advance which highlights the imbalance in the game and the potential for adversarial games to be played. Given that the Learner's goal is to minimise their cumulative loss, it is natural to assume that Nature's goal is to select outcomes $\omega$s that try to inflict as much cumulative loss on the Learner over time as possible which is similar to how two players in an adversarial game, such as chess, must develop strategies to optimise their performance based on the information available to them and the actions they have seen from the other player(s).
 
 \paragraph{Halving Algorithm}\label{paragraph:halving_algorithm}
-Given that we are now looking at problems involving a pool of Experts, consider the \textbf{\textit{simple prediction game}}, i.e. $\langle \Gamma = \Omega = \{0, 1\}, \lambda_\text{SQ}(\gamma_t, \omega_t) = {(\gamma_t - \omega_t)}^2 \rangle$, where we know in advance that there is a perfect Expert that always gives the correct prediction. Despite the perfect Expert not making mistakes,, we as the Learner still might since we do not know which of the $N$ Experts is perfect, thus a strategy must be devised and followed to locate them while suffering as little cumulative loss as possible.
+Before delving into the Halving Algorithm, we must first define the Simple Prediction Game which involves the prediction and outcome spaces consisting of bits, i.e., $\Gamma = \Omega = \{0, 1\}$ and the Loss Function defined as:
 
-Since we know in advance that there is a perfect Expert, we do not need to pay attention to any Experts that we have seen to make mistakes. To do this, we need to create and maintain two lists: a \textbf{\textit{whitelist}} and a \textbf{\textit{blocklist}}.
+\begin{equation}
+    \lambda(\gamma_t, \omega_t) = \begin{cases}
+        0 & \text{if } \gamma_t = \omega_t,
+        \\ 1 & \text{otherwise}
+    \end{cases}
+\end{equation}
 
-Initially, all $N$ Experts begin in the whitelist and make predictions on every time step $t$ as before, however, as soon as an Expert makes a mistake, i.e., $\gamma^n_t \neq \omega_t$, it is moved to the blocklist with no way of returning to the whitelist. This means that on each time step $t$, we only consider the predictions of experts that are currently a member of the whitelist with the simplest strategy for the Learner being to listen to the majority of Experts' predictions.
+Intuitively, this means that the Learner’s Cumulative Loss corresponds to the number of mistakes that they have made over T steps and, as before, we want to minimise this value.
+Now, suppose that we know in advance that among the pool of Experts, there is a perfect Expert that never makes mistakes. Intuitively, this means that their loss will always be zero because they never make a mistake. Despite knowing that the perfect Expert will never make a mistake, this does not guarantee that the Learner will not because they do not know which of the $N$ Experts is the correct one to listen to. Because of this, a strategy must be devised to find them while minimising the Cumulative Loss suffered as a result and this comes in the form of Majority Voting wherein the Learner actively follows the majority of Experts by mimicking their vote.
+This strategy works because we know in advance that there is a perfect Expert and, thus, do not need to pay attention to any Experts that have made a mistake. To do this, the Learner must maintain two lists: a \textbf{\textit{whitelist}} and a \textbf{\textit{blocklist}}. Initially, all $N$ Experts begin in the whitelist and make predictions as written previously, however, as soon as an Expert makes a mistake, i.e., $\gamma^n_y \neq \omega_t$, they are moved to the blocklist with no way of returning. As a result, we only consider the predictions from Experts that are currently memos of the whitelist on each time step $t$.
 
-The size of the whitelist after step $t$ is denoted by $W_t$ and initially, all Experts are in the whitelist, i.e. $W_0 = N$. By using this method, whenever the Learner makes a mistake, the size of the whitelist shrinks.
+By following this method, every time step $t$ that the Learner makes a mistake, the size of the whitelist is at least halved from the size of the previous time step $t - 1$ since the majority ($\geq 50\%$) of Experts also made a mistake and get moved to the blocklist accordingly.
 
-Say that there is an error on step $t$. Before this step, the size of the whitelist was $W_{t-1}$ and because we made a mistake, this means that at least half of the experts on the whitelist also made a mistake and are therefore removed, meaning $W_{t} \leq \frac{W_{t-1}}{2}$. More generally, consider that by time $T$ the Learner has made $m$ mistakes, meaning that $W_T \leq \frac{W_0}{2^m}$ with $W_T \geq 1$ because of the presence of at least one perfect Expert.
+Given that the size of the whitelist on time step $t$ is denoted $W_t$, this is formally written as $W_t \leq \nicefrac{W_{t-1}}{2}$, with $W_0 = N$. Generally, this means that if by time $T$, the Learner has made $m$ mistakes, then $W_T \leq \nicefrac{W_0}{2^m}$ and is at least Size $1$ due to the presence of at least one perfect Expert.
 
 \begin{equation}
     1 \leq W_T \leq \frac{W_0}{2^m} = \frac{N}{2^m}
 \end{equation}
 
-This means that a Learner following the Halving Algorithm in the Simple Prediction Game will achieve:
-By rearranging this formula, we get that a Learner following the Halving Algorithm in the Simple Prediction game will achieve the following for every sequence of outcomes provided that there is a perfect expert.
+By rearranging this formula, a Learner following the Halving Algorithm for the Simple Prediction Game will satisfy the following inequality for every sequence of outcomes, provided that there is a perfect Expert.
 
 \begin{equation}
     \text{Loss}_L(T) \leq \lfloor \log_2 N \rfloor
 \end{equation}
 
 \paragraph{Weighted Majority Algorithm}\label{paragraph:weighted_majority_algorithm}
-Consider now an extension to the Halving Algorithm known as the Weighted Majority Algorithm which can be played on the \textbf{\textit{discrete binary prediction game}}, i.e. $\langle \Gamma = [0, 1], \Omega = \{0, 1\}, \lambda_\text{SQ}(\gamma_t, \omega_t) = {(\gamma_t - \omega_t)}^2 \langle$ and removes the need for a perfect Expert. To do so, we have to introduce a weight for each expert at each time step, denoted as $w^n_t$, that effectively represents how much the Learner trusts the expert and listens to their advice.
+We now look at an extension to the Halving Algorithm that is still played with $\Gamma = \Omega = \{0, 1\}$ and
 
-Let each Expert begin with an initial weight $W^n_0 = 1$. Now, instead of being moved from the whitelist to the blocklist whenever an Expert makes a mistake, their weights are updated as follows:
+\begin{equation*}
+    \lambda(\gamma_t, \omega_t) = \begin{cases}
+        0 & \text{if } \gamma_t = \omega_t,
+        \\ 1 & \text{otherwise}
+    \end{cases}
+\end{equation*}
+
+but removes the restrictive requirement that there be a perfect Expert. To do so, the Learner needs maintains a vector of weights for each expert at each time step, denoted as $w^n_t$ which is a measure of the Learner's trust in each Expert.
+
+Initially, each expert begins with the same weight, $w^n_0 = 1$, but instead of moving Experts from the whitelist to the blocklist whenever they make a mistake, the Learner updates the respective expert's weight as follows.
 
 \begin{equation}
     w^n_t = w^n_{t-1} \beta^{\lambda(\gamma^n_t, \omega_t)}
 \end{equation}
 
-where $\beta = e^{-\eta} < 1$, with $\eta > 0$ representing a ``learning rate'' which determines how severely the trust in an expert is eroded upon making a mistake. If an expert does not make a mistake, then $\lambda(\gamma^n_t, \omega_t) = 0$ meaning that $e^{-\eta \lambda(\gamma^n_t, \omega_t)} = 1$.
+In this equation, $\beta < 1$ is a parameter of the algorithm that can be written as $\beta = e^{-\eta}$, where $\eta > 0$ is referred to as the learning rate as it controls how severely the trust in an Expert is eroded upon them making a mistake. Conversely, if an Expert does not make a mistake, then $\lambda(\gamma^n_t, \omega_t) = 0$ and $\beta^{\lambda(\gamma^n_t, \omega_t)} = 1$. With this notation, it can be seen how the Halving Algorithm is a special case of the Weighted Majority Algorithm where $\beta = e^{-\eta} = 0$ as the trust in an Expert gets reduced to zero when they make a mistake.
 
-With this notation, it can be seen how the Halving Algorithm is a special case of the Weighted Majority Algorithm where $\beta = e^{-\eta} = 0$ as the trust in an Expert gets reduced to zero when they make a mistake.
-
+The Weighted Majority Algorithm can be represented with the following algorithm:
 \begin{algorithm}[ht]
     \caption{Weighted Majority Algorithm}\label{weighted_majority_algorithm}
     \begin{algorithmic}[1]
@@ -142,27 +141,66 @@ With this notation, it can be seen how the Halving Algorithm is a special case o
     \end{algorithmic}
 \end{algorithm}
 
-The upper bound for a Weighted Majority Algorithm is as follows:
-
+Given Algorithm 1, we can determine the upper bound for the Weighted Majority Algorithm as follows. Notice that the bound is in terms of $\beta$, this is simply due to formatting. The  proof for this bound is more complicated than that of the Halving Algorithm and will, therefore, not be discussed in this study but can be found in detail within~\cite{littlestone:1994}.
 \begin{equation}
     \text{Loss}_L(T) \leq \frac{\ln (\frac{1}{\beta})}{\ln (\frac{2}{1 + \beta})} \text{Loss}_{\mathcal{E}_i}(T) + \frac{\ln(N)}{\ln(\frac{2}{1+\beta})}
 \end{equation}
 
-The proof for this bound is more complicated than the proof for the Halving Algorithm and, thus, will not be discussed in this paper but can be found at~\cite{littlestone:1994}.
+Alternatively, this upper bound has a simpler notation of the form:
+
+\begin{equation}
+    \text{Loss}_L(T) \leq c(\beta)\text{Loss}_{E_n}(T) + \alpha(\beta) \ln N
+\end{equation}
+
+Where $c(\beta)$ and $\alpha(\beta)$ are coefficients that depend on the parameter $\beta = e^{-\eta}$, with $\eta > 0$.
 
 In the next subsection, we will explore the Aggregating Algorithm, the final method of merging Experts' predictions and a concrete implementation of the Prediction with Expert Advice that formalises how a Learner's predictions are made as accurate as possible.
 
+\subsubsection{Games and Mixability}\label{subsubsection:games_and_mixability}
+Previously, we have referred to the simple prediction game which is defined as $\Gamma = \Omega = \{0, 1\}$ and
+
+\begin{equation*}
+    \lambda(\gamma_t, \omega_t) = \begin{cases}
+        0 & \text{if } \gamma_t = \omega_t,
+        \\ 1 & \text{otherwise}
+    \end{cases}
+\end{equation*}
+
+However the term ``game'' can be generalised to the triple $\langle \Gamma, \Omega, \lambda \rangle$. This triple refers to a specific prediction space, outcome space, and loss function. Informally, this triple is referred to as a game because it encapsulates the interactive, yet adversarial, nature of the problem as a result of the conflicting goals of the Learner and Nature which closely resembles the \textbf{\textit{Repeated Game Framework}} discussed in Game Theory~\cite{mertens:1990}.
+
+For our purposes, the Learner must perform sequential decision-making and must output a prediction $\gamma \in \Gamma$ without knowing the true outcome $\omega \in \Omega$ in advance. This highlights the imbalance in the game and the potential for adversarial games to be played. In these scenarios, Nature ``has it out'' for the Learner and seeks to inflict as much loss as possible by selecting $\omega$s far from $\gamma$.  The Learner's goal remains the same in trying to minimise the loss that they suffer over time and, therefore, must develop strategies to optimise their performance based on the information available to them, and the actions they have observed.
+This study will primarily look at the discrete binary game, where $\gamma = [0, 1]$, $\omega = \{0, 1\}$ with the square-loss function $\lambda(\gamma, \omega) = {(\omega - \gamma)}^2$. This is an example of an $\eta$-mixable game.
+
+A game $\langle \Gamma, \Omega, \lambda \rangle$ is called $\eta$-mixable if the following condition holds:
+
+For any $N$ predictions, $\gamma^1, \ldots, \gamma^N$, and any probability distribution, $p^1, \ldots, p^N$, there exists a constant $\eta>0$ and an aggregated (``mixed'') prediction $\gamma \in \Gamma$ such that, for all $\omega \in \Omega$,
+
+\begin{center}
+    For any $N$ predictions, $\gamma^1, \ldots, \gamma^N$, and any probability distribution, $p^1, \ldots, p^N$, there exists a constant $\eta>0$ and an aggregated (``mixed'') prediction $\gamma \in \Gamma$ such that, for all $\omega \in \Omega$,
+\end{center}
+\begin{equation}
+    \lambda(\gamma_t, \omega_t) \leq - \frac{1}{\eta} \underset{n=1}{\overset{N}{\sum}}p^n_{t-1}e^{-\eta\lambda(\gamma^n_t, \omega_t)}
+\end{equation}
+
+Where $p^n_{t-1} = \frac{1}{N}e^{-\eta\text{Loss}_{\mathcal{E}_i}(t-1)} / \underset{n=1}{\overset{N}{\sum}}\frac{1}{N}e^{-\eta\text{Loss}_{\mathcal{E}_i}(t-1)}$
+
+The significance of this equation is that it allows the Learner to effectively combine the predictions from multiple sources, ensuring that the aggregated prediction suffers a loss that is close, if not equal, to the best possible weighted combination of individual predictions. Ultimately, this means that mixable prediction strategies can compete with, or outperform, any fixed prediction strategy in hindsight.
+
+Having discussed Games and Mixability, we can move on to discussing the Aggregating Algorithm which aims to leverage the strength of each Expert's predictions to make the Learner's own more accurate while also minimising the impact of inaccurate predictions. It does so by hedging so that, if adversarial experts are present, the Learner wouldn't suffer a large cumulative loss due to poor reliability.
+
+
+
 \subsubsection{Aggregating Algorithm (AA)}\label{subsubsection:aggregating_algorithm}
-Having discussed the benefits of Expert Advice when making predictions, we can explore how to make use of it in predictive models. The Aggregating Algorithm is one such method that provides a way of combining multiple predictions into a single one that is informed via weighting [1].
+Having introduced the concept of mixability and the discrete binary game, we can now explore the Aggregating Algorithm that forms the basis of this study. As noted in the previous Subsection, this game allows for predictions to be made from the prediction space $\Gamma = [0, 1]$, rather than $\Gamma = \{0, 1\}$.
 
-Having now established the value of Expert advice when attempting to make predictions, we must now explore how to effectively integrate it into our predictive models. The Aggregating Algorithm is one of the key algorithms that address this challenge, providing a way to combine various Expert opinions into a single, actionable prediction that is informed via weighting~\cite{vovk:1990}.
+Similarly to the Weighted Majority Algorithm, this algorithm maintains a list of weights corresponding to the Learner's confidence in the accuracy of each Expert’s Prediction. However, unlike the Weighted Majority Algorithm, the weights are normalised on every time step in order to prevent them from becoming too small.
 
-Much like the Weighted Majority Algorithm discussed previously, the Aggregating Algorithm works by maintaining a set of weights for each Expert, representing the Learner's confidence in the accuracy of their predictions. As predictions are made over time, these weights are adjusted based on the loss associated with each Expert's predictions with Experts that output predictions closer to the actual outcomes being rewarded with higher weights and Experts that perform poorly being punished with their weights reduced. The Aggregating Algorithm uses also a learning rate ($\eta$) to control how severely an expert is punished for an incorrect prediction however, unlike the Weighted Majority Algorithm, the weights are normalised at each time step. This normalisation step ensures that, on each time step, the Learner's prediction is a probabilistic aggregation of the Experts', rather than a weighted majority vote. To maintain the mixability condition discussed in Subsection~\ref{paragaph:mixability}, a \textbf{\textit{mixability constant}}, $C(\eta)$, is introduced that is associated with the learning rate $\eta$. This constant determines how effectively the Experts' predictions can be combined for some $\eta > 0$, specifically in the inequality that bounds the Learner's loss.
+In order to maintain the mixability condition discussed in Subsection~\ref{subsubsection:games_and_mixability}, a mixability constant $C(\eta)$ that is associated with the learning rate $\eta$ is introduced. The constant determines how effectively each of the Experts' predictions can be combined, specifically in the inequality that bounds the Learner's loss.
 
 As this study is concerned with the \textit{discrete binary game} which has been proven to be mixable in~\cite{vovk:2001},~\cite{kalnishkan/vyugin:2008}, and~\cite{kalnishkan:2022}, we can take $C(\eta) = 1$ such that:
 
 \begin{equation}
-    \lambda(\gamma,\omega) \leq -\frac{1}{\eta}\ln\underset{n=1}{\overset{N}{\sum}}p^ne^{-\eta\lambda(\gamma^n, \omega)}
+    \lambda(\gamma,\omega) \leq -\frac{1}{\eta}\ln\underset{n=1}{\overset{N}{\sum}}{p^n}e^{-\eta\lambda(\gamma^n, \omega)}
 \end{equation}
 
 and
@@ -171,7 +209,7 @@ and
     e^{-\eta\text{Loss}_L(T)} \geq \underset{n=1}{\overset{N}{\sum}}\frac{1}{N}e^{-\eta\text{Loss}_{\mathcal{E}_i}(T)}
 \end{equation}
 
-Finally, by dropping all-but-one term and taking the logarithm, we get: 
+Finally, by dropping all terms except the $n^{\text{th}}$ from the sum and taking the logarithm, we get the following inequality:
 
 \begin{equation}
     \text{Loss}_L(T) \leq \text{Loss}_{\mathcal{E}_i}(T) + \frac{1}{\eta}\ln\frac{1}{q_i}
@@ -179,7 +217,9 @@ Finally, by dropping all-but-one term and taking the logarithm, we get:
 
 where $q_i$ is an arbitrary weight set when initialising the experts.
 
-\begin{algorithm}[ht]
+The Aggregating Algorithm is formalised on the following page.
+
+\begin{algorithm}[H]
     \caption{Aggregating Algorithm (AA)}\label{algorithm:aggregationg_algorithm}
     \begin{algorithmic}[1]
         \State{initialise weights $w^i_0 = q_i, i = 1, 2, \ldots, N$}
@@ -198,7 +238,7 @@ While the Aggregating Algorithm provides a robust framework for incorporating Ex
 
 The use of the term `Specialist' was first introduced by the work of Avrim Blum~\cite{blum:1997} for the Winnow and Weighted-Majority algorithms, and can be thought of as a natural extension to traditional Experts insofar as it enables these `Specialists' to abstain from making a prediction ``when the current Expert does not fall into their `[speciality]'\''. While the criteria for an Expert to abstain from making a prediction is sufficient in our context, it can also be extended to allow for other scenarios like those suggested in~\cite{kalnishkan:2022}, namely if ``a prediction algorithm [sees] that its internal confidence is low and [decides] to skip a turn in order to re-train'' or if a prediction algorithm breaks down, as would be the case if a regression algorithm ``[has] its matrix very close to singular.''
 
-To accommodate these Specialist Experts, the Prediction with Expert Advice Framework given in Protocol \ref{on-line_prediction_framework} has to be modified:
+To accommodate these Specialist Experts, the Prediction with Expert Advice Framework given in Protocol~\ref{on-line_prediction_framework} has to be modified:
 \begin{protocol}[H]
     \caption{Modified Prediction with Expert Advice Framework}\label{protocol:modified_prediction_with_expert_advice}
     \begin{algorithmic}[1]

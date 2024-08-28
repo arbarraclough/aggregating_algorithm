@@ -50,8 +50,11 @@
 \declaration{}
 
 \begin{abstract}
-  Your abstract goes here.
-
+  This dissertation investigates how well humans generate objectively random binary sequences by evaluating human-generated sequences against true randomness using a variety of statistical methods, as well as assessing the predictability of such sequences using the Aggregating Algorithm, inspired by Markov Chains.
+  
+  The study is designed with a within-subject approach and makes use of a web application to allow subjects\textemdash{}primarily postgraduate students at Royal Holloway, University of London\textemdash{}to input binary sequences sequentially. As the subject enters their sequence, the bits are analysed by various ``Experts'', each of whom make their own predictions on the next bit in the sequence prior to the subject pressing a key. These predictions are then mixed using the Aggregating Algorithm to form a single prediction which is then compared against the observed outcome entered by the subject.
+  
+  This study measured various dependent variables, including the frequences of 0s and 1s (Heads and Tails), run lengths, and predictions from a variety of experts as well as the algorithm itself. The data gathered was evaluated using chi-square goodness-of-fit tests and by analysing the regret associated with each Expert/Learner to compare the generated sequences to statistically random processes. In summary, the Aggregating Algorithm's performance was evaluated, revealing that human-generated sequences do suffer from biases and are, therefore, predictable to a statistically significant extent better than is possible with random guessing.\newline\newline
   \textbf{Keywords:} On-line Learning, Prediction with Expert Advice, Aggregating Algorithm for Specialist Experts, Perceived Randomness
 \end{abstract}
 
